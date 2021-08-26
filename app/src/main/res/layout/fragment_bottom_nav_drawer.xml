@@ -1,0 +1,355 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/rounded">
+
+        <View
+            android:id="@+id/scrim_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:alpha="0"
+            android:background="?attr/scrimBackground"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/filters_title"
+            style="?attr/textAppearanceHeadline4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:text="Filters :"
+            android:textColor="@color/reply_blue_300"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/filters_title">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/foreground_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingTop="@dimen/grid_3"
+                android:paddingBottom="@dimen/grid_4"
+                tools:layout_editor_absoluteY="24dp">
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guideline2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_begin="206dp" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/pricerange_tv"
+                    style="?attr/textAppearanceHeadline6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:text="Price range"
+                    android:textColor="@color/reply_blue_50"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <com.google.android.material.slider.RangeSlider
+                    android:id="@+id/price_slider"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:stepSize="100000.0"
+                    android:valueFrom="100000.0"
+                    android:valueTo="90000000.0"
+                    app:labelBehavior="withinBounds"
+                    app:layout_constraintEnd_toStartOf="@id/size_slider"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/pricerange_tv" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/size_tv"
+                    style="?attr/textAppearanceHeadline6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="Size range"
+                    android:textColor="@color/reply_blue_50"
+                    app:layout_constraintStart_toStartOf="@id/guideline2"
+                    app:layout_constraintTop_toTopOf="@id/pricerange_tv" />
+
+                <com.google.android.material.slider.RangeSlider
+                    android:id="@+id/size_slider"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:stepSize="50.0"
+                    android:valueFrom="0.0"
+                    android:valueTo="3000.0"
+                    app:labelBehavior="withinBounds"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/price_slider"
+                    app:layout_constraintTop_toBottomOf="@id/size_tv" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/room_tv"
+                    style="?attr/textAppearanceHeadline6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:text="Number of rooms"
+                    android:textColor="@color/reply_blue_50"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/size_slider" />
+
+                <com.google.android.material.slider.RangeSlider
+                    android:id="@+id/room_slider"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:stepSize="1.0"
+                    android:valueFrom="1.0"
+                    android:valueTo="40.0"
+                    app:labelBehavior="withinBounds"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/room_tv" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/bedroom_tv"
+                    style="?attr/textAppearanceHeadline6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:text="Bedrooms"
+                    android:textColor="@color/reply_blue_50"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/room_slider" />
+
+                <com.google.android.material.slider.RangeSlider
+                    android:id="@+id/bedroom_slider"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:stepSize="1.0"
+                    android:valueFrom="1.0"
+                    android:valueTo="40.0"
+                    app:labelBehavior="withinBounds"
+                    app:layout_constraintEnd_toEndOf="@id/price_slider"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/bedroom_tv" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/bathroom_tv"
+                    style="?attr/textAppearanceHeadline6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="Bathrooms"
+                    android:textColor="@color/reply_blue_50"
+                    app:layout_constraintStart_toStartOf="@id/guideline2"
+                    app:layout_constraintTop_toBottomOf="@id/room_slider" />
+
+                <com.google.android.material.slider.RangeSlider
+                    android:id="@+id/bathroom_slider"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:stepSize="1.0"
+                    android:valueFrom="1.0"
+                    android:valueTo="40.0"
+                    app:labelBehavior="withinBounds"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@id/size_slider"
+                    app:layout_constraintTop_toBottomOf="@id/bathroom_tv" />
+
+                <View
+                    android:id="@+id/divider"
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_marginHorizontal="32dp"
+                    android:layout_marginVertical="4dp"
+                    android:background="@color/reply_blue_300"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/bathroom_slider" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/type_tv"
+                    style="?attr/textAppearanceHeadline6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="12dp"
+                    android:text="Type"
+                    android:textColor="@color/reply_blue_50"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/divider" />
+
+                <RadioGroup
+                    android:id="@+id/filter_radiogroup"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/type_tv">
+
+                    <RadioButton
+                        android:id="@+id/radio_villa"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/work_sans"
+                        android:text="Villa"
+                        android:textColor="@color/reply_blue_50"
+                        android:textSize="16sp" />
+
+                    <RadioButton
+                        android:id="@+id/radio_mansion"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/work_sans"
+                        android:text="Mansion"
+                        android:textColor="@color/reply_blue_50"
+                        android:textSize="16sp" />
+
+                    <RadioButton
+                        android:id="@+id/radio_apartment"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/work_sans"
+                        android:text="Apartment"
+                        android:textColor="@color/reply_blue_50"
+                        android:textSize="16sp" />
+
+                    <RadioButton
+                        android:id="@+id/radio_house"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/work_sans"
+                        android:text="House"
+                        android:textColor="@color/reply_blue_50"
+                        android:textSize="16sp" />
+
+                    <RadioButton
+                        android:id="@+id/radio_all"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/work_sans"
+                        android:text="All"
+                        android:textColor="@color/reply_blue_50"
+                        android:textSize="16sp" />
+
+                </RadioGroup>
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/poi_tv"
+                    style="?attr/textAppearanceHeadline6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="12dp"
+                    android:text="Points of interests"
+                    android:textColor="@color/reply_blue_50"
+                    app:layout_constraintStart_toStartOf="@id/guideline2"
+                    app:layout_constraintTop_toBottomOf="@id/divider" />
+
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/filter_chipgroup"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    app:chipSpacingVertical="8dp"
+                    app:layout_constraintBottom_toBottomOf="@id/filter_radiogroup"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@id/guideline2"
+                    app:layout_constraintTop_toBottomOf="@id/poi_tv">
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip_park"
+                        style="@style/Widget.MaterialComponents.Chip.Choice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Park"
+                        app:chipCornerRadius="12dp" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip_school"
+                        style="@style/Widget.MaterialComponents.Chip.Choice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="School"
+                        app:chipCornerRadius="12dp" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip_shop"
+                        style="@style/Widget.MaterialComponents.Chip.Choice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Shop"
+                        app:chipCornerRadius="12dp" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip_museum"
+                        style="@style/Widget.MaterialComponents.Chip.Choice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Museum"
+                        app:chipCornerRadius="12dp" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip_restaurant"
+                        style="@style/Widget.MaterialComponents.Chip.Choice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Restaurant"
+                        app:chipCornerRadius="12dp" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip_pool"
+                        style="@style/Widget.MaterialComponents.Chip.Choice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Swimming Pool"
+                        app:chipCornerRadius="12dp" />
+
+                </com.google.android.material.chip.ChipGroup>
+
+                <View
+                    android:id="@+id/divider2"
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_marginHorizontal="32dp"
+                    android:layout_marginVertical="4dp"
+                    android:background="@color/reply_blue_300"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/filter_radiogroup" />
+
+                <!--TODO : date and city-->
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/datesold_tv"
+                    style="?attr/textAppearanceHeadline6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="12dp"
+                    android:text="Type"
+                    android:textColor="@color/reply_blue_50"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/divider" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
