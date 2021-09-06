@@ -7,6 +7,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
 import com.aki.realestatemanagerv2.placeholder.PlaceholderContent
 import com.aki.realestatemanagerv2.databinding.FragmentItemDetailBinding
 
@@ -18,6 +20,8 @@ class ItemDetailFragment : Fragment() {
     private var item: PlaceholderContent.PlaceholderItem? = null
 
     lateinit var itemDetailTextView: TextView
+
+    private lateinit var navController: NavController
 
     private var _binding: FragmentItemDetailBinding? = null
 
@@ -36,6 +40,10 @@ class ItemDetailFragment : Fragment() {
                 item = PlaceholderContent.ITEM_MAP[it.getString(ARG_ITEM_ID)]
             }
         }
+
+//        val navHostFragment =
+//            parentFragmentManager.findFragmentById(R.id.item_detail_fragment) as NavHostFragment
+//        navController = navHostFragment.navController
     }
 
     override fun onCreateView(
@@ -53,6 +61,11 @@ class ItemDetailFragment : Fragment() {
         item?.let {
             itemDetailTextView.text = it.details
         }
+
+        binding.fab?.setOnClickListener {
+             navController.navigate(R.id.editItemFragment)
+        }
+
 
         return rootView
     }

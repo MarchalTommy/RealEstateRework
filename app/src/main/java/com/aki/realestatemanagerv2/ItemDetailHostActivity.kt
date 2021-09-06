@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
@@ -20,6 +21,7 @@ class ItemDetailHostActivity : AppCompatActivity() {
     private lateinit var appBarConfiguration: AppBarConfiguration
     private var isAdd = true
     private lateinit var binding: ActivityItemDetailBinding
+    private lateinit var navController: NavController
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,7 +31,7 @@ class ItemDetailHostActivity : AppCompatActivity() {
 
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment_item_detail) as NavHostFragment
-        val navController = navHostFragment.navController
+        navController = navHostFragment.navController
 //        appBarConfiguration = AppBarConfiguration(navController.graph)
 //
 //        setupActionBarWithNavController(navController, appBarConfiguration)
@@ -106,10 +108,12 @@ class ItemDetailHostActivity : AppCompatActivity() {
         binding.fab.setOnClickListener {
             if (isAdd) {
                 isAdd = false
-                binding.fab.setImageDrawable(animAddToEdit)
+//                Stay add if list, become validate if add page, become edit if detail, become validate if edit page
+//                binding.fab.setImageDrawable(animAddToEdit)
+                navController.navigate(R.id.addItemFragment)
             } else {
                 isAdd = true
-                binding.fab.setImageDrawable(animEditToAdd)
+//                binding.fab.setImageDrawable(animEditToAdd)
             }
             val fabAnim = binding.fab.drawable as AnimatedVectorDrawableCompat
             fabAnim.start()

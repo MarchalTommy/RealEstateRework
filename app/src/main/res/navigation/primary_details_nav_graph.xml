@@ -23,4 +23,12 @@
             android:defaultValue=""
             app:argType="string" />
     </fragment>
+    <fragment
+        android:id="@+id/addItemFragment"
+        android:name="com.aki.realestatemanagerv2.AddItemFragment"
+        android:label="AddItemFragment" />
+    <fragment
+        android:id="@+id/editItemFragment"
+        android:name="com.aki.realestatemanagerv2.EditItemFragment"
+        android:label="EditItemFragment" />
 </navigation>
