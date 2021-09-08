@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
-        android:layout_width="match_parent"
         android:id="@+id/coordinator_layout"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context="com.aki.realestatemanagerv2.ItemDetailHostActivity">
 
@@ -16,7 +15,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:defaultNavHost="true"
-            app:navGraph="@navigation/primary_details_nav_graph"/>
+            app:navGraph="@navigation/primary_details_nav_graph" />
 
         <FrameLayout
             android:id="@+id/bottom_sheet"
@@ -24,7 +23,7 @@
             android:layout_height="match_parent"
             app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
-            <include layout="@layout/fragment_bottom_nav_drawer"/>
+            <include layout="@layout/fragment_bottom_nav_drawer" />
 
         </FrameLayout>
 
@@ -32,11 +31,11 @@
             android:id="@+id/bottom_app_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:backgroundTint="@color/reply_blue_700"
             android:layout_gravity="bottom"
+            app:backgroundTint="@color/reply_blue_700"
             app:fabAlignmentMode="center"
-            app:fabCradleRoundedCornerRadius="@dimen/bottom_app_bar_fab_cradle_corner_radius"
             app:fabCradleMargin="@dimen/bottom_app_bar_fab_cradle_margin"
+            app:fabCradleRoundedCornerRadius="@dimen/bottom_app_bar_fab_cradle_corner_radius"
             app:hideOnScroll="true">
 
             <LinearLayout
@@ -44,36 +43,36 @@
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/min_touch_target_size"
                 android:layout_marginVertical="@dimen/grid_0_5"
-                android:paddingHorizontal="@dimen/grid_0_5"
+                android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:gravity="center_vertical">
+                android:paddingHorizontal="@dimen/grid_0_5">
 
                 <ImageView
                     android:id="@+id/bottom_app_bar_chevron"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    app:tint="@color/material_on_primary_emphasis_high_type"
-                    app:srcCompat="@drawable/ic_arrow_drop_up" />
+                    app:srcCompat="@drawable/ic_arrow_drop_up"
+                    app:tint="@color/material_on_primary_emphasis_high_type" />
 
                 <ImageView
                     android:id="@+id/bottom_app_bar_logo"
                     android:layout_width="@dimen/bottom_app_bar_logo_size"
                     android:layout_height="@dimen/bottom_app_bar_logo_size"
-                    android:layout_marginLeft="@dimen/grid_1"
                     android:layout_gravity="center_vertical"
+                    android:layout_marginStart="@dimen/grid_1"
                     app:srcCompat="@drawable/ic_estate"
                     app:tint="@color/reply_blue_200" />
 
                 <TextView
                     android:id="@+id/bottom_app_bar_title"
-                    android:textAppearance="?attr/textAppearanceBody1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginHorizontal="@dimen/grid_1"
                     android:text="Filters"
-                    android:textColor="?attr/colorOnPrimary"/>
+                    android:textAppearance="?attr/textAppearanceBody1"
+                    android:textColor="?attr/colorOnPrimary" />
 
             </LinearLayout>
 
@@ -90,24 +89,24 @@
 
 </layout>
 
-<!--<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
-<!--    xmlns:app="http://schemas.android.com/apk/res-auto"-->
-<!--    xmlns:tools="http://schemas.android.com/tools"-->
-<!--    android:id="@+id/container"-->
-<!--    android:layout_width="match_parent"-->
-<!--    android:layout_height="match_parent">-->
+    <!--<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+    <!--    xmlns:app="http://schemas.android.com/apk/res-auto"-->
+    <!--    xmlns:tools="http://schemas.android.com/tools"-->
+    <!--    android:id="@+id/container"-->
+    <!--    android:layout_width="match_parent"-->
+    <!--    android:layout_height="match_parent">-->
 
-<!--    <androidx.fragment.app.FragmentContainerView-->
-<!--        android:id="@+id/nav_host_fragment_item_detail"-->
-<!--        android:name="androidx.navigation.fragment.NavHostFragment"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent"-->
-<!--        app:defaultNavHost="true"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintLeft_toLeftOf="parent"-->
-<!--        app:layout_constraintRight_toRightOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent"-->
-<!--        app:navGraph="@navigation/primary_details_nav_graph"-->
-<!--        tools:layout="@layout/fragment_item_detail" />-->
+    <!--    <androidx.fragment.app.FragmentContainerView-->
+    <!--        android:id="@+id/nav_host_fragment_item_detail"-->
+    <!--        android:name="androidx.navigation.fragment.NavHostFragment"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="match_parent"-->
+    <!--        app:defaultNavHost="true"-->
+    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--        app:layout_constraintLeft_toLeftOf="parent"-->
+    <!--        app:layout_constraintRight_toRightOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent"-->
+    <!--        app:navGraph="@navigation/primary_details_nav_graph"-->
+    <!--        tools:layout="@layout/fragment_item_detail" />-->
 
-<!--</androidx.constraintlayout.widget.ConstraintLayout>-->
+    <!--</androidx.constraintlayout.widget.ConstraintLayout>-->

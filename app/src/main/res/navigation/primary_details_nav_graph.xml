@@ -3,32 +3,62 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/item_list_fragment">
+    app:startDestination="@id/listFragment">
 
     <fragment
-        android:id="@+id/item_list_fragment"
-        android:name="com.aki.realestatemanagerv2.ItemListFragment"
-        android:label="ItemListFragment">
+        android:id="@+id/listFragment"
+        android:name="com.aki.realestatemanagerv2.ui.mainList.ListFragment"
+        android:label="ListFragment"
+        tools:layout="@layout/fragment_item_list">
         <action
-            android:id="@+id/show_item_detail"
-            app:destination="@id/item_detail_fragment" />
+            android:id="@+id/action_listFragment_to_detailFragment"
+            app:destination="@id/detailFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        <action
+            android:id="@+id/action_listFragment_to_addListItemFragment"
+            app:destination="@id/addListItemFragment" />
     </fragment>
     <fragment
-        android:id="@+id/item_detail_fragment"
-        android:name="com.aki.realestatemanagerv2.ItemDetailFragment"
-        android:label="item_detail"
+        android:id="@+id/detailFragment"
+        android:name="com.aki.realestatemanagerv2.ui.detail.DetailFragment"
+        android:label="DetailFragment"
         tools:layout="@layout/fragment_item_detail">
         <argument
-            android:name="item_id"
-            android:defaultValue=""
-            app:argType="string" />
+            android:name="houseId"
+            app:argType="integer" />
+        <action
+            app:popUpTo="@id/listFragment"
+            app:popUpToInclusive="true"
+            android:id="@+id/action_detailFragment_to_listFragment"
+            app:destination="@id/listFragment" />
+        <action
+            android:id="@+id/action_detailFragment_to_editItemFragment2"
+            app:destination="@id/editItemFragment2" />
     </fragment>
     <fragment
-        android:id="@+id/addItemFragment"
-        android:name="com.aki.realestatemanagerv2.AddItemFragment"
-        android:label="AddItemFragment" />
+        android:id="@+id/addListItemFragment"
+        android:name="com.aki.realestatemanagerv2.ui.addEstate.AddListItemFragment"
+        android:label="AddListItemFragment"
+        tools:layout="@layout/fragment_add">
+        <action
+            android:id="@+id/action_addListItemFragment_to_detailFragment"
+            app:destination="@id/detailFragment"/>
+    </fragment>
     <fragment
-        android:id="@+id/editItemFragment"
-        android:name="com.aki.realestatemanagerv2.EditItemFragment"
-        android:label="EditItemFragment" />
+        android:id="@+id/editItemFragment2"
+        tools:layout="@layout/fragment_edit"
+        android:name="com.aki.realestatemanagerv2.ui.edit.EditItemFragment"
+        android:label="EditItemFragment" >
+        <action
+            app:popUpTo="@id/detailFragment"
+            app:popUpToInclusive="false"
+            android:id="@+id/action_editItemFragment2_to_detailFragment"
+            app:destination="@id/detailFragment" />
+        <argument
+            android:name="houseId"
+            app:argType="integer" />
+    </fragment>
 </navigation>

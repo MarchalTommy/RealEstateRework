@@ -12,18 +12,6 @@
         android:layout_height="wrap_content"
         android:paddingBottom="32dp">
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/add_fab"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            app:srcCompat="@drawable/ic_add"
-            app:backgroundTint="@color/reply_blue_700"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/rv_layout"
-            app:maxImageSize="24dp"
-            app:tint="@android:color/white" />
-
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/description_layout"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -58,12 +46,12 @@
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/details_title"
+            style="@style/TextAppearance.Reply.Headline6"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
             android:text="Details : "
-            style="@style/TextAppearance.Reply.Headline6"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/bathrooms_layout" />
 
@@ -133,6 +121,72 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/poi_tv"
+            style="@style/TextAppearance.Reply.Headline6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:text="Points of interests :"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/type_layout" />
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/points_of_interests"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="4dp"
+            app:chipSpacingHorizontal="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/poi_tv">
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/parkChip"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Park" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/schoolChip"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="School" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/shopChip"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Shop" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/museumChip"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Museum" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/poolChip"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Swimming Pool" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/restaurantChip"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Restaurant" />
+
+        </com.google.android.material.chip.ChipGroup>
+
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/surface_layout"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -150,8 +204,8 @@
             app:hintAnimationEnabled="true"
             app:hintEnabled="true"
             app:hintTextColor="@color/reply_blue_700"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toStartOf="@id/rooms_layout"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/description_layout">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -171,8 +225,8 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
             android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:hint="Rooms"
             app:boxBackgroundMode="outline"
@@ -215,8 +269,8 @@
             app:hintAnimationEnabled="true"
             app:hintEnabled="true"
             app:hintTextColor="@color/reply_blue_700"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toStartOf="@id/bedrooms_layout"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/surface_layout">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -236,8 +290,8 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
             android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
             android:hint="Bedrooms"
             app:boxBackgroundMode="outline"
             app:boxStrokeColor="@color/reply_blue_700"
@@ -265,14 +319,14 @@
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/address_title"
+            style="@style/TextAppearance.Reply.Headline6"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:text="Address :"
-            style="@style/TextAppearance.Reply.Headline6"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/type_layout" />
+            app:layout_constraintTop_toBottomOf="@id/points_of_interests" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/location_way_layout"
@@ -383,9 +437,9 @@
             app:boxStrokeWidth="1dp"
             app:boxStrokeWidthFocused="2dp"
             app:expandedHintEnabled="true"
+            app:helperText="*Required fields"
             app:hintAnimationEnabled="true"
             app:hintEnabled="true"
-            app:helperText="*Required fields"
             app:hintTextColor="@color/reply_blue_700"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -431,9 +485,10 @@
                 android:id="@+id/house_media_rv_detail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="64dp"
                 android:orientation="horizontal"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
-<!--                tools:listitem="@layout/media_rv_item" />-->
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/media_rv_item" />
 
         </LinearLayout>
 

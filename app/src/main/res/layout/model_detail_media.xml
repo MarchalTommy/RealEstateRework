@@ -7,7 +7,7 @@
     <ImageView
         android:id="@+id/media_pic_portrait"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
+        android:layout_height="320dp"
         android:scaleType="centerCrop"
         android:src="@drawable/modern_villa"
         android:visibility="visible"

@@ -67,8 +67,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:stepSize="100000.0"
-                    android:valueFrom="100000.0"
-                    android:valueTo="90000000.0"
+                    android:valueFrom="0.0"
+                    android:valueTo="100000000.0"
                     app:labelBehavior="withinBounds"
                     app:layout_constraintEnd_toStartOf="@id/size_slider"
                     app:layout_constraintStart_toStartOf="parent"
@@ -515,7 +515,6 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="4dp"
                     android:hint="City"
-                    android:paddingBottom="64dp"
                     app:boxBackgroundMode="outline"
                     app:boxStrokeColor="@color/reply_blue_200"
                     app:boxStrokeWidth="1dp"
@@ -556,8 +555,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_margin="4dp"
-                    android:hint="Number of pictures"
-                    android:paddingBottom="64dp"
+                    android:hint="Minumum pictures"
                     app:boxBackgroundMode="outline"
                     app:boxStrokeColor="@color/reply_blue_200"
                     app:boxStrokeWidth="1dp"
@@ -579,6 +577,28 @@
                         android:singleLine="true" />
 
                 </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/filter_button"
+                    android:text="Apply filters"
+                    app:layout_constraintTop_toBottomOf="@id/pictures_edit_text_layout"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/guideline2"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="64dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/remove_filter_button"
+                    android:text="Remove filters"
+                    app:layout_constraintTop_toBottomOf="@id/pictures_edit_text_layout"
+                    app:layout_constraintStart_toStartOf="@id/guideline2"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="64dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

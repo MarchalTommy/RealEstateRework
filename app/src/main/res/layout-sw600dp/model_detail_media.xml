@@ -9,7 +9,7 @@
         android:layout_width="350dp"
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
-        android:src="@drawable/ic_launcher_background"
+        app:srcCompat="@drawable/ic_launcher_background"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

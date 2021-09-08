@@ -12,17 +12,6 @@
         android:layout_height="wrap_content"
         android:paddingBottom="32dp">
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/add_fab"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            app:srcCompat="@drawable/ic_add"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/rv_layout"
-            app:maxImageSize="24dp"
-            app:tint="@android:color/white" />
-
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/description_layout"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -429,9 +418,10 @@
                 android:id="@+id/house_media_rv_detail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="64dp"
                 android:orientation="horizontal"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
-<!--                tools:listitem="@layout/media_rv_item" />-->
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/media_rv_item"/>
 
         </LinearLayout>
 
