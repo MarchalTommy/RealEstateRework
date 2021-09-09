@@ -2,12 +2,19 @@ package com.aki.realestatemanagerv2.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.aki.realestatemanagerv2.database.entities.House
 
 class SharedViewModel : ViewModel() {
     val elementClicked = MutableLiveData<Transition>()
 
+    val estateId = MutableLiveData<Int>()
+
     fun setIsClicked(transition: Transition){
         elementClicked.postValue(transition)
+    }
+
+    fun setHouse(houseId: Int) {
+        estateId.postValue(houseId)
     }
 }
 

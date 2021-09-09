@@ -8,7 +8,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.MediaController
 import androidx.activity.addCallback
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -70,16 +69,14 @@ class DetailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         navController = this.findNavController()
         houseId = args.houseId
-        activity?.findViewById<FloatingActionButton>(R.id.fab)?.setOnClickListener {
-            val action = DetailFragmentDirections.actionDetailFragmentToEditItemFragment2(houseId)
-            navController.navigate(action)
-        }
+        getDBData()
+        Log.d(TAG, "onViewCreated: houseId --> $houseId")
+        sharedViewModel.setHouse(houseId)
         requireActivity().onBackPressedDispatcher.addCallback(this) {
             sharedViewModel.setIsClicked(Transition.DETAIL_LIST)
             navController.navigate(R.id.action_detailFragment_to_listFragment)
             this.isEnabled = true
         }
-        getDBData()
     }
 
     private fun initLayout() {
@@ -122,9 +119,9 @@ class DetailFragment : Fragment() {
                     }
                 })
                 houseViewModel.getAddressFromHouse(houseId)
-                    .observe(viewLifecycleOwner, { thisAdress ->
-                        if (thisAdress != null) {
-                            address = thisAdress
+                    .observe(viewLifecycleOwner, { thisAddress ->
+                        if (thisAddress != null) {
+                            address = thisAddress
                             initLayout()
                             fabStaticMap()
                         }

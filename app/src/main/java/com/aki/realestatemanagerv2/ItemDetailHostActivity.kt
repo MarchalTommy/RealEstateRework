@@ -11,9 +11,9 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
 import com.aki.realestatemanagerv2.databinding.ActivityItemDetailBinding
+import com.aki.realestatemanagerv2.ui.detail.DetailFragmentDirections
 import com.aki.realestatemanagerv2.viewmodel.SharedViewModel
 import com.aki.realestatemanagerv2.viewmodel.Transition
-import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 
 class ItemDetailHostActivity : AppCompatActivity() {
@@ -33,12 +33,11 @@ class ItemDetailHostActivity : AppCompatActivity() {
 
         setupFab()
         setupBottomBar()
-        test2()
-        test()
+        fabAnimationManagement()
+        navControllerManagement()
     }
 
-    // TODO: 07/09/2021 RENAME FUN + VERIFY NAV HERE OR IN FRAG
-    private fun test2() {
+    private fun fabAnimationManagement() {
         sharedViewModel.elementClicked.observe(this, {
             when (it) {
                 Transition.LIST_DETAIL -> binding.fab.apply {
@@ -104,7 +103,7 @@ class ItemDetailHostActivity : AppCompatActivity() {
         })
     }
 
-    private fun test() {
+    private fun navControllerManagement() {
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
                 R.id.addListItemFragment -> {
@@ -126,13 +125,22 @@ class ItemDetailHostActivity : AppCompatActivity() {
                     binding.bottomAppBar.performShow()
                 }
                 R.id.detailFragment -> {
-                    binding.fab.apply {
-                        val animEditToCheck = AnimatedVectorDrawableCompat.create(
-                            this.context,
-                            R.drawable.avd_edit_to_check
-                        )
-                        setImageDrawable(animEditToCheck)
-                    }
+                    sharedViewModel.estateId.observe(this, {
+                        binding.fab.apply {
+                            val animEditToCheck = AnimatedVectorDrawableCompat.create(
+                                this.context,
+                                R.drawable.avd_edit_to_check
+                            )
+                            setImageDrawable(animEditToCheck)
+                            val action =
+                                DetailFragmentDirections.actionDetailFragmentToEditItemFragment2(it)
+                            setOnClickListener {
+                                navController.navigate(action)
+                                val fabAnim = this.drawable as AnimatedVectorDrawableCompat
+                                fabAnim.start()
+                            }
+                        }
+                    })
                     binding.bottomAppBar.performHide()
                 }
                 R.id.editItemFragment2 -> {

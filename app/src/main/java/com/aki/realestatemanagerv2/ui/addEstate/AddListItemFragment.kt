@@ -94,13 +94,6 @@ class AddListItemFragment : Fragment() {
         createBaseHouseAndAddress()
         layoutInit()
 
-//        val fab = this.activity?.findViewById<FloatingActionButton>(R.id.fab)
-//        fab?.setOnClickListener {
-//            sharedViewModel.setIsClicked(Transition.EDIT_DETAIL)
-//            val action = AddListItemFragmentDirections.actionAddListItemFragmentToDetailFragment(1)
-//            this.findNavController().navigate(action)
-//        }
-
     }
 
     private fun createBaseHouseAndAddress() {

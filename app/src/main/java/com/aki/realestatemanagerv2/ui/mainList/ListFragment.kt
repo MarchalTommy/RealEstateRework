@@ -199,7 +199,11 @@ class ListFragment : Fragment() {
 
     //OnClick for the items of the recyclerView
     private fun listOnClick(houseId: Int) {
-        sharedViewModel.setIsClicked(Transition.LIST_DETAIL)
+        sharedViewModel.apply {
+            setIsClicked(Transition.LIST_DETAIL)
+            setHouse(houseId)
+        }
+
         val action = ListFragmentDirections.actionListFragmentToDetailFragment(houseId)
         navController.navigate(action)
     }
@@ -286,8 +290,8 @@ class ListFragment : Fragment() {
                 restaurant = if (restaurantChip.isChecked) 1 else 0,
                 pool = if (poolChip.isChecked) 1 else 0,
                 nbrPic = if (minPic.text.toString().isEmpty()){0} else {minPic.text.toString().toInt()},
-                dateEntry = dateAdded.text.toString(),
-                dateSold = dateSold.text.toString()
+                dateEntry = if (dateAdded.text.toString().isEmpty()){"27/05/2020"} else {dateAdded.text.toString()},
+                dateSold = if (dateSold.text.toString().isEmpty()){" "} else {dateSold.text.toString()}
             ).observe(viewLifecycleOwner, {
                 filteredEstates.clear()
                 filteredEstates.addAll(it)

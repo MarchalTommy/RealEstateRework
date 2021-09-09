@@ -75,14 +75,6 @@ class EditItemFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
-//        val animCheckToEdit =
-//            AnimatedVectorDrawableCompat.create(requireContext(), R.drawable.avd_check_to_edit)
-//        val fab = requireActivity().findViewById<FloatingActionButton>(R.id.fab)
-//        fab.setOnClickListener {
-//            fab.setImageDrawable(animCheckToEdit)
-//        }
-
         binding.houseMediaRvDetail.adapter = EditMediaAdapter(newMediaList, ::removeOnClick)
         binding.houseMediaRvDetail.setHasFixedSize(true)
     }
