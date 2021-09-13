@@ -25,8 +25,8 @@ data class House(
     var publicPoolAround: Boolean,
     var restaurantAround: Boolean,
     var stillAvailable: Boolean,
-    var dateEntryOnMarket: String,
-    var dateSell: String,
+    var dateEntryOnMarket: Long,
+    var dateSell: Long,
     val agentId: Int,
     var addressId: Int?,
     var mainUri: String?

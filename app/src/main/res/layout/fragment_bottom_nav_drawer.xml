@@ -22,6 +22,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
+            android:layout_marginTop="8dp"
             android:text="Filters :"
             android:textColor="@color/reply_blue_300"
             app:layout_constraintStart_toStartOf="parent"
@@ -580,25 +581,25 @@
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/filter_button"
-                    android:text="Apply filters"
-                    app:layout_constraintTop_toBottomOf="@id/pictures_edit_text_layout"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toStartOf="@id/guideline2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:layout_marginBottom="64dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:text="Apply filters"
+                    app:layout_constraintEnd_toStartOf="@id/guideline2"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/pictures_edit_text_layout" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/remove_filter_button"
-                    android:text="Remove filters"
-                    app:layout_constraintTop_toBottomOf="@id/pictures_edit_text_layout"
-                    app:layout_constraintStart_toStartOf="@id/guideline2"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:layout_marginBottom="64dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:text="Remove filters"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@id/guideline2"
+                    app:layout_constraintTop_toBottomOf="@id/pictures_edit_text_layout" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

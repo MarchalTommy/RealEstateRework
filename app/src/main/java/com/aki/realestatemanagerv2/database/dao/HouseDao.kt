@@ -67,7 +67,7 @@ interface HouseDao {
     fun getAllHousesAndAddresses(): Flow<List<HouseAndAddress>>
 
     @Transaction
-    @Query("SELECT * FROM house WHERE price BETWEEN :priceMin AND :priceMax AND size BETWEEN :sizeMin AND :sizeMax AND nbrRooms BETWEEN :roomMin AND :roomMax AND nbrBedrooms BETWEEN :bedroomMin AND :bedroomMax AND nbrBathrooms BETWEEN :bathroomMin AND :bathroomMax AND type = :type AND dateEntryOnMarket = :dateEntry AND dateSell = :dateSold AND nbrPic BETWEEN :nbrPic AND :maxPicNNbr AND (parkAround = :park AND :park == 1) OR (schoolAround = :school AND :school == 1) OR (restaurantAround = :restaurant AND :restaurant == 1) OR (shopAround = :shop AND :shop == 1) OR (museumAround = :museum AND :museum == 1) OR (publicPoolAround = :pool AND :pool == 1)")
+    @Query("SELECT * FROM house WHERE price BETWEEN :priceMin AND :priceMax AND size BETWEEN :sizeMin AND :sizeMax AND nbrRooms BETWEEN :roomMin AND :roomMax AND nbrBedrooms BETWEEN :bedroomMin AND :bedroomMax AND nbrBathrooms BETWEEN :bathroomMin AND :bathroomMax AND type = :type AND dateEntryOnMarket = :dateEntry AND dateSell = :dateSold AND nbrPic BETWEEN :nbrPic AND :maxPicNNbr AND ((parkAround = :park AND :park == 1) OR (schoolAround = :school AND :school == 1) OR (restaurantAround = :restaurant AND :restaurant == 1) OR (shopAround = :shop AND :shop == 1) OR (museumAround = :museum AND :museum == 1) OR (publicPoolAround = :pool AND :pool == 1))")
     fun searchHousesAndAddresses(
         priceMax: Int,
         priceMin: Int,

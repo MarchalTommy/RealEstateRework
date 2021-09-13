@@ -13,13 +13,16 @@
         <action
             android:id="@+id/action_listFragment_to_detailFragment"
             app:destination="@id/detailFragment"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out"/>
         <action
             android:id="@+id/action_listFragment_to_addListItemFragment"
             app:destination="@id/addListItemFragment" />
+        <action
+            android:id="@+id/action_listFragment_to_mapFragment"
+            app:destination="@id/mapFragment" />
     </fragment>
     <fragment
         android:id="@+id/detailFragment"
@@ -28,15 +31,18 @@
         tools:layout="@layout/fragment_item_detail">
         <argument
             android:name="houseId"
-            app:argType="integer" />
+            app:argType="integer"
+            android:defaultValue="0" />
         <action
             app:popUpTo="@id/listFragment"
             app:popUpToInclusive="true"
             android:id="@+id/action_detailFragment_to_listFragment"
-            app:destination="@id/listFragment" />
+            app:destination="@id/listFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"/>
         <action
-            android:id="@+id/action_detailFragment_to_editItemFragment2"
-            app:destination="@id/editItemFragment2" />
+            android:id="@+id/action_detailFragment_to_editItemFragment"
+            app:destination="@id/editItemFragment" />
     </fragment>
     <fragment
         android:id="@+id/addListItemFragment"
@@ -48,7 +54,7 @@
             app:destination="@id/detailFragment"/>
     </fragment>
     <fragment
-        android:id="@+id/editItemFragment2"
+        android:id="@+id/editItemFragment"
         tools:layout="@layout/fragment_edit"
         android:name="com.aki.realestatemanagerv2.ui.edit.EditItemFragment"
         android:label="EditItemFragment" >
@@ -60,5 +66,17 @@
         <argument
             android:name="houseId"
             app:argType="integer" />
+    </fragment>
+    <fragment
+        android:id="@+id/mapFragment"
+        tools:layout="@layout/fragment_map_search"
+        android:name="com.aki.realestatemanagerv2.ui.search.MapFragment"
+        android:label="MapFragment" >
+        <argument
+            android:name="localisation"
+            app:argType="boolean" />
+        <action
+            android:id="@+id/action_mapFragment_to_detailFragment"
+            app:destination="@id/detailFragment" />
     </fragment>
 </navigation>

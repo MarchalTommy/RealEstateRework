@@ -38,6 +38,12 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textview.MaterialTextView
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.text.DateFormat
+import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
+import java.util.*
 
 
 class DetailFragment : Fragment() {
@@ -69,7 +75,6 @@ class DetailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         navController = this.findNavController()
         houseId = args.houseId
-        getDBData()
         Log.d(TAG, "onViewCreated: houseId --> $houseId")
         sharedViewModel.setHouse(houseId)
         requireActivity().onBackPressedDispatcher.addCallback(this) {
@@ -77,18 +82,40 @@ class DetailFragment : Fragment() {
             navController.navigate(R.id.action_detailFragment_to_listFragment)
             this.isEnabled = true
         }
+        getDBData()
+//        sharedViewModel.estateId.observe(viewLifecycleOwner, {
+//            when (it) {
+//                0 -> {
+//                    binding.emptyLayout?.visibility = View.VISIBLE
+//                    binding.fab.visibility = View.GONE
+//                }
+//                else -> {
+//                    binding.emptyLayout?.visibility = View.GONE
+//                    binding.fab.visibility = View.VISIBLE
+//                }
+//            }
+//            sharedViewModel.estateId.removeObservers(viewLifecycleOwner)
+//        })
+
     }
 
     private fun initLayout() {
-        binding.detailDescription?.text = mHouse.description
-        binding.detailAddress?.text = address.toString()
-        binding.detailType?.text = mHouse.type
-        binding.detailPrice?.text = mHouse.currencyFormatUS()
+        binding.detailDescription.text = mHouse.description
+        binding.detailAddress.text = address.toString()
+        binding.detailType.text = mHouse.type
+        binding.detailPrice.text = mHouse.currencyFormatUS()
     }
 
     private fun finishLayout() {
-        binding.detailAgent?.text = agent!!.toString()
-        binding.detailDateAdded?.text = "Added on ${mHouse.dateEntryOnMarket}"
+        binding.detailAgent.text = agent!!.toString()
+        val dateFormatted = Utils.getDateFromTimestamp(mHouse.dateEntryOnMarket)
+        //UTILS ARE WORKING, PROBLEM IS SOMEWHERE ELSE
+//        Log.d(TAG, "finishLayout: SHOULD BE 1590537600 AND 27/05/2020 -->")
+//        Log.d(TAG, "finishLayout: TEST -> ${Utils.getTimestampFromDate("27/05/2020")}")
+//        Log.d(TAG, "finishLayout: TEST 2 -> ${Utils.getDateFromTimestamp(1590537600)}")
+        Log.d(TAG, "finishLayout: UNIX -> ${mHouse.dateEntryOnMarket}")
+        Log.d(TAG, "finishLayout: DATE -> $dateFormatted")
+        binding.detailDateAdded.text = "Added on ${dateFormatted}"
     }
 
     private fun getDrawables(): List<Drawable> {
@@ -108,8 +135,10 @@ class DetailFragment : Fragment() {
     }
 
     private fun getDBData() {
-        houseViewModel.getHouseWithId(houseId).observe(viewLifecycleOwner, { it ->
+        houseViewModel.getHouseWithId(houseId).observe(viewLifecycleOwner, {
             if (it != null) {
+                binding.emptyLayout?.visibility = View.GONE
+                binding.fab.visibility = View.VISIBLE
                 mHouse = it
                 initDataRecyclerView()
                 houseViewModel.getAgent(mHouse.agentId).observe(viewLifecycleOwner, { thisAgent ->
@@ -126,6 +155,9 @@ class DetailFragment : Fragment() {
                             fabStaticMap()
                         }
                     })
+            } else {
+                binding.emptyLayout?.visibility = View.VISIBLE
+                binding.fab.visibility = View.GONE
             }
         })
 
@@ -137,17 +169,17 @@ class DetailFragment : Fragment() {
     }
 
     private fun initMediaRecyclerView(dataSet: List<Picture>) {
-        binding.detailMediaRv?.adapter = PictureListAdapter(dataSet, isLandscape)
-        binding.detailMediaRv?.setHasFixedSize(true)
-        binding.detailMediaRv?.onFlingListener = null
+        binding.detailMediaRv.adapter = PictureListAdapter(dataSet, isLandscape)
+        binding.detailMediaRv.setHasFixedSize(true)
+        binding.detailMediaRv.onFlingListener = null
         val snapHelper: SnapHelper = LinearSnapHelper()
         snapHelper.attachToRecyclerView(binding.detailMediaRv)
     }
 
     private fun initDataRecyclerView() {
-        binding.detailDataRv?.adapter = DataDetailAdapter(getDataSet(), getDrawables())
-        binding.detailDataRv?.setHasFixedSize(true)
-        binding.detailDataRv?.onFlingListener = null
+        binding.detailDataRv.adapter = DataDetailAdapter(getDataSet(), getDrawables())
+        binding.detailDataRv.setHasFixedSize(true)
+        binding.detailDataRv.onFlingListener = null
         val snapHelper: SnapHelper = LinearSnapHelper()
         snapHelper.attachToRecyclerView(binding.detailDataRv)
     }
@@ -181,7 +213,7 @@ class DetailFragment : Fragment() {
             ).show()
         }
 
-        binding.fab?.setOnClickListener {
+        binding.fab.setOnClickListener {
             lifecycleScope.launch(Dispatchers.IO) {
                 if (Utils.isOnline()) {
                     lifecycleScope.launch(Dispatchers.Main) {

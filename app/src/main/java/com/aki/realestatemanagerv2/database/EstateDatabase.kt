@@ -6,6 +6,7 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
+import com.aki.realestatemanagerv2.Utils
 import com.aki.realestatemanagerv2.database.dao.HouseDao
 import com.aki.realestatemanagerv2.database.entities.Address
 import com.aki.realestatemanagerv2.database.entities.Agent
@@ -155,7 +156,7 @@ abstract class EstateDatabase : RoomDatabase() {
                     museumAround = false,
                     publicPoolAround = true,
                     restaurantAround = false, true,
-                    "27/05/2020", " ", 1, 3, uriMansion
+                    Utils.getTimestampFromDate("27/05/2020"), 0L, 1, 3, uriMansion
                 ),
 
                 House(
@@ -166,18 +167,30 @@ abstract class EstateDatabase : RoomDatabase() {
                     museumAround = true,
                     publicPoolAround = false,
                     restaurantAround = false, true,
-                    "27/05/2020", " ", 2, 2, uriVilla2
+                    Utils.getTimestampFromDate("27/05/2020"), 0L, 2, 2, uriVilla2
                 ),
 
                 House(
-                    650000, "Villa", 350, 6,
-                    2, 1, 1, " ", false,
+                    650000,
+                    "Villa",
+                    350,
+                    6,
+                    2,
+                    1,
+                    1,
+                    " ",
+                    false,
                     schoolAround = false,
                     shopAround = true,
                     museumAround = false,
                     publicPoolAround = false,
-                    restaurantAround = false, false,
-                    "27/05/2020", "29/06/2021", 3, 5, uriVilla3
+                    restaurantAround = false,
+                    false,
+                    Utils.getTimestampFromDate("27/05/2020"),
+                    Utils.getTimestampFromDate("29/06/2021"),
+                    3,
+                    5,
+                    uriVilla3
                 ),
 
                 House(
@@ -188,7 +201,7 @@ abstract class EstateDatabase : RoomDatabase() {
                     museumAround = false,
                     publicPoolAround = false,
                     restaurantAround = true, true,
-                    "27/05/2020", " ", 3, 1, uriVilla4
+                    Utils.getTimestampFromDate("27/05/2020"), 0L, 3, 1, uriVilla4
                 ),
 
                 House(
@@ -199,7 +212,7 @@ abstract class EstateDatabase : RoomDatabase() {
                     museumAround = true,
                     publicPoolAround = true,
                     restaurantAround = false, true,
-                    "27/05/2020", " ", 1, 4, uriVilla1
+                    Utils.getTimestampFromDate("27/05/2020"), 0L, 1, 4, uriVilla1
                 ),
 
                 House(
@@ -219,8 +232,8 @@ abstract class EstateDatabase : RoomDatabase() {
                     publicPoolAround = false,
                     restaurantAround = false,
                     true,
-                    "15/08/2021",
-                    " ",
+                    Utils.getTimestampFromDate("15/08/2021"),
+                    0L,
                     2,
                     6,
                     uriApartment1

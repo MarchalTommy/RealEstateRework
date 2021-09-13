@@ -186,6 +186,7 @@ tout refaire depuis le début."
         android:layout_gravity="center_vertical|start"
         android:layout_margin="@dimen/fab_margin"
         app:layout_anchor="@+id/item_detail_scroll_view"
+        android:visibility="visible"
         app:layout_anchorGravity="top|end"
         app:srcCompat="@drawable/ic_location" />
 

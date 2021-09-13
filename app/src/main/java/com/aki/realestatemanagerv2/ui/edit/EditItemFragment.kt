@@ -44,8 +44,6 @@ import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
-// TODO: 08/09/2021 TROUVER POURQUOI ADD INSTEAD OF EDIT 
-
 class EditItemFragment : Fragment() {
     private val houseViewModel: HouseViewModel by viewModels {
         HouseViewModelFactory((this.activity?.application as EstateApplication).repository)

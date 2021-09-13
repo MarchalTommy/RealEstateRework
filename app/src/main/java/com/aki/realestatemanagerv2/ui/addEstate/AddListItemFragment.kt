@@ -26,6 +26,7 @@ import androidx.fragment.app.*
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.aki.realestatemanagerv2.EstateApplication
+import com.aki.realestatemanagerv2.ItemDetailHostActivity
 import com.aki.realestatemanagerv2.R
 import com.aki.realestatemanagerv2.Utils
 import com.aki.realestatemanagerv2.database.entities.Address
@@ -47,10 +48,11 @@ import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
 import java.util.*
 import kotlin.collections.ArrayList
-
-// TODO: 06/09/2021 GERER AJOUT + VALIDATION 
 
 class AddListItemFragment : Fragment() {
     private lateinit var currentPhotoPath: String
@@ -69,7 +71,7 @@ class AddListItemFragment : Fragment() {
         museumAround = false,
         publicPoolAround = false,
         restaurantAround = false,
-        true, Utils.getTodayDate(), " ", 1, null, " "
+        true, 0L, 0L, 1, null, " "
     )
     private var address = Address(
         0, " ", " ", 0, " ",
@@ -91,9 +93,9 @@ class AddListItemFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         createBaseHouseAndAddress()
         layoutInit()
-
     }
 
     private fun createBaseHouseAndAddress() {
@@ -186,12 +188,14 @@ class AddListItemFragment : Fragment() {
         if (binding.restaurantChip.isSelected) {
             newHouse.restaurantAround = true
         }
+        newHouse.dateEntryOnMarket = Utils.getTimestampFromDate(Utils.getTodayDate())
         //Updating our database with finished objects
         CoroutineScope(Dispatchers.IO).launch {
             houseViewModel.updateHouse(newHouse)
             houseViewModel.updateAddress(address)
         }
         Thread.sleep(600)
+        Utils.setNotificationWorker()
         //Navigate to the detail of the new house
         sharedViewModel.setIsClicked(Transition.EDIT_DETAIL)
         val action =
@@ -313,7 +317,7 @@ class AddListItemFragment : Fragment() {
                 photoFile?.also {
                     val photoUri: Uri = FileProvider.getUriForFile(
                         requireContext(),
-                        "com.openclassrooms.realestatemanager.fileprovider", photoFile
+                        "com.aki.realestatemanagerv2.fileprovider", photoFile
                     )
                     takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
                     cameraResultLauncher.launch(takePictureIntent)

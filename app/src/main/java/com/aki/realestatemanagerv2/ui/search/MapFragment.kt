@@ -11,25 +11,25 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.findFragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.aki.realestatemanagerv2.EstateApplication
 import com.aki.realestatemanagerv2.R
-import com.google.android.gms.maps.CameraUpdateFactory
+import com.aki.realestatemanagerv2.database.entities.relations.HouseAndAddress
+import com.aki.realestatemanagerv2.viewmodel.HouseViewModel
+import com.aki.realestatemanagerv2.viewmodel.HouseViewModelFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.MarkerOptions
-import com.google.android.material.appbar.MaterialToolbar
-import com.aki.realestatemanagerv2.database.entities.relations.HouseAndAddress
-import com.aki.realestatemanagerv2.viewmodel.HouseViewModel
-import com.aki.realestatemanagerv2.viewmodel.HouseViewModelFactory
+import com.google.android.material.bottomappbar.BottomAppBar
 
-// TODO: 06/09/2021 GÉRER MAPS DE NOUVEAU 
+class MapFragment() : Fragment() {
 
-class MapFragment(private val localisation: Boolean) : Fragment() {
+    private val args: MapFragmentArgs by navArgs()
+    private var localisation = false
     private lateinit var supportMapFragment: SupportMapFragment
-    private lateinit var toolbar: MaterialToolbar
     private val houseViewModel: HouseViewModel by viewModels {
         HouseViewModelFactory((this.activity?.application as EstateApplication).repository)
     }
@@ -41,19 +41,14 @@ class MapFragment(private val localisation: Boolean) : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val rootView = inflater.inflate(R.layout.fragment_map_search, container, false)
-        supportMapFragment = rootView.findFragment<SupportMapFragment>()
+        localisation = args.localisation
 
-        toolbar = requireActivity().findViewById(R.id.toolbar)
+        val rootView = inflater.inflate(R.layout.fragment_map_search, container, false)
+        supportMapFragment = rootView.findFragment()
+
         initMap()
 
         return rootView
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        toolbar.menu.findItem(R.id.map).isEnabled = true
-        toolbar.menu.findItem(R.id.add).isEnabled = true
     }
 
     /*
@@ -70,33 +65,19 @@ class MapFragment(private val localisation: Boolean) : Fragment() {
             gMap.setMinZoomPreference(4.0f)
             gMap.setMaxZoomPreference(14.0f)
 
-            val USABounds = LatLngBounds(
-                LatLng((25.30), (-125.30)),
-                LatLng((48.63), (-60.09))
-            )
-            gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(USABounds.center, 5f))
-
-//            gMap.setOnMarkerClickListener {
-//                for (estate in housesAndAddresses) {
-//                    if (it.snippet == estate.house.houseId.toString()) {
-//                        if (Utils.isLandscape(context)) {
-//                            parentFragmentManager.beginTransaction()
-////                                .add(R.id.second_fragment_twopane, DetailFragment(estate.house))
-//                                .commit()
-//                        } else {
-//                            parentFragmentManager.beginTransaction()
-//                                .add(R.id.main_fragment_portrait, DetailFragment(estate.house))
-//                                .addToBackStack("map")
-//                                .commit()
-//                        }
-//                    }
-//                }
-//                false
-//            }
-        }
-
-        if (localisation) {
-            gMap.isMyLocationEnabled = localisation
+            gMap.setOnMarkerClickListener {
+                for (estate in housesAndAddresses) {
+                    if (it.snippet == estate.house.houseId.toString()) {
+                        val action =
+                            MapFragmentDirections.actionMapFragmentToDetailFragment(estate.house.houseId)
+                        this.findNavController().navigate(action)
+                    }
+                }
+                false
+            }
+            if (localisation) {
+                googleMap.isMyLocationEnabled = localisation
+            }
         }
     }
 

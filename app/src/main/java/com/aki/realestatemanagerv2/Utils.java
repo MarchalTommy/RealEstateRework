@@ -1,19 +1,32 @@
 package com.aki.realestatemanagerv2;
 
+import static android.content.ContentValues.TAG;
+
 import android.content.Context;
-import android.content.res.Configuration;
 import android.util.Log;
+
+import androidx.work.BackoffPolicy;
+import androidx.work.Data;
+import androidx.work.OneTimeWorkRequest;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketAddress;
+import java.sql.Timestamp;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
+import java.time.temporal.ChronoField;
 import java.util.Date;
-import java.util.Random;
-
-import static android.content.ContentValues.TAG;
+import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by Philippe on 21/02/2018.
@@ -43,8 +56,37 @@ public class Utils {
      * @return
      */
     public static String getTodayDate() {
-        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.FRANCE);
         return dateFormat.format(new Date());
+    }
+
+    public static Long getTimestampFromDate(String s) throws ParseException {
+        DateTimeFormatter DATE_FORMAT =
+                new DateTimeFormatterBuilder().appendPattern("dd/MM/yyyy[ [HH][:mm][:ss][.SSS]]")
+                        .parseDefaulting(ChronoField.HOUR_OF_DAY, 0)
+                        .parseDefaulting(ChronoField.MINUTE_OF_HOUR, 0)
+                        .parseDefaulting(ChronoField.SECOND_OF_MINUTE, 0)
+                        .toFormatter();
+        LocalDate test = LocalDate.parse(s, DATE_FORMAT);
+        ZonedDateTime dateT = test.atStartOfDay(ZoneId.systemDefault());
+        Instant instant = Instant.from(dateT);
+
+        Log.d(TAG, "getTimestampFromDate: LOCALDATE --> " + dateT.toString());
+        Log.d(TAG, "getTimestampFromDate: INSTANT --> !!! " + instant.toEpochMilli() + " !!!");
+
+        return instant.toEpochMilli() / 1000;
+    }
+
+    public static String getDateFromTimestamp(Long l) throws ParseException {
+        LocalDate date = Instant.ofEpochMilli(l * 1000).atZone(ZoneId.systemDefault()).toLocalDate();
+
+        DateTimeFormatter df = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        String dateString = date.format(df);
+
+//        String sDate1="31/12/1998";
+//        Date date1=new SimpleDateFormat("dd/MM/yyyy").parse(sDate1);
+
+        return dateString;
     }
 
     /**
@@ -63,15 +105,25 @@ public class Utils {
             return true;
         } catch (IOException e) {
             Log.e(TAG, "isOnline: ERROR --> ", e);
-            return false; }
+            return false;
+        }
     }
-
-//    public static Boolean isLandscape(Context context) {
-//        return context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
-//    }
 
     public static Boolean isTablet(Context context) {
         return context.getResources().getBoolean(R.bool.isTablet);
+    }
+
+    public static void setNotificationWorker() {
+        OneTimeWorkRequest notificationRequest = new OneTimeWorkRequest.Builder(NotificationWorker.class)
+                .setInputData(new Data.Builder()
+//                        .putString("RESTAURANT_NAME", event.name)
+//                        .putString("RESTAURANT_ADDRESS", event.formattedAddress)
+//                        .putString("WORKMATES", userStringBuilder.toString())
+                        .build())
+                .setBackoffCriteria(BackoffPolicy.LINEAR,
+                        OneTimeWorkRequest.MIN_BACKOFF_MILLIS,
+                        TimeUnit.MILLISECONDS)
+                .build();
     }
 }
 

@@ -37,8 +37,6 @@ import kotlin.collections.ArrayList
 import kotlin.math.roundToInt
 
 class ListFragment : Fragment() {
-
-    // TODO: Créer reset filtres
     // TODO: Gérer filtres
 
     private val houseViewModel: HouseViewModel by viewModels {
@@ -54,6 +52,7 @@ class ListFragment : Fragment() {
     private var isFiltered = false
     private var _binding: FragmentItemListBinding? = null
     private val binding get() = _binding!!
+    private var itemDetailFragmentContainer: View? = null
 
     private lateinit var priceSlider: RangeSlider
     private lateinit var sizeSlider: RangeSlider
@@ -88,6 +87,9 @@ class ListFragment : Fragment() {
         requireActivity().findViewById<MaterialButton>(R.id.filter_button).setOnClickListener {
             setFilter()
         }
+        requireActivity().findViewById<MaterialButton>(R.id.remove_filter_button).setOnClickListener {
+            removeFilter()
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -96,6 +98,9 @@ class ListFragment : Fragment() {
         binding.loadingList.visibility = View.VISIBLE
         thisContext = this.requireContext()
         recyclerView = binding.itemList
+
+        itemDetailFragmentContainer = view.findViewById(R.id.item_detail_nav_container)
+
 
         for (estate in housesAndAddresses) {
             houseViewModel.updateHouse(estate.house)
@@ -152,7 +157,7 @@ class ListFragment : Fragment() {
                     val estate: House = adapter.dataSet[position].house
                     if (direction == ItemTouchHelper.RIGHT) {
                         estate.stillAvailable = false
-                        estate.dateSell = Utils.getTodayDate()
+                        estate.dateSell = Utils.getTimestampFromDate(Utils.getTodayDate())
                         adapter.notifyItemChanged(position)
                         recyclerView.scrollToPosition(position)
                         Snackbar.make(
@@ -162,7 +167,7 @@ class ListFragment : Fragment() {
                         ).apply {
                             setAction("UNDO") {
                                 estate.stillAvailable = true
-                                estate.dateSell = " "
+                                estate.dateSell = 0L
                                 adapter.notifyItemChanged(position)
                                 recyclerView.scrollToPosition(position)
                             }
@@ -175,7 +180,7 @@ class ListFragment : Fragment() {
                         }.show()
                     } else {
                         estate.stillAvailable = true
-                        estate.dateSell = " "
+                        estate.dateSell = 0L
                         adapter.notifyItemChanged(position)
                         recyclerView.scrollToPosition(position)
                         Snackbar.make(
@@ -204,10 +209,14 @@ class ListFragment : Fragment() {
             setHouse(houseId)
         }
 
-        val action = ListFragmentDirections.actionListFragmentToDetailFragment(houseId)
-        navController.navigate(action)
+        if(itemDetailFragmentContainer != null) {
+            itemDetailFragmentContainer!!.findNavController()
+                .navigate(R.id.detailFragment)
+        } else {
+            val action = ListFragmentDirections.actionListFragmentToDetailFragment(houseId)
+            navController.navigate(action)
+        }
     }
-
 
     private fun initFilterLayout() {
         priceSlider = requireActivity().findViewById(R.id.price_slider)
@@ -258,6 +267,12 @@ class ListFragment : Fragment() {
         roomSlider.valueTo = moreRooms.toFloat()
         bedroomSlider.valueTo = moreBedrooms.toFloat()
         bathroomSlider.valueTo = moreBathrooms.toFloat()
+    }
+
+    private fun removeFilter() {
+        isFiltered = false
+        filteredEstates.clear()
+        getLocalHouses()
     }
 
     //    Preparing and showing the filter Dialog

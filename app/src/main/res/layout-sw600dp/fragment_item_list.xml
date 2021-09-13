@@ -36,7 +36,7 @@
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        app:layout_constraintGuide_begin="@dimen/item_width" />
+        app:layout_constraintGuide_begin="340dp" />
 
     <fragment
         android:id="@+id/item_detail_nav_container"
@@ -45,6 +45,7 @@
         android:layout_height="match_parent"
         android:layout_marginStart="@dimen/container_margin"
         app:defaultNavHost="false"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@id/guideline"
         app:layout_constraintTop_toTopOf="parent"

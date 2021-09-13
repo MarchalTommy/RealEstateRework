@@ -7,6 +7,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.aki.realestatemanagerv2.R
+import com.aki.realestatemanagerv2.Utils
 import com.bumptech.glide.Glide
 import com.aki.realestatemanagerv2.database.entities.relations.HouseAndAddress
 
@@ -40,7 +41,7 @@ class ListFragmentAdapter(
             holder.soldBanner.visibility = View.VISIBLE
             holder.soldText.visibility = View.VISIBLE
             holder.soldDate.visibility = View.VISIBLE
-            holder.soldDate.text = "Sold the ${currentEstate.dateSell}"
+            holder.soldDate.text = "Sold the ${Utils.getDateFromTimestamp(currentEstate.dateSell)}"
         } else {
             holder.soldBanner.visibility = View.GONE
             holder.soldText.visibility = View.GONE
