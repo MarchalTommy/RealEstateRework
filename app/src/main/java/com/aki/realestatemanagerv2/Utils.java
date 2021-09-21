@@ -71,9 +71,6 @@ public class Utils {
         ZonedDateTime dateT = test.atStartOfDay(ZoneId.systemDefault());
         Instant instant = Instant.from(dateT);
 
-        Log.d(TAG, "getTimestampFromDate: LOCALDATE --> " + dateT.toString());
-        Log.d(TAG, "getTimestampFromDate: INSTANT --> !!! " + instant.toEpochMilli() + " !!!");
-
         return instant.toEpochMilli() / 1000;
     }
 
@@ -82,9 +79,6 @@ public class Utils {
 
         DateTimeFormatter df = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         String dateString = date.format(df);
-
-//        String sDate1="31/12/1998";
-//        Date date1=new SimpleDateFormat("dd/MM/yyyy").parse(sDate1);
 
         return dateString;
     }
@@ -116,9 +110,6 @@ public class Utils {
     public static void setNotificationWorker() {
         OneTimeWorkRequest notificationRequest = new OneTimeWorkRequest.Builder(NotificationWorker.class)
                 .setInputData(new Data.Builder()
-//                        .putString("RESTAURANT_NAME", event.name)
-//                        .putString("RESTAURANT_ADDRESS", event.formattedAddress)
-//                        .putString("WORKMATES", userStringBuilder.toString())
                         .build())
                 .setBackoffCriteria(BackoffPolicy.LINEAR,
                         OneTimeWorkRequest.MIN_BACKOFF_MILLIS,

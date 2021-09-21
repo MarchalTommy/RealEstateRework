@@ -1,5 +1,7 @@
 package com.aki.realestatemanagerv2.repository
 
+import androidx.lifecycle.MutableLiveData
+import androidx.sqlite.db.SimpleSQLiteQuery
 import com.aki.realestatemanagerv2.database.dao.HouseDao
 import com.aki.realestatemanagerv2.database.entities.Address
 import com.aki.realestatemanagerv2.database.entities.Agent
@@ -10,6 +12,8 @@ import kotlinx.coroutines.flow.Flow
 
 class HouseRepository(private val houseDao: HouseDao) {
 
+    val filterQuery: MutableLiveData<SimpleSQLiteQuery> = MutableLiveData<SimpleSQLiteQuery>()
+
     // region GETTERS
     val allHouses: Flow<List<House>> = houseDao.getAllHouses()
 
@@ -17,7 +21,11 @@ class HouseRepository(private val houseDao: HouseDao) {
 
     val allHousesAndAddresses: Flow<List<HouseAndAddress>> = houseDao.getAllHousesAndAddresses()
 
-    fun getHouseAndAddress(houseId: Int): Flow<List<HouseAndAddress>> {
+    fun filterEstate(query: SimpleSQLiteQuery): Flow<List<HouseAndAddress>> {
+        return houseDao.filterEstates(query = query)
+    }
+
+    fun getHouseAndAddress(houseId: Int): Flow<HouseAndAddress> {
         return houseDao.getHouseAndAddress(houseId)
     }
 
@@ -43,54 +51,6 @@ class HouseRepository(private val houseDao: HouseDao) {
 
     fun getStaticMap(address: String, api: String): String {
         return "https://maps.googleapis.com/maps/api/staticmap?center=$address&zoom=15&size=300x300&scale=3&markers=color:red|$address&key=${api}"
-    }
-
-    fun searchHouseAndAddress(
-        priceMax: Int,
-        priceMin: Int,
-        sizeMax: Int,
-        sizeMin: Int,
-        roomMax: Int,
-        roomMin: Int,
-        dateEntry: String,
-        dateSold: String,
-        nbrPic: Int,
-        maxPicNNbr: Int,
-        bedroomMax: Int,
-        bedroomMin: Int,
-        bathroomMax: Int,
-        bathroomMin: Int,
-        type: String,
-        park: Int,
-        pool: Int,
-        school: Int,
-        museum: Int,
-        restaurant: Int,
-        shop: Int
-    ): Flow<List<HouseAndAddress>> {
-        return houseDao.searchHousesAndAddresses(
-            priceMax,
-            priceMin,
-            sizeMax,
-            sizeMin,
-            roomMax,
-            roomMin,
-            dateEntry,
-            dateSold,
-            nbrPic,
-            maxPicNNbr,
-            bedroomMax,
-            bedroomMin,
-            bathroomMax,
-            bathroomMin,
-            type,
-            park,
-            pool,
-            school,
-            museum,
-            restaurant,
-            shop
-        )
     }
     // endregion GETTERS
 
@@ -134,6 +94,14 @@ class HouseRepository(private val houseDao: HouseDao) {
 
     fun removeHouse(house: House) {
         houseDao.removeHouse(house)
+    }
+
+    fun removeAllHouses() {
+        houseDao.deleteAllHouses()
+    }
+
+    fun removeAllAddresses() {
+        houseDao.deleteAllAddresses()
     }
     // endregion DELETE
 

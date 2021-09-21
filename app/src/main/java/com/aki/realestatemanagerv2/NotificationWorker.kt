@@ -16,20 +16,19 @@ class NotificationWorker(context: Context, workerParams: WorkerParameters) :
     override fun doWork(): Result {
         //DEFINE WORK HERE (notification for added estate)
 
-//            sendVisualNotification(
-//                applicationContext.getString(R.string.its_time_for_lunch)
-//                    .toString() + restaurantName + " !",
+            sendVisualNotification(
+                "The new estate has been added successfully."
 //                applicationContext.getString(R.string.the_address_is)
 //                    .toString() + formattedAddress,
 //                getApplicationContext().getString(R.string.only_one)
-//            )
+            )
 
         return Result.success()
     }
 
     private fun sendVisualNotification(
-        messageBody1: String,
-        messageBody2: String,
+//        messageBody1: String,
+//        messageBody2: String,
         messageBody3: String
     ) {
         // Creating an Intent that will be shown when user will click on the notification
@@ -43,7 +42,7 @@ class NotificationWorker(context: Context, workerParams: WorkerParameters) :
 
         // Creating a style for the notification
         val inboxStyle = NotificationCompat.InboxStyle()
-//        inboxStyle.setBigContentTitle(messageBody1)
+        inboxStyle.setBigContentTitle(messageBody3)
 //        inboxStyle.addLine(messageBody2)
 //        inboxStyle.addLine(messageBody3)
 
@@ -52,7 +51,7 @@ class NotificationWorker(context: Context, workerParams: WorkerParameters) :
 
         // Building a notification Object
         val notificationBuilder: NotificationCompat.Builder =
-            NotificationCompat.Builder(getApplicationContext(), channelId)
+            NotificationCompat.Builder(applicationContext, channelId)
                 .setSmallIcon(R.drawable.logo)
                 .setContentTitle(applicationContext.getString(R.string.app_name))
 //                .setContentText(applicationContext.getText(R.string.notification_title))

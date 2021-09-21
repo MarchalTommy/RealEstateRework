@@ -7,6 +7,7 @@ import com.aki.realestatemanagerv2.database.EstateDatabase
 import com.aki.realestatemanagerv2.repository.HouseRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
+
 /*
 TODO : ANIM TRANSITIONS
 TODO : DATE FILTER

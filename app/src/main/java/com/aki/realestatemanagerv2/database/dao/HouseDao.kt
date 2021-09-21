@@ -1,6 +1,8 @@
 package com.aki.realestatemanagerv2.database.dao
 
+import android.database.Cursor
 import androidx.room.*
+import androidx.sqlite.db.SimpleSQLiteQuery
 import com.aki.realestatemanagerv2.database.entities.Address
 import com.aki.realestatemanagerv2.database.entities.Agent
 import com.aki.realestatemanagerv2.database.entities.House
@@ -13,10 +15,10 @@ interface HouseDao {
 
     //region INSERT
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertHouse(house: House)
+    fun insertHouse(house: House): Long
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertAddress(address: Address)
+    fun insertAddress(address: Address)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAgent(agent: Agent)
@@ -27,20 +29,20 @@ interface HouseDao {
     //endregion INSERT
 
     //region QUERY
+    @Query("SELECT * FROM house WHERE houseId = :houseId")
+    fun getHouseWithCursor(houseId: Int): Cursor
+
     @Query("DELETE FROM house")
-    suspend fun deleteAll()
+    fun deleteAllHouses()
+
+    @Query("DELETE FROM address")
+    fun deleteAllAddresses()
 
     @Query("SELECT * FROM house WHERE houseId = :houseId")
     fun getHouseWithId(houseId: Int): Flow<House>
 
     @Query("SELECT * FROM address WHERE zip != 0")
     fun getAllAddresses(): Flow<List<Address>>
-
-    @Query("SELECT * FROM House WHERE agentId = :agentId")
-    suspend fun getHousesOfAgent(agentId: Int): List<House>
-
-    @Query("SELECT * FROM house WHERE type = :type")
-    suspend fun getHouseOfType(type: String): List<House>
 
     @Query("SELECT * FROM house WHERE addressId = :addressId")
     fun getHouseFromAddressId(addressId: Int): Flow<House>
@@ -60,42 +62,20 @@ interface HouseDao {
     // TRANSACTION HOUSE ADDRESS
     @Transaction
     @Query("SELECT * FROM house WHERE houseId = :houseId")
-    fun getHouseAndAddress(houseId: Int): Flow<List<HouseAndAddress>>
+    fun getHouseAndAddress(houseId: Int): Flow<HouseAndAddress>
 
     @Transaction
     @Query("SELECT * FROM house")
     fun getAllHousesAndAddresses(): Flow<List<HouseAndAddress>>
 
     @Transaction
-    @Query("SELECT * FROM house WHERE price BETWEEN :priceMin AND :priceMax AND size BETWEEN :sizeMin AND :sizeMax AND nbrRooms BETWEEN :roomMin AND :roomMax AND nbrBedrooms BETWEEN :bedroomMin AND :bedroomMax AND nbrBathrooms BETWEEN :bathroomMin AND :bathroomMax AND type = :type AND dateEntryOnMarket = :dateEntry AND dateSell = :dateSold AND nbrPic BETWEEN :nbrPic AND :maxPicNNbr AND ((parkAround = :park AND :park == 1) OR (schoolAround = :school AND :school == 1) OR (restaurantAround = :restaurant AND :restaurant == 1) OR (shopAround = :shop AND :shop == 1) OR (museumAround = :museum AND :museum == 1) OR (publicPoolAround = :pool AND :pool == 1))")
-    fun searchHousesAndAddresses(
-        priceMax: Int,
-        priceMin: Int,
-        sizeMax: Int,
-        sizeMin: Int,
-        roomMax: Int,
-        roomMin: Int,
-        dateEntry: String,
-        dateSold: String,
-        nbrPic: Int,
-        maxPicNNbr: Int,
-        bedroomMax: Int,
-        bedroomMin: Int,
-        bathroomMax: Int,
-        bathroomMin: Int,
-        type: String,
-        park: Int,
-        pool: Int,
-        school: Int,
-        museum: Int,
-        restaurant: Int,
-        shop: Int
-    ): Flow<List<HouseAndAddress>>
+    @RawQuery
+    fun filterEstates(query: SimpleSQLiteQuery): Flow<List<HouseAndAddress>>
     //endregion QUERY
 
     //region UPDATE
     @Update
-    fun updateHouse(house: House)
+    fun updateHouse(house: House): Int
 
     @Update
     fun updateAddress(address: Address)
@@ -106,7 +86,10 @@ interface HouseDao {
     fun removePicture(picture: Picture)
 
     @Delete
-    fun removeHouse(house: House)
+    fun removeHouse(house: House): Int
+
+    @Query("DELETE FROM house WHERE houseId = :houseId")
+    fun removeHouseById(houseId: Int): Int
 
     @Delete
     fun removeAddress(address: Address)

@@ -11,7 +11,6 @@ import android.widget.ImageView
 import androidx.activity.addCallback
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
@@ -27,31 +26,19 @@ import com.aki.realestatemanagerv2.database.entities.Agent
 import com.aki.realestatemanagerv2.database.entities.House
 import com.aki.realestatemanagerv2.database.entities.Picture
 import com.aki.realestatemanagerv2.databinding.FragmentItemDetailBinding
-import com.aki.realestatemanagerv2.viewmodel.HouseViewModel
-import com.aki.realestatemanagerv2.viewmodel.HouseViewModelFactory
-import com.aki.realestatemanagerv2.viewmodel.SharedViewModel
-import com.aki.realestatemanagerv2.viewmodel.Transition
 import com.bumptech.glide.Glide
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textview.MaterialTextView
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.text.DateFormat
-import java.text.SimpleDateFormat
-import java.time.LocalDate
-import java.time.ZoneId
-import java.time.format.DateTimeFormatter
-import java.util.*
-
+import kotlin.properties.Delegates
 
 class DetailFragment : Fragment() {
 
-    private val houseViewModel: HouseViewModel by viewModels {
-        HouseViewModelFactory((this.activity?.application as EstateApplication).repository)
+    private val viewModel: DetailViewModel by viewModels {
+        DetailViewModelFactory((this.activity?.application as EstateApplication).repository)
     }
-    private val sharedViewModel: SharedViewModel by activityViewModels()
     private val args: DetailFragmentArgs by navArgs()
     private var houseId = 0
     private lateinit var mHouse: House
@@ -76,26 +63,21 @@ class DetailFragment : Fragment() {
         navController = this.findNavController()
         houseId = args.houseId
         Log.d(TAG, "onViewCreated: houseId --> $houseId")
-        sharedViewModel.setHouse(houseId)
         requireActivity().onBackPressedDispatcher.addCallback(this) {
-            sharedViewModel.setIsClicked(Transition.DETAIL_LIST)
             navController.navigate(R.id.action_detailFragment_to_listFragment)
             this.isEnabled = true
         }
         getDBData()
-//        sharedViewModel.estateId.observe(viewLifecycleOwner, {
-//            when (it) {
-//                0 -> {
-//                    binding.emptyLayout?.visibility = View.VISIBLE
-//                    binding.fab.visibility = View.GONE
-//                }
-//                else -> {
-//                    binding.emptyLayout?.visibility = View.GONE
-//                    binding.fab.visibility = View.VISIBLE
-//                }
-//            }
-//            sharedViewModel.estateId.removeObservers(viewLifecycleOwner)
-//        })
+            when (houseId) {
+                0 -> {
+                    binding.emptyLayout?.visibility = View.VISIBLE
+                    binding.fab.visibility = View.GONE
+                }
+                else -> {
+                    binding.emptyLayout?.visibility = View.GONE
+                    binding.fab.visibility = View.VISIBLE
+                }
+            }
 
     }
 
@@ -109,10 +91,6 @@ class DetailFragment : Fragment() {
     private fun finishLayout() {
         binding.detailAgent.text = agent!!.toString()
         val dateFormatted = Utils.getDateFromTimestamp(mHouse.dateEntryOnMarket)
-        //UTILS ARE WORKING, PROBLEM IS SOMEWHERE ELSE
-//        Log.d(TAG, "finishLayout: SHOULD BE 1590537600 AND 27/05/2020 -->")
-//        Log.d(TAG, "finishLayout: TEST -> ${Utils.getTimestampFromDate("27/05/2020")}")
-//        Log.d(TAG, "finishLayout: TEST 2 -> ${Utils.getDateFromTimestamp(1590537600)}")
         Log.d(TAG, "finishLayout: UNIX -> ${mHouse.dateEntryOnMarket}")
         Log.d(TAG, "finishLayout: DATE -> $dateFormatted")
         binding.detailDateAdded.text = "Added on ${dateFormatted}"
@@ -135,33 +113,32 @@ class DetailFragment : Fragment() {
     }
 
     private fun getDBData() {
-        houseViewModel.getHouseWithId(houseId).observe(viewLifecycleOwner, {
+        viewModel.getHouseAndAddress(houseId).observe(viewLifecycleOwner, {
             if (it != null) {
                 binding.emptyLayout?.visibility = View.GONE
                 binding.fab.visibility = View.VISIBLE
-                mHouse = it
+                mHouse = it.house
+                if (it.address != null) {
+                    address = it.address
+                    fabStaticMap()
+                    viewModel.getAgent(mHouse.agentId)
+                        .observe(viewLifecycleOwner, { thisAgent ->
+                            if (thisAgent != null) {
+                                agent = thisAgent
+                                initLayout()
+                                finishLayout()
+                            }
+                        })
+                }
                 initDataRecyclerView()
-                houseViewModel.getAgent(mHouse.agentId).observe(viewLifecycleOwner, { thisAgent ->
-                    if (thisAgent != null) {
-                        agent = thisAgent
-                        finishLayout()
-                    }
-                })
-                houseViewModel.getAddressFromHouse(houseId)
-                    .observe(viewLifecycleOwner, { thisAddress ->
-                        if (thisAddress != null) {
-                            address = thisAddress
-                            initLayout()
-                            fabStaticMap()
-                        }
-                    })
+
             } else {
                 binding.emptyLayout?.visibility = View.VISIBLE
                 binding.fab.visibility = View.GONE
             }
         })
 
-        houseViewModel.getPictures(houseId).observe(viewLifecycleOwner, {
+        viewModel.getPictures(houseId).observe(viewLifecycleOwner, {
             if (it != null) {
                 initMediaRecyclerView(it)
             }
@@ -200,7 +177,7 @@ class DetailFragment : Fragment() {
         fun connectionIsAvailable() {
             val imageView = staticMapDialog.findViewById<ImageView>(R.id.static_map_view)
             Glide.with(requireContext())
-                .load(houseViewModel.getStaticMap(addressUrl!!, api))
+                .load(viewModel.getStaticMap(addressUrl!!, api))
                 .centerCrop()
                 .into(imageView!!)
         }

@@ -24,15 +24,12 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
 import com.aki.realestatemanagerv2.EstateApplication
 import com.aki.realestatemanagerv2.R
 import com.aki.realestatemanagerv2.database.entities.Address
 import com.aki.realestatemanagerv2.database.entities.House
 import com.aki.realestatemanagerv2.database.entities.Picture
 import com.aki.realestatemanagerv2.databinding.FragmentEditBinding
-import com.aki.realestatemanagerv2.viewmodel.HouseViewModel
-import com.aki.realestatemanagerv2.viewmodel.HouseViewModelFactory
 import com.bumptech.glide.Glide
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -45,8 +42,8 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 class EditItemFragment : Fragment() {
-    private val houseViewModel: HouseViewModel by viewModels {
-        HouseViewModelFactory((this.activity?.application as EstateApplication).repository)
+    private val viewModel: EditItemViewModel by viewModels {
+        EditItemViewModelFactory((this.activity?.application as EstateApplication).repository)
     }
     private val args: EditItemFragmentArgs by navArgs()
     private var houseId = 0
@@ -79,10 +76,10 @@ class EditItemFragment : Fragment() {
 
     private fun getHouseData() {
         houseId = args.houseId
-        houseViewModel.getHouseAndAddress(houseId).observe(viewLifecycleOwner, {
-            if(it != null) {
-                house = it[0].house
-                address = it[0].address
+        viewModel.getHouseAndAddress(houseId).observe(viewLifecycleOwner, {
+            if (it != null) {
+                house = it.house
+                address = it.address
 
                 layoutInit()
             }
@@ -102,7 +99,7 @@ class EditItemFragment : Fragment() {
         binding.priceLayout.editText?.setText("${house.price}")
         binding.typeLayout.editText?.setText(house.type)
 
-        houseViewModel.getPictures(houseId)
+        viewModel.getPictures(houseId)
             .observe(viewLifecycleOwner, {
                 oldMediaList.addAll(it)
                 newMediaList.addAll(it)
@@ -134,7 +131,7 @@ class EditItemFragment : Fragment() {
         val jobAdd: Job = lifecycleScope.launch(Dispatchers.IO) {
             for (media in newMediaList) {
                 if (!oldMediaList.contains(media)) {
-                    houseViewModel.insertPicture(media)
+                    viewModel.insertPicture(media)
                 }
             }
         }
@@ -143,7 +140,7 @@ class EditItemFragment : Fragment() {
         val jobRemove: Job = lifecycleScope.launch(Dispatchers.IO) {
             for (media in oldMediaList) {
                 if (!newMediaList.contains(media)) {
-                    houseViewModel.removePicture(media)
+                    viewModel.removePicture(media)
                 }
             }
         }
@@ -172,8 +169,8 @@ class EditItemFragment : Fragment() {
         CoroutineScope(Dispatchers.IO).launch {
             jobAdd.join()
             jobRemove.join()
-            houseViewModel.updateHouse(house)
-            houseViewModel.updateAddress(address)
+            viewModel.updateHouse(house)
+            viewModel.updateAddress(address)
         }
         runBlocking {
             jobAdd.join()

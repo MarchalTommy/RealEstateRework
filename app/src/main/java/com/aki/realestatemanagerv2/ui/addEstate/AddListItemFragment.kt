@@ -4,7 +4,6 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity.RESULT_OK
 import android.app.AlertDialog
-import android.content.ContentValues.TAG
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -13,7 +12,6 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Environment.DIRECTORY_PICTURES
 import android.provider.MediaStore
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,21 +20,17 @@ import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.FileProvider
-import androidx.fragment.app.*
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.aki.realestatemanagerv2.EstateApplication
-import com.aki.realestatemanagerv2.ItemDetailHostActivity
 import com.aki.realestatemanagerv2.R
 import com.aki.realestatemanagerv2.Utils
 import com.aki.realestatemanagerv2.database.entities.Address
 import com.aki.realestatemanagerv2.database.entities.House
 import com.aki.realestatemanagerv2.database.entities.Picture
 import com.aki.realestatemanagerv2.databinding.FragmentAddBinding
-import com.aki.realestatemanagerv2.viewmodel.HouseViewModel
-import com.aki.realestatemanagerv2.viewmodel.HouseViewModelFactory
-import com.aki.realestatemanagerv2.viewmodel.SharedViewModel
-import com.aki.realestatemanagerv2.viewmodel.Transition
 import com.araujo.jordan.excuseme.ExcuseMe
 import com.bumptech.glide.Glide
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -48,19 +42,15 @@ import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
-import java.time.LocalDate
-import java.time.ZoneId
-import java.time.format.DateTimeFormatter
 import java.util.*
 import kotlin.collections.ArrayList
 
 class AddListItemFragment : Fragment() {
     private lateinit var currentPhotoPath: String
     private val pictureList = ArrayList<Picture>()
-    private val houseViewModel: HouseViewModel by viewModels {
-        HouseViewModelFactory((this.activity?.application as EstateApplication).repository)
+    private val viewModel: AddItemViewModel by viewModels {
+        AddItemViewModelFactory((this.activity?.application as EstateApplication).repository)
     }
-    private val sharedViewModel: SharedViewModel by activityViewModels()
     private var _binding: FragmentAddBinding? = null
     private val binding get() = _binding!!
     private var newHouse = House(
@@ -71,7 +61,7 @@ class AddListItemFragment : Fragment() {
         museumAround = false,
         publicPoolAround = false,
         restaurantAround = false,
-        true, 0L, 0L, 1, null, " "
+        true, Utils.getTimestampFromDate(Utils.getTodayDate()), 0L, 1, null, " "
     )
     private var address = Address(
         0, " ", " ", 0, " ",
@@ -87,7 +77,7 @@ class AddListItemFragment : Fragment() {
     }
 
     override fun onDestroy() {
-        sharedViewModel.setIsClicked(Transition.ADD_LIST)
+//        sharedViewModel.setIsClicked(Transition.ADD_LIST)
         super.onDestroy()
     }
 
@@ -99,17 +89,17 @@ class AddListItemFragment : Fragment() {
     }
 
     private fun createBaseHouseAndAddress() {
-        houseViewModel.allHouses.observe(viewLifecycleOwner, {
+        viewModel.allHouses.observe(viewLifecycleOwner, {
             if (it != null) {
                 address.houseId = it.size + 1
                 address.id = it.size + 1
                 newHouse.addressId = it.size + 1
                 newHouse.houseId = it.size + 1
                 lifecycleScope.launch(Dispatchers.IO) {
-                    houseViewModel.insertHouse(newHouse)
-                    houseViewModel.insertAddress(address)
+                    viewModel.insertHouse(newHouse)
+                    viewModel.insertAddress(address)
                 }
-                houseViewModel.allHouses.removeObservers(viewLifecycleOwner)
+                viewModel.allHouses.removeObservers(viewLifecycleOwner)
             }
         })
     }
@@ -167,7 +157,8 @@ class AddListItemFragment : Fragment() {
         if (pictureList.isNotEmpty()) {
             newHouse.mainUri = pictureList[0].uri
             for (pic in pictureList) {
-                houseViewModel.insertPicture(pic)
+                viewModel.insertPicture(pic)
+                newHouse.nbrPic++
             }
         }
         if (binding.museumChip.isSelected) {
@@ -188,16 +179,19 @@ class AddListItemFragment : Fragment() {
         if (binding.restaurantChip.isSelected) {
             newHouse.restaurantAround = true
         }
+
+        if (binding.locationComplementLayout.editText?.text.toString().isNotEmpty()) {
+            address.complement = binding.locationComplementLayout.editText?.text.toString()
+        }
         newHouse.dateEntryOnMarket = Utils.getTimestampFromDate(Utils.getTodayDate())
         //Updating our database with finished objects
         CoroutineScope(Dispatchers.IO).launch {
-            houseViewModel.updateHouse(newHouse)
-            houseViewModel.updateAddress(address)
+            viewModel.updateHouse(newHouse)
+            viewModel.updateAddress(address)
         }
         Thread.sleep(600)
         Utils.setNotificationWorker()
         //Navigate to the detail of the new house
-        sharedViewModel.setIsClicked(Transition.EDIT_DETAIL)
         val action =
             AddListItemFragmentDirections.actionAddListItemFragmentToDetailFragment(newHouse.houseId)
         this.findNavController().navigate(action)
@@ -295,6 +289,7 @@ class AddListItemFragment : Fragment() {
 
     private fun pictureListUpdate(picture: Picture) {
         pictureList.add(picture)
+        newHouse.nbrPic++
         binding.houseMediaRvDetail.adapter?.notifyDataSetChanged()
     }
 

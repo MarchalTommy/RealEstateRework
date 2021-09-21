@@ -1,4 +1,4 @@
-package com.aki.realestatemanagerv2.ui.search
+package com.aki.realestatemanagerv2.ui.map
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -16,22 +16,19 @@ import androidx.navigation.fragment.navArgs
 import com.aki.realestatemanagerv2.EstateApplication
 import com.aki.realestatemanagerv2.R
 import com.aki.realestatemanagerv2.database.entities.relations.HouseAndAddress
-import com.aki.realestatemanagerv2.viewmodel.HouseViewModel
-import com.aki.realestatemanagerv2.viewmodel.HouseViewModelFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
-import com.google.android.material.bottomappbar.BottomAppBar
 
 class MapFragment() : Fragment() {
 
     private val args: MapFragmentArgs by navArgs()
     private var localisation = false
     private lateinit var supportMapFragment: SupportMapFragment
-    private val houseViewModel: HouseViewModel by viewModels {
-        HouseViewModelFactory((this.activity?.application as EstateApplication).repository)
+    private val viewModel: MapViewModel by viewModels {
+        MapViewModelFactory((this.activity?.application as EstateApplication).repository)
     }
     private val housesAndAddresses = ArrayList<HouseAndAddress>()
     private lateinit var gMap: GoogleMap
@@ -94,7 +91,7 @@ class MapFragment() : Fragment() {
     }
 
     private fun getEstateAddress() {
-        houseViewModel.allHousesAndAddresses.observe(viewLifecycleOwner, {
+        viewModel.allHousesAndAddresses.observe(viewLifecycleOwner, {
             housesAndAddresses.addAll(it)
             for (estate in housesAndAddresses) {
                 if (estate.house.stillAvailable) {
@@ -105,7 +102,7 @@ class MapFragment() : Fragment() {
                         .position(
                             getLocationByAddress(
                                 requireContext(),
-                                "${estate.address.way}, ${estate.address.city}"
+                                "${estate.address?.way}, ${estate.address?.city}"
                             )!!
                         )
                     gMap.addMarker(markerOption)
@@ -117,7 +114,7 @@ class MapFragment() : Fragment() {
                         .position(
                             getLocationByAddress(
                                 requireContext(),
-                                "${estate.address.way}, ${estate.address.city}"
+                                "${estate.address?.way}, ${estate.address?.city}"
                             )!!
                         )
                     gMap.addMarker(markerOption)

@@ -68,7 +68,7 @@ abstract class EstateDatabase : RoomDatabase() {
         }
 
         suspend fun populateDatabase(houseDao: HouseDao) {
-            houseDao.deleteAll()
+            houseDao.deleteAllHouses()
             val uriMansion: String =
                 Uri.parse("android.resource://com.aki.realestatemanagerv2/drawable/mansion")
                     .toString()

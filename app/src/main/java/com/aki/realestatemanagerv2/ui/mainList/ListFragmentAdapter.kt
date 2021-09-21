@@ -8,8 +8,8 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.aki.realestatemanagerv2.R
 import com.aki.realestatemanagerv2.Utils
-import com.bumptech.glide.Glide
 import com.aki.realestatemanagerv2.database.entities.relations.HouseAndAddress
+import com.bumptech.glide.Glide
 
 class ListFragmentAdapter(
     var dataSet: List<HouseAndAddress>,
@@ -29,7 +29,7 @@ class ListFragmentAdapter(
 
         holder.houseType.text = currentEstate.type
 
-        holder.houseLocation.text = currentAddress.city
+        holder.houseLocation.text = currentAddress?.city
 
         holder.housePrice.text = currentEstate.currencyFormatUS()
 

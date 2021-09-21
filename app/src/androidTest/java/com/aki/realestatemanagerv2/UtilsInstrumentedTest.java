@@ -25,7 +25,7 @@ public class UtilsInstrumentedTest {
         // Context of the app under test.
         Context appContext = ApplicationProvider.getApplicationContext();
 
-        assertEquals("com.openclassrooms.realestatemanager", appContext.getPackageName());
+        assertEquals("com.aki.realestatemanagerv2", appContext.getPackageName());
     }
 
     @Test
@@ -35,7 +35,7 @@ public class UtilsInstrumentedTest {
 //        Utils.enableData(appContext, false);
         InstrumentationRegistry.getInstrumentation().getUiAutomation().executeShellCommand("svc wifi disable");
         InstrumentationRegistry.getInstrumentation().getUiAutomation().executeShellCommand("svc data disable");
-        Thread.sleep(1000);
+        Thread.sleep(2000);
         assertFalse(Utils.isOnline());
         InstrumentationRegistry.getInstrumentation().getUiAutomation().executeShellCommand("svc wifi enable");
         InstrumentationRegistry.getInstrumentation().getUiAutomation().executeShellCommand("svc data enable");

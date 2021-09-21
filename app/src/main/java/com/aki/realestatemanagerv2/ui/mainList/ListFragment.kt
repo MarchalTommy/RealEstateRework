@@ -7,10 +7,10 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
 import androidx.core.content.ContextCompat
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
@@ -23,26 +23,18 @@ import com.aki.realestatemanagerv2.Utils
 import com.aki.realestatemanagerv2.database.entities.House
 import com.aki.realestatemanagerv2.database.entities.relations.HouseAndAddress
 import com.aki.realestatemanagerv2.databinding.FragmentItemListBinding
-import com.aki.realestatemanagerv2.viewmodel.HouseViewModel
-import com.aki.realestatemanagerv2.viewmodel.HouseViewModelFactory
-import com.aki.realestatemanagerv2.viewmodel.SharedViewModel
-import com.aki.realestatemanagerv2.viewmodel.Transition
-import com.google.android.material.button.MaterialButton
-import com.google.android.material.chip.Chip
-import com.google.android.material.slider.RangeSlider
+import com.google.android.material.snackbar.BaseTransientBottomBar.LENGTH_LONG
+import com.google.android.material.snackbar.BaseTransientBottomBar.LENGTH_SHORT
 import com.google.android.material.snackbar.Snackbar
-import java.text.NumberFormat
-import java.util.*
-import kotlin.collections.ArrayList
-import kotlin.math.roundToInt
 
 class ListFragment : Fragment() {
+
     // TODO: Gérer filtres
 
-    private val houseViewModel: HouseViewModel by viewModels {
-        HouseViewModelFactory((this.activity?.application as EstateApplication).repository)
+    private val viewModel: ListViewModel by viewModels {
+        ListViewModelFactory((this.activity?.application as EstateApplication).repository)
     }
-    private val sharedViewModel: SharedViewModel by activityViewModels()
+
     private lateinit var navController: NavController
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: ListFragmentAdapter
@@ -53,23 +45,6 @@ class ListFragment : Fragment() {
     private var _binding: FragmentItemListBinding? = null
     private val binding get() = _binding!!
     private var itemDetailFragmentContainer: View? = null
-
-    private lateinit var priceSlider: RangeSlider
-    private lateinit var sizeSlider: RangeSlider
-    private lateinit var roomSlider: RangeSlider
-    private lateinit var bedroomSlider: RangeSlider
-    private lateinit var bathroomSlider: RangeSlider
-    private lateinit var typeRadioGroup: RadioGroup
-    private lateinit var schoolChip: Chip
-    private lateinit var shopChip: Chip
-    private lateinit var parkChip: Chip
-    private lateinit var museumChip: Chip
-    private lateinit var poolChip: Chip
-    private lateinit var restaurantChip: Chip
-    private lateinit var dateSold: EditText
-    private lateinit var dateAdded: EditText
-    private lateinit var city: EditText
-    private lateinit var minPic: EditText
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -83,13 +58,6 @@ class ListFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         navController = requireActivity().findNavController(R.id.nav_host_fragment_item_detail)
-        initFilterLayout()
-        requireActivity().findViewById<MaterialButton>(R.id.filter_button).setOnClickListener {
-            setFilter()
-        }
-        requireActivity().findViewById<MaterialButton>(R.id.remove_filter_button).setOnClickListener {
-            removeFilter()
-        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -101,12 +69,12 @@ class ListFragment : Fragment() {
 
         itemDetailFragmentContainer = view.findViewById(R.id.item_detail_nav_container)
 
-
         for (estate in housesAndAddresses) {
-            houseViewModel.updateHouse(estate.house)
+            viewModel.updateHouse(estate.house)
         }
         getLocalHouses()
         setItemTouchHelper()
+        initFilters()
     }
 
     override fun onDestroy() {
@@ -117,11 +85,11 @@ class ListFragment : Fragment() {
     //Getting Room data
     private fun getLocalHouses() {
         Log.d(TAG, "getLocalHouses: Room call started, now fetching houses...")
-        houseViewModel.allHousesAndAddresses.observe(viewLifecycleOwner, {
+        viewModel.allHousesAndAddresses.observe(viewLifecycleOwner, {
             for (estate in it) {
                 if (estate.house.price == 0) {
-                    houseViewModel.removeHouse(estate.house)
-                    houseViewModel.removeAddress(estate.address)
+                    viewModel.removeHouse(estate.house)
+                    estate.address.let { it1 -> viewModel.removeAddress(it1) }
                 }
             }
             housesAndAddresses.clear()
@@ -189,7 +157,7 @@ class ListFragment : Fragment() {
                             Snackbar.LENGTH_LONG
                         ).show()
                     }
-                    houseViewModel.updateHouse(estate)
+                    viewModel.updateHouse(estate)
                 }
             }
         ItemTouchHelper(itemTouchHelperCallback).apply {
@@ -197,125 +165,42 @@ class ListFragment : Fragment() {
         }
     }
 
-    private fun filterList(dataSet: List<HouseAndAddress>) {
-        adapter.dataSet = dataSet
-        adapter.notifyDataSetChanged()
+    private fun initFilters() {
+        viewModel.getFilterQuery().observe(viewLifecycleOwner, {
+            if (it != null) {
+                viewModel.filterList(it).observe(viewLifecycleOwner, { filteredList ->
+                    if (filteredList != null) {
+                        isFiltered = true
+                        filteredEstates = filteredList as ArrayList<HouseAndAddress>
+                        if (filteredEstates.isNotEmpty()) {
+                            prepareAdapter(filteredEstates)
+                        } else {
+                            Snackbar.make(
+                                requireView(),
+                                "No estate found matching your filters.",
+                                LENGTH_LONG
+                            ).show()
+                        }
+                    }
+                })
+            } else {
+                prepareAdapter(housesAndAddresses)
+                Snackbar.make(requireView(), "Filters removed", LENGTH_SHORT).show()
+            }
+        })
     }
 
     //OnClick for the items of the recyclerView
     private fun listOnClick(houseId: Int) {
-        sharedViewModel.apply {
-            setIsClicked(Transition.LIST_DETAIL)
-            setHouse(houseId)
-        }
 
-        if(itemDetailFragmentContainer != null) {
+        setFragmentResult("listClick", bundleOf("houseId" to houseId))
+
+        if (itemDetailFragmentContainer != null) {
             itemDetailFragmentContainer!!.findNavController()
                 .navigate(R.id.detailFragment)
         } else {
             val action = ListFragmentDirections.actionListFragmentToDetailFragment(houseId)
             navController.navigate(action)
-        }
-    }
-
-    private fun initFilterLayout() {
-        priceSlider = requireActivity().findViewById(R.id.price_slider)
-        sizeSlider = requireActivity().findViewById(R.id.size_slider)
-        roomSlider = requireActivity().findViewById(R.id.room_slider)
-        bedroomSlider = requireActivity().findViewById(R.id.bedroom_slider)
-        bathroomSlider = requireActivity().findViewById(R.id.bathroom_slider)
-        typeRadioGroup = requireActivity().findViewById(R.id.filter_radiogroup)
-        schoolChip = requireActivity().findViewById(R.id.chip_school)
-        shopChip = requireActivity().findViewById(R.id.chip_shop)
-        parkChip = requireActivity().findViewById(R.id.chip_park)
-        museumChip = requireActivity().findViewById(R.id.chip_museum)
-        poolChip = requireActivity().findViewById(R.id.chip_pool)
-        restaurantChip = requireActivity().findViewById(R.id.chip_restaurant)
-        dateSold = requireActivity().findViewById(R.id.datesold_edit_text)
-        dateAdded = requireActivity().findViewById(R.id.dateadded_edit_text)
-        city = requireActivity().findViewById(R.id.city_edit_text)
-        minPic = requireActivity().findViewById(R.id.pictures_edit_text)
-
-        priceSlider.setLabelFormatter { value: Float ->
-            val format = NumberFormat.getCurrencyInstance()
-            format.maximumFractionDigits = 0
-            format.currency = Currency.getInstance("USD")
-            format.format(value.toDouble())
-        }
-        sizeSlider.setLabelFormatter { value: Float ->
-            return@setLabelFormatter "${value.roundToInt()} sq m"
-        }
-        var moreRooms = 2
-        var moreBedrooms = 2
-        var moreBathrooms = 2
-        for (estate in housesAndAddresses) {
-            if (moreRooms <= estate.house.nbrRooms) {
-                moreRooms = estate.house.nbrRooms
-            }
-            if (moreBedrooms <= estate.house.nbrBedrooms) {
-                moreBedrooms = estate.house.nbrBedrooms
-            }
-            if (moreBathrooms <= estate.house.nbrBathrooms) {
-                moreBathrooms = estate.house.nbrBathrooms
-            }
-        }
-        priceSlider.values = listOf(10000000.0f, 80000000.0f)
-        sizeSlider.values = listOf(350.0f, 2650.0f)
-        roomSlider.values = listOf(1f, moreRooms.toFloat())
-        bedroomSlider.values = listOf(1f, moreBedrooms.toFloat())
-        bathroomSlider.values = listOf(1f, moreBathrooms.toFloat())
-        roomSlider.valueTo = moreRooms.toFloat()
-        bedroomSlider.valueTo = moreBedrooms.toFloat()
-        bathroomSlider.valueTo = moreBathrooms.toFloat()
-    }
-
-    private fun removeFilter() {
-        isFiltered = false
-        filteredEstates.clear()
-        getLocalHouses()
-    }
-
-    //    Preparing and showing the filter Dialog
-    private fun setFilter() {
-        val radioButtonId = typeRadioGroup.checkedRadioButtonId
-        val radio = typeRadioGroup.findViewById<RadioButton>(radioButtonId)
-        if (radio == null) {
-            Toast.makeText(
-                requireContext(),
-                "You need to select an estate type !",
-                Toast.LENGTH_LONG
-            ).show()
-        } else {
-            houseViewModel.searchHouseAndAddress(
-                priceMax = priceSlider.values[1].toInt(),
-                priceMin = priceSlider.values[0].toInt(),
-                sizeMax = sizeSlider.values[1].toInt(),
-                sizeMin = sizeSlider.values[0].toInt(),
-                roomMax = roomSlider.values[1].toInt(),
-                roomMin = roomSlider.values[0].toInt(),
-                bedroomMax = bedroomSlider.values[1].toInt(),
-                bedroomMin = bedroomSlider.values[0].toInt(),
-                bathroomMax = bathroomSlider.values[1].toInt(),
-                bathroomMin = bathroomSlider.values[0].toInt(),
-                type = radio.text as String,
-                school = if (schoolChip.isChecked) 1 else 0,
-                shop = if (shopChip.isChecked) 1 else 0,
-                park = if (parkChip.isChecked) 1 else 0,
-                museum = if (museumChip.isChecked) 1 else 0,
-                restaurant = if (restaurantChip.isChecked) 1 else 0,
-                pool = if (poolChip.isChecked) 1 else 0,
-                nbrPic = if (minPic.text.toString().isEmpty()){0} else {minPic.text.toString().toInt()},
-                dateEntry = if (dateAdded.text.toString().isEmpty()){"27/05/2020"} else {dateAdded.text.toString()},
-                dateSold = if (dateSold.text.toString().isEmpty()){" "} else {dateSold.text.toString()}
-            ).observe(viewLifecycleOwner, {
-                filteredEstates.clear()
-                filteredEstates.addAll(it)
-                filterList(filteredEstates)
-                housesAndAddresses.clear()
-                housesAndAddresses.addAll(it)
-                adapter.notifyDataSetChanged()
-                isFiltered = true
-            })
         }
     }
 }

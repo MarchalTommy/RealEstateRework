@@ -5,33 +5,34 @@ import android.content.ContentValues.TAG
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
+import androidx.viewpager2.widget.ViewPager2
 import com.aki.realestatemanagerv2.databinding.ActivityItemDetailBinding
+import com.aki.realestatemanagerv2.events.ListClickEvent
+import com.aki.realestatemanagerv2.ui.ViewPagerAdapter
 import com.aki.realestatemanagerv2.ui.detail.DetailFragmentDirections
 import com.aki.realestatemanagerv2.ui.mainList.ListFragmentDirections
-import com.aki.realestatemanagerv2.viewmodel.SharedViewModel
-import com.aki.realestatemanagerv2.viewmodel.Transition
 import com.araujo.jordan.excuseme.ExcuseMe
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import org.greenrobot.eventbus.EventBus
+import kotlin.properties.Delegates
 
 class ItemDetailHostActivity : AppCompatActivity() {
 
-    // TODO: 10/09/2021 TAKE CARE ABOUT LOANS AND MENU ICONS 
+    enum class Transition{
+        LIST_DETAIL, DETAIL_LIST, LIST_ADD, ADD_LIST, DETAIL_EDIT, EDIT_DETAIL
+    }
 
-    private val sharedViewModel: SharedViewModel by viewModels()
     private lateinit var binding: ActivityItemDetailBinding
     private lateinit var navController: NavController
-
-    private lateinit var filterLayout: View
-    private lateinit var loanLayout: View
+    private var houseIdForDetail = 0
+    private lateinit var viewpager: ViewPager2
+    private var pagerState = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,19 +43,22 @@ class ItemDetailHostActivity : AppCompatActivity() {
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment_item_detail) as NavHostFragment
         navController = navHostFragment.navController
 
-        loanLayout = findViewById(R.id.loan_layout)
-        filterLayout = findViewById(R.id.filter_layout)
+        supportFragmentManager.setFragmentResultListener("listClick", this) { requestKey, bundle ->
+            houseIdForDetail = bundle.getInt("houseId")
+            fabAnimationManagement(Transition.LIST_DETAIL)
+            binding.bottomAppBar.performHide()
+        }
+
+        viewpager = findViewById(R.id.bottom_pager)
 
         setupFab()
         setupBottomBar()
-        fabAnimationManagement()
         navControllerManagement()
         bottomSheetManagement()
     }
 
-    private fun fabAnimationManagement() {
-        sharedViewModel.elementClicked.observe(this, {
-            when (it) {
+    private fun fabAnimationManagement(transition: Transition) {
+            when (transition) {
                 Transition.LIST_DETAIL -> binding.fab.apply {
                     val animAddToEdit = AnimatedVectorDrawableCompat.create(
                         this.context,
@@ -115,7 +119,6 @@ class ItemDetailHostActivity : AppCompatActivity() {
                     fabAnim.start()
                 }
             }
-        })
     }
 
     private fun navControllerManagement() {
@@ -156,7 +159,6 @@ class ItemDetailHostActivity : AppCompatActivity() {
                     binding.bottomAppBar.performShow()
                 }
                 R.id.detailFragment -> {
-                    sharedViewModel.estateId.observe(this, {
                         binding.fab.apply {
                             val animEditToCheck = AnimatedVectorDrawableCompat.create(
                                 this.context,
@@ -164,14 +166,13 @@ class ItemDetailHostActivity : AppCompatActivity() {
                             )
                             setImageDrawable(animEditToCheck)
                             val action =
-                                DetailFragmentDirections.actionDetailFragmentToEditItemFragment(it)
+                                DetailFragmentDirections.actionDetailFragmentToEditItemFragment(houseIdForDetail)
                             setOnClickListener {
                                 navController.navigate(action)
                                 val fabAnim = this.drawable as AnimatedVectorDrawableCompat
                                 fabAnim.start()
                             }
                         }
-                    })
                     binding.bottomAppBar.performHide()
                 }
                 R.id.editItemFragment -> {
@@ -259,31 +260,17 @@ class ItemDetailHostActivity : AppCompatActivity() {
                     }
                 }
             } else {
-//                when (it.getIcon()) {
-//                    ActivityCompat.getDrawable(this, R.drawable.ic_filter_24dp) -> {
-//                        filterLayout.visibility = View.VISIBLE
-//                        loanLayout.visibility = View.GONE
-//                        it.icon = ActivityCompat.getDrawable(this, R.drawable.ic_monetization)
-//                    }
-//                    ActivityCompat.getDrawable(this, R.drawable.ic_monetization) -> {
-//                        filterLayout.visibility = View.GONE
-//                        loanLayout.visibility = View.VISIBLE
-//                        it.icon = ActivityCompat.getDrawable(this, R.drawable.ic_filter_24dp)
-//                    }
-//                }
-                // TODO: 10/09/2021 TAG ? ENUM ?
-                if (it.icon == ActivityCompat.getDrawable(this, R.drawable.ic_filter_24dp)) {
-                    filterLayout.visibility = View.VISIBLE
-                    loanLayout.visibility = View.GONE
-                    it.icon = ActivityCompat.getDrawable(this, R.drawable.ic_monetization)
-                } else if (it.icon == ActivityCompat.getDrawable(
-                        this,
-                        R.drawable.ic_monetization
-                    )
-                ) {
-                    filterLayout.visibility = View.GONE
-                    loanLayout.visibility = View.VISIBLE
-                    it.icon = ActivityCompat.getDrawable(this, R.drawable.ic_filter_24dp)
+                when (pagerState) {
+                    0 -> {
+                        binding.bottomPager.currentItem = 1
+                        pagerState = 1
+                        it.icon = ActivityCompat.getDrawable(this, R.drawable.ic_filter_24dp)
+                    }
+                    1 -> {
+                        binding.bottomPager.currentItem = 0
+                        pagerState = 0
+                        it.icon = ActivityCompat.getDrawable(this, R.drawable.ic_monetization)
+                    }
                 }
             }
             true
@@ -310,7 +297,8 @@ class ItemDetailHostActivity : AppCompatActivity() {
     }
 
     private fun bottomSheetManagement() {
-
+        viewpager.adapter = ViewPagerAdapter(this)
+        viewpager.isUserInputEnabled = false
     }
 
     override fun onSupportNavigateUp(): Boolean {

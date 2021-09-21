@@ -70,7 +70,7 @@
     <fragment
         android:id="@+id/mapFragment"
         tools:layout="@layout/fragment_map_search"
-        android:name="com.aki.realestatemanagerv2.ui.search.MapFragment"
+        android:name="com.aki.realestatemanagerv2.ui.map.MapFragment"
         android:label="MapFragment" >
         <argument
             android:name="localisation"
