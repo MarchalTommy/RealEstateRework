@@ -4,6 +4,7 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity.RESULT_OK
 import android.app.AlertDialog
+import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -15,6 +16,7 @@ import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
@@ -38,6 +40,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.IOException
@@ -76,14 +79,8 @@ class AddListItemFragment : Fragment() {
         return binding.root
     }
 
-    override fun onDestroy() {
-//        sharedViewModel.setIsClicked(Transition.ADD_LIST)
-        super.onDestroy()
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         createBaseHouseAndAddress()
         layoutInit()
     }
@@ -161,40 +158,46 @@ class AddListItemFragment : Fragment() {
                 newHouse.nbrPic++
             }
         }
-        if (binding.museumChip.isSelected) {
+        if (binding.museumChip.isChecked) {
             newHouse.museumAround = true
         }
-        if (binding.parkChip.isSelected) {
+        if (binding.parkChip.isChecked) {
             newHouse.parkAround = true
         }
-        if (binding.poolChip.isSelected) {
+        if (binding.poolChip.isChecked) {
             newHouse.publicPoolAround = true
         }
-        if (binding.schoolChip.isSelected) {
+        if (binding.schoolChip.isChecked) {
             newHouse.schoolAround = true
         }
-        if (binding.shopChip.isSelected) {
+        if (binding.shopChip.isChecked) {
             newHouse.shopAround = true
         }
-        if (binding.restaurantChip.isSelected) {
+        if (binding.restaurantChip.isChecked) {
             newHouse.restaurantAround = true
         }
-
         if (binding.locationComplementLayout.editText?.text.toString().isNotEmpty()) {
             address.complement = binding.locationComplementLayout.editText?.text.toString()
         }
         newHouse.dateEntryOnMarket = Utils.getTimestampFromDate(Utils.getTodayDate())
         //Updating our database with finished objects
-        CoroutineScope(Dispatchers.IO).launch {
-            viewModel.updateHouse(newHouse)
-            viewModel.updateAddress(address)
+        runBlocking {
+            CoroutineScope(Dispatchers.IO).launch {
+                viewModel.updateHouse(newHouse)
+                viewModel.updateAddress(address)
+            }
         }
-        Thread.sleep(600)
-        Utils.setNotificationWorker()
+//        val imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+//        imm.hideSoftInputFromWindow(requireView().windowToken, 0)
+        Utils.setNotificationWorker(requireContext())
         //Navigate to the detail of the new house
-        val action =
-            AddListItemFragmentDirections.actionAddListItemFragmentToDetailFragment(newHouse.houseId)
-        this.findNavController().navigate(action)
+        if (Utils.isTablet(requireContext())) {
+            this.findNavController().navigate(R.id.listFragment)
+        } else {
+            val action =
+                AddListItemFragmentDirections.actionAddListItemFragmentToDetailFragment(newHouse.houseId)
+            this.findNavController().navigate(action)
+        }
     }
 
     private fun checkData(): Boolean {
@@ -283,7 +286,6 @@ class AddListItemFragment : Fragment() {
         if (binding.descriptionLayout.editText?.text.toString().isNotEmpty()) {
             newHouse.description = binding.descriptionLayout.editText?.text.toString()
         } else newHouse.description = " "
-
         return priceBoolean && typeBoolean && sizeBoolean && wayBoolean && zipBoolean && cityBoolean
     }
 
@@ -390,11 +392,9 @@ class AddListItemFragment : Fragment() {
         dialogBuilder.setPositiveButton("Add this picture") { dialog, _ ->
             val newPic = Picture(uri.toString(), picTitleEditText.text.toString(), newHouse.houseId)
             pictureListUpdate(newPic)
-            dialog.dismiss()
-        }
+            dialog.dismiss() }
         dialogBuilder.setNegativeButton("Cancel") { dialog, _ ->
-            dialog.dismiss()
-        }
+            dialog.dismiss() }
         dialogBuilder.setView(dialogView)
         val alertDialog = dialogBuilder.create()
         alertDialog.show()

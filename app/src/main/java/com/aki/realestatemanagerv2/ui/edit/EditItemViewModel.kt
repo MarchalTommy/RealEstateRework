@@ -11,6 +11,10 @@ import kotlinx.coroutines.launch
 
 class EditItemViewModel(private val repository: HouseRepository) : ViewModel() {
 
+    fun getSelectedEstateId(): LiveData<Int> {
+        return repository.selectedHouseId
+    }
+
     fun getHouseAndAddress(houseId: Int): LiveData<HouseAndAddress> {
         return repository.getHouseAndAddress(houseId).asLiveData()
     }

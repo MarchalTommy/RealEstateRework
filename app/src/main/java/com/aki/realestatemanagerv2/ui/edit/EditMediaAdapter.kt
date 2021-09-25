@@ -3,6 +3,7 @@ package com.aki.realestatemanagerv2.ui.edit
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
@@ -30,10 +31,9 @@ class EditMediaAdapter(
             .load(currentItem.uri)
             .into(holder.pic)
 
-//        holder.remove.visibility = View.VISIBLE
-//        holder.remove.setOnClickListener {
-//            onClick(currentItem)
-//        }
+        holder.remove.setOnClickListener {
+            onClick(currentItem)
+        }
     }
 
     override fun getItemCount() = mediaList.size
@@ -41,7 +41,7 @@ class EditMediaAdapter(
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val pic: ImageView = view.findViewById(R.id.media_pic)
         val title: TextView = view.findViewById(R.id.media_txt)
-//        val remove: ImageButton = view.findViewById(R.id.remove_button)
+        val remove: ImageButton = view.findViewById(R.id.remove_button)
 
     }
 }

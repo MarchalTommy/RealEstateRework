@@ -22,6 +22,10 @@ class ListViewModel(private val repository: HouseRepository) : ViewModel() {
         return repository.filterEstate(query).asLiveData()
     }
 
+    fun setSelectedHouseId(houseId: Int) {
+        repository.setSelectedHouseId(houseId)
+    }
+
     fun updateHouse(house: House) = viewModelScope.launch(Dispatchers.IO) {
         repository.updateHouse(house)
     }

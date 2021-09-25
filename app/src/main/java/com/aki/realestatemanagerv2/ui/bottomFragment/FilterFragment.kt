@@ -1,29 +1,34 @@
 package com.aki.realestatemanagerv2.ui.bottomFragment
 
 import android.content.ContentValues.TAG
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
 import android.widget.RadioButton
-import androidx.core.os.bundleOf
 import androidx.core.view.isEmpty
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
 import androidx.sqlite.db.SimpleSQLiteQuery
 import com.aki.realestatemanagerv2.EstateApplication
 import com.aki.realestatemanagerv2.Utils
 import com.aki.realestatemanagerv2.database.entities.relations.HouseAndAddress
 import com.aki.realestatemanagerv2.databinding.FragmentBottomNavDrawerBinding
-import com.google.android.material.snackbar.BaseTransientBottomBar.LENGTH_LONG
-import com.google.android.material.snackbar.BaseTransientBottomBar.LENGTH_SHORT
-import com.google.android.material.snackbar.Snackbar
 import java.text.NumberFormat
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.math.roundToInt
+import android.widget.ScrollView
+import android.widget.Toast
+import androidx.core.view.isNotEmpty
+import com.aki.realestatemanagerv2.R
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.snackbar.BaseTransientBottomBar
+import com.google.android.material.snackbar.Snackbar
+
 
 class FilterFragment : Fragment() {
 
@@ -49,9 +54,14 @@ class FilterFragment : Fragment() {
         getEstateList()
         binding.filterButton.setOnClickListener {
             setFilter()
+            val test = requireActivity().findViewById<FrameLayout>(R.id.bottom_sheet)
+            BottomSheetBehavior.from(test).state = BottomSheetBehavior.STATE_COLLAPSED
         }
         binding.removeFilterButton.setOnClickListener {
             removeFilter()
+            Toast.makeText(requireContext(), "Filters removed", Toast.LENGTH_SHORT).show()
+            val test = requireActivity().findViewById<FrameLayout>(R.id.bottom_sheet)
+            BottomSheetBehavior.from(test).state = BottomSheetBehavior.STATE_COLLAPSED
         }
     }
 
@@ -145,13 +155,7 @@ class FilterFragment : Fragment() {
             }
         }
         //DateEntry
-        if (entryRadio == null || binding.dateaddedEditTextLayout.isEmpty()) {
-//            Snackbar.make(
-//                requireView(),
-//                "No entry date settings has been selected. Returning all entry dates.",
-//                LENGTH_LONG
-//            ).show()
-        } else {
+        if (entryRadio != null || !binding.dateaddedEditTextLayout.isEmpty()) {
             when (entryRadio) {
                 binding.addedOndate -> {
                     val timestamp =
@@ -171,14 +175,8 @@ class FilterFragment : Fragment() {
             }
         }
         //DateSold
-        if (soldRadio == null || binding.datesoldEditTextLayout.isEmpty()) {
-//            Snackbar.make(
-//                requireView(),
-//                "No selling date settings has been selected. Returning all sell dates.",
-//                LENGTH_SHORT
-//            ).show()
-        } else {
-            when (soldRadio) {
+        if (soldRadio != null || !binding.datesoldEditTextLayout.isEmpty()) {
+             when (soldRadio) {
                 binding.soldOndate -> {
                     val timestamp =
                         Utils.getTimestampFromDate(binding.dateaddedEditTextLayout.editText?.text.toString())
@@ -198,7 +196,9 @@ class FilterFragment : Fragment() {
         }
         //Picture Number
         if (binding.picturesEditTextLayout.editText?.text?.isEmpty() == false) {
-            queryString += " AND nbrPic >= ${binding.picturesEditTextLayout.editText?.text.toString().toInt()}"
+            queryString += " AND nbrPic >= ${
+                binding.picturesEditTextLayout.editText?.text.toString().toInt()
+            }"
         }
         //Points of interest
         if (binding.chipPark.isChecked) queryString += " AND parkAround = 1"

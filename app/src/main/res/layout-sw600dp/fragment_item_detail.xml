@@ -23,7 +23,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/detail_media_rv"
                 android:layout_width="match_parent"
-                android:layout_height="320dp"
+                android:layout_height="500dp"
                 android:scaleType="centerCrop"
                 android:orientation="horizontal"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
@@ -173,18 +173,31 @@ tout refaire depuis le début."
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@id/detail_agent" />
 
+            <Button
+                android:id="@+id/edit_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="32dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="16dp"
+                android:text="EDIT THIS ESTATE"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/detail_agent" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.core.widget.NestedScrollView>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab"
+        android:id="@+id/fab_detail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical|start"
         android:layout_margin="@dimen/fab_margin"
         app:layout_anchor="@+id/item_detail_scroll_view"
-        android:visibility="visible"
+        android:visibility="gone"
         app:layout_anchorGravity="top|end"
         app:srcCompat="@drawable/ic_location" />
 

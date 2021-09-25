@@ -11,6 +11,14 @@ import com.aki.realestatemanagerv2.repository.HouseRepository
 
 class DetailViewModel(private val repository: HouseRepository) : ViewModel() {
 
+    fun setSelectedHouseId(houseId: Int) {
+        return repository.setSelectedHouseId(houseId)
+    }
+
+    fun getSelectedHouseId(): LiveData<Int> {
+        return repository.selectedHouseId
+    }
+
     fun getHouseAndAddress(houseId: Int): LiveData<HouseAndAddress> {
         return repository.getHouseAndAddress(houseId).asLiveData()
     }

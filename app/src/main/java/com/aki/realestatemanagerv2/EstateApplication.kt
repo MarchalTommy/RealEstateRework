@@ -9,12 +9,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 
 /*
-TODO : ANIM TRANSITIONS
-TODO : DATE FILTER
-TODO : PIC FILTERS -> MIN
-TODO : RESPONSIVE UI
-TODO : CONTENT PROVIDER
-TODO : NOTIFICATION WHEN NEW ESTATE
 TODO : TESTS
  */
 class EstateApplication : Application() {
@@ -27,5 +21,4 @@ class EstateApplication : Application() {
         super.attachBaseContext(base)
         MultiDex.install(this)
     }
-
 }

@@ -2,6 +2,7 @@ package com.aki.realestatemanagerv2.database.entities
 
 import android.content.ContentValues
 import android.os.Parcelable
+import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import kotlinx.parcelize.Parcelize

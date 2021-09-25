@@ -1,6 +1,7 @@
 package com.aki.realestatemanagerv2.repository
 
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.asLiveData
 import androidx.sqlite.db.SimpleSQLiteQuery
 import com.aki.realestatemanagerv2.database.dao.HouseDao
 import com.aki.realestatemanagerv2.database.entities.Address
@@ -11,6 +12,8 @@ import com.aki.realestatemanagerv2.database.entities.relations.HouseAndAddress
 import kotlinx.coroutines.flow.Flow
 
 class HouseRepository(private val houseDao: HouseDao) {
+
+    val selectedHouseId: MutableLiveData<Int> = MutableLiveData()
 
     val filterQuery: MutableLiveData<SimpleSQLiteQuery> = MutableLiveData<SimpleSQLiteQuery>()
 
@@ -25,20 +28,17 @@ class HouseRepository(private val houseDao: HouseDao) {
         return houseDao.filterEstates(query = query)
     }
 
+    fun setSelectedHouseId(houseId: Int){
+        selectedHouseId.value = 0
+        selectedHouseId.value = houseId
+    }
+
     fun getHouseAndAddress(houseId: Int): Flow<HouseAndAddress> {
         return houseDao.getHouseAndAddress(houseId)
     }
 
     fun getHouseWithId(id: Int): Flow<House> {
         return houseDao.getHouseWithId(id)
-    }
-
-    fun getHouseFromAddressId(addressId: Int): Flow<House> {
-        return houseDao.getHouseFromAddressId(addressId)
-    }
-
-    fun getAddressFromHouse(houseId: Int): Flow<Address> {
-        return houseDao.getAddressFromHouse(houseId)
     }
 
     fun getAgent(agentId: Int): Flow<Agent> {
@@ -56,11 +56,11 @@ class HouseRepository(private val houseDao: HouseDao) {
 
     // region INSERTS
 
-    suspend fun insertHouse(house: House) {
+    fun insertHouse(house: House) {
         houseDao.insertHouse(house)
     }
 
-    suspend fun insertAddress(address: Address) {
+    fun insertAddress(address: Address) {
         houseDao.insertAddress(address)
     }
 

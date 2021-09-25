@@ -37,18 +37,18 @@
             app:layout_constraintBottom_toBottomOf="@id/media_pic"
             app:layout_constraintStart_toStartOf="parent" />
 
-<!--        <ImageButton-->
-<!--            android:id="@+id/remove_button"-->
-<!--            android:layout_width="32dp"-->
-<!--            android:layout_height="32dp"-->
-<!--            android:layout_margin="8dp"-->
-<!--            android:background="@android:color/transparent"-->
-<!--            android:scaleX="1.5"-->
-<!--            android:scaleY="1.5"-->
-<!--            android:src="@drawable/twotone_cancel_black_24dp"-->
-<!--            android:visibility="gone"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintTop_toTopOf="parent" />-->
+        <ImageButton
+            android:id="@+id/remove_button"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_margin="8dp"
+            android:background="@android:color/transparent"
+            android:scaleX="1.5"
+            android:scaleY="1.5"
+            app:srcCompat="@drawable/ic_cancel"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/reply_red_400" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

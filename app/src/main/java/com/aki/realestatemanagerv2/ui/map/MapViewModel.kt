@@ -12,6 +12,9 @@ class MapViewModel(private val repository: HouseRepository) : ViewModel() {
     val allHousesAndAddresses: LiveData<List<HouseAndAddress>> =
         repository.allHousesAndAddresses.asLiveData()
 
+    fun setSelectedHouseId(houseId: Int) {
+        repository.setSelectedHouseId(houseId)
+    }
 }
 
 //ViewModel Factory

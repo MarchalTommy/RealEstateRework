@@ -7,13 +7,14 @@ import android.util.Log;
 
 import androidx.work.BackoffPolicy;
 import androidx.work.Data;
+import androidx.work.ExistingWorkPolicy;
 import androidx.work.OneTimeWorkRequest;
+import androidx.work.WorkManager;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketAddress;
-import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -107,7 +108,7 @@ public class Utils {
         return context.getResources().getBoolean(R.bool.isTablet);
     }
 
-    public static void setNotificationWorker() {
+    public static void setNotificationWorker(Context context) {
         OneTimeWorkRequest notificationRequest = new OneTimeWorkRequest.Builder(NotificationWorker.class)
                 .setInputData(new Data.Builder()
                         .build())
@@ -115,6 +116,12 @@ public class Utils {
                         OneTimeWorkRequest.MIN_BACKOFF_MILLIS,
                         TimeUnit.MILLISECONDS)
                 .build();
+
+        WorkManager.getInstance(context).enqueueUniqueWork(
+                "Adding_complete_notification",
+                ExistingWorkPolicy.REPLACE,
+                notificationRequest
+        );
     }
 }
 

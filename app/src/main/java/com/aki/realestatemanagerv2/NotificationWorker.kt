@@ -15,21 +15,14 @@ class NotificationWorker(context: Context, workerParams: WorkerParameters) :
     Worker(context, workerParams) {
     override fun doWork(): Result {
         //DEFINE WORK HERE (notification for added estate)
-
             sendVisualNotification(
                 "The new estate has been added successfully."
-//                applicationContext.getString(R.string.the_address_is)
-//                    .toString() + formattedAddress,
-//                getApplicationContext().getString(R.string.only_one)
             )
-
         return Result.success()
     }
 
     private fun sendVisualNotification(
-//        messageBody1: String,
-//        messageBody2: String,
-        messageBody3: String
+        messageBody: String
     ) {
         // Creating an Intent that will be shown when user will click on the notification
         val intent = Intent(this.applicationContext, ItemDetailHostActivity::class.java)
@@ -42,9 +35,7 @@ class NotificationWorker(context: Context, workerParams: WorkerParameters) :
 
         // Creating a style for the notification
         val inboxStyle = NotificationCompat.InboxStyle()
-        inboxStyle.setBigContentTitle(messageBody3)
-//        inboxStyle.addLine(messageBody2)
-//        inboxStyle.addLine(messageBody3)
+        inboxStyle.setBigContentTitle(messageBody)
 
         // Creating a channel (for android 8 and up)
         val channelId = "MAIN NOTIFICATIONS"
@@ -54,7 +45,6 @@ class NotificationWorker(context: Context, workerParams: WorkerParameters) :
             NotificationCompat.Builder(applicationContext, channelId)
                 .setSmallIcon(R.drawable.logo)
                 .setContentTitle(applicationContext.getString(R.string.app_name))
-//                .setContentText(applicationContext.getText(R.string.notification_title))
                 .setAutoCancel(true)
                 .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
                 .setContentIntent(pendingIntent)

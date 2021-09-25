@@ -16,6 +16,9 @@
         <action
             android:id="@+id/action_detailFragment_to_editItemFragment"
             app:destination="@id/editItemFragment" />
+        <action
+            android:id="@+id/action_detailFragment_to_mapFragment2"
+            app:destination="@id/mapFragment2" />
     </fragment>
     <fragment
         android:id="@+id/addListItemFragment"
@@ -30,6 +33,15 @@
         <argument
             android:name="houseId"
             app:argType="integer" />
+    </fragment>
+    <fragment
+        android:id="@+id/mapFragment2"
+        android:name="com.aki.realestatemanagerv2.ui.map.MapFragment"
+        android:label="MapFragment" >
+        <argument
+            android:name="localisation"
+            app:argType="boolean"
+            android:defaultValue="false" />
     </fragment>
 
 </navigation>

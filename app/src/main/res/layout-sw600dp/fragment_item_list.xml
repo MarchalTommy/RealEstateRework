@@ -8,13 +8,15 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/item_list"
         android:name="com.aki.realestatemanagerv2.ItemListFragment"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_marginStart="@dimen/container_margin"
         android:layout_marginEnd="@dimen/container_margin"
+        android:layout_marginBottom="64dp"
         app:layoutManager="LinearLayoutManager"
+        android:scrollbarAlwaysDrawVerticalTrack="true"
+        android:scrollIndicators="end"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/guideline"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:context="com.aki.realestatemanagerv2.ItemDetailHostActivity"
@@ -36,7 +38,7 @@
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        app:layout_constraintGuide_begin="340dp" />
+        app:layout_constraintGuide_begin="320dp" />
 
     <fragment
         android:id="@+id/item_detail_nav_container"

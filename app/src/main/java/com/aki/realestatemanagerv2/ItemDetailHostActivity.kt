@@ -5,32 +5,32 @@ import android.content.ContentValues.TAG
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.core.widget.NestedScrollView
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
 import androidx.viewpager2.widget.ViewPager2
 import com.aki.realestatemanagerv2.databinding.ActivityItemDetailBinding
-import com.aki.realestatemanagerv2.events.ListClickEvent
 import com.aki.realestatemanagerv2.ui.ViewPagerAdapter
-import com.aki.realestatemanagerv2.ui.detail.DetailFragmentDirections
 import com.aki.realestatemanagerv2.ui.mainList.ListFragmentDirections
 import com.araujo.jordan.excuseme.ExcuseMe
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import org.greenrobot.eventbus.EventBus
-import kotlin.properties.Delegates
 
 class ItemDetailHostActivity : AppCompatActivity() {
 
-    enum class Transition{
-        LIST_DETAIL, DETAIL_LIST, LIST_ADD, ADD_LIST, DETAIL_EDIT, EDIT_DETAIL
-    }
+//    enum class Transition{
+//        LIST_DETAIL, DETAIL_LIST, LIST_ADD, ADD_LIST, DETAIL_EDIT, EDIT_DETAIL
+//    }
 
     private lateinit var binding: ActivityItemDetailBinding
     private lateinit var navController: NavController
-    private var houseIdForDetail = 0
+    private var itemDetailFragmentContainer: View? = null
+
+    //    private var houseIdForDetail = 0
     private lateinit var viewpager: ViewPager2
     private var pagerState = 0
 
@@ -43,13 +43,9 @@ class ItemDetailHostActivity : AppCompatActivity() {
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment_item_detail) as NavHostFragment
         navController = navHostFragment.navController
 
-        supportFragmentManager.setFragmentResultListener("listClick", this) { requestKey, bundle ->
-            houseIdForDetail = bundle.getInt("houseId")
-            fabAnimationManagement(Transition.LIST_DETAIL)
-            binding.bottomAppBar.performHide()
-        }
-
         viewpager = findViewById(R.id.bottom_pager)
+
+        itemDetailFragmentContainer = findViewById(R.id.item_detail_nav_container)
 
         setupFab()
         setupBottomBar()
@@ -57,74 +53,75 @@ class ItemDetailHostActivity : AppCompatActivity() {
         bottomSheetManagement()
     }
 
-    private fun fabAnimationManagement(transition: Transition) {
-            when (transition) {
-                Transition.LIST_DETAIL -> binding.fab.apply {
-                    val animAddToEdit = AnimatedVectorDrawableCompat.create(
-                        this.context,
-                        R.drawable.avd_add_to_edit
-                    )
-                    setImageDrawable(animAddToEdit)
-                    val fabAnim = this.drawable as AnimatedVectorDrawableCompat
-                    fabAnim.start()
-                }
-
-                Transition.DETAIL_LIST -> binding.fab.apply {
-                    val animEditToAdd = AnimatedVectorDrawableCompat.create(
-                        this.context,
-                        R.drawable.avd_edit_to_add
-                    )
-                    setImageDrawable(animEditToAdd)
-                    val fabAnim = this.drawable as AnimatedVectorDrawableCompat
-                    fabAnim.start()
-                }
-
-                Transition.LIST_ADD -> binding.fab.apply {
-                    val animAddToCheck = AnimatedVectorDrawableCompat.create(
-                        this.context,
-                        R.drawable.avd_add_to_check
-                    )
-                    setImageDrawable(animAddToCheck)
-                    val fabAnim = this.drawable as AnimatedVectorDrawableCompat
-                    fabAnim.start()
-                }
-
-                Transition.ADD_LIST -> binding.fab.apply {
-                    val animCheckToAdd = AnimatedVectorDrawableCompat.create(
-                        this.context,
-                        R.drawable.avd_check_to_add
-                    )
-                    setImageDrawable(animCheckToAdd)
-                    val fabAnim = this.drawable as AnimatedVectorDrawableCompat
-                    fabAnim.start()
-                }
-
-                Transition.DETAIL_EDIT -> binding.fab.apply {
-                    val animEditToCheck = AnimatedVectorDrawableCompat.create(
-                        this.context,
-                        R.drawable.avd_edit_to_check
-                    )
-                    setImageDrawable(animEditToCheck)
-                    val fabAnim = this.drawable as AnimatedVectorDrawableCompat
-                    fabAnim.start()
-                }
-
-                Transition.EDIT_DETAIL -> binding.fab.apply {
-                    val animCheckToEdit = AnimatedVectorDrawableCompat.create(
-                        this.context,
-                        R.drawable.avd_check_to_edit
-                    )
-                    setImageDrawable(animCheckToEdit)
-                    val fabAnim = this.drawable as AnimatedVectorDrawableCompat
-                    fabAnim.start()
-                }
-            }
-    }
+//    private fun fabAnimationManagement(transition: Transition) {
+//            when (transition) {
+//                Transition.LIST_DETAIL -> binding.fab.apply {
+//                    val animAddToEdit = AnimatedVectorDrawableCompat.create(
+//                        this.context,
+//                        R.drawable.avd_add_to_edit
+//                    )
+//                    setImageDrawable(animAddToEdit)
+//                    val fabAnim = this.drawable as AnimatedVectorDrawableCompat
+//                    fabAnim.start()
+//                }
+//
+//                Transition.DETAIL_LIST -> binding.fab.apply {
+//                    val animEditToAdd = AnimatedVectorDrawableCompat.create(
+//                        this.context,
+//                        R.drawable.avd_edit_to_add
+//                    )
+//                    setImageDrawable(animEditToAdd)
+//                    val fabAnim = this.drawable as AnimatedVectorDrawableCompat
+//                    fabAnim.start()
+//                }
+//
+//                Transition.LIST_ADD -> binding.fab.apply {
+//                    val animAddToCheck = AnimatedVectorDrawableCompat.create(
+//                        this.context,
+//                        R.drawable.avd_add_to_check
+//                    )
+//                    setImageDrawable(animAddToCheck)
+//                    val fabAnim = this.drawable as AnimatedVectorDrawableCompat
+//                    fabAnim.start()
+//                }
+//
+//                Transition.ADD_LIST -> binding.fab.apply {
+//                    val animCheckToAdd = AnimatedVectorDrawableCompat.create(
+//                        this.context,
+//                        R.drawable.avd_check_to_add
+//                    )
+//                    setImageDrawable(animCheckToAdd)
+//                    val fabAnim = this.drawable as AnimatedVectorDrawableCompat
+//                    fabAnim.start()
+//                }
+//
+//                Transition.DETAIL_EDIT -> binding.fab.apply {
+//                    val animEditToCheck = AnimatedVectorDrawableCompat.create(
+//                        this.context,
+//                        R.drawable.avd_edit_to_check
+//                    )
+//                    setImageDrawable(animEditToCheck)
+//                    val fabAnim = this.drawable as AnimatedVectorDrawableCompat
+//                    fabAnim.start()
+//                }
+//
+//                Transition.EDIT_DETAIL -> binding.fab.apply {
+//                    val animCheckToEdit = AnimatedVectorDrawableCompat.create(
+//                        this.context,
+//                        R.drawable.avd_check_to_edit
+//                    )
+//                    setImageDrawable(animCheckToEdit)
+//                    val fabAnim = this.drawable as AnimatedVectorDrawableCompat
+//                    fabAnim.start()
+//                }
+//            }
+//    }
 
     private fun navControllerManagement() {
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
                 R.id.addListItemFragment -> {
+                    binding.fab.setImageDrawable(resources.getDrawable(R.drawable.ic_check_24))
                     binding.bottomAppBar.performHide()
                 }
                 R.id.listFragment -> {
@@ -145,37 +142,42 @@ class ItemDetailHostActivity : AppCompatActivity() {
                         }
                     }
                     binding.fab.apply {
-                        val animAddToCheck = AnimatedVectorDrawableCompat.create(
-                            this.context,
-                            R.drawable.avd_add_to_check
-                        )
+                        setImageDrawable(resources.getDrawable(R.drawable.ic_add))
+////                        val animAddToCheck = AnimatedVectorD rawableCompat.create(
+////                            this.context,
+////                            R.drawable.avd_add_to_check
+////                        )
+//                        setImageDrawable(resources.getDrawable(R.drawable.ic_add))
                         setOnClickListener {
                             navController.navigate(R.id.addListItemFragment)
-                            setImageDrawable(animAddToCheck)
-                            val fabAnim = this.drawable as AnimatedVectorDrawableCompat
-                            fabAnim.start()
+//                            setImageDrawable(resources.getDrawable(R.drawable.ic_edit))
+////                            setImageDrawable(animAddToCheck)
+////                            val fabAnim = this.drawable as AnimatedVectorDrawableCompat
+////                            fabAnim.start()
                         }
                     }
                     binding.bottomAppBar.performShow()
                 }
                 R.id.detailFragment -> {
-                        binding.fab.apply {
-                            val animEditToCheck = AnimatedVectorDrawableCompat.create(
-                                this.context,
-                                R.drawable.avd_edit_to_check
-                            )
-                            setImageDrawable(animEditToCheck)
-                            val action =
-                                DetailFragmentDirections.actionDetailFragmentToEditItemFragment(houseIdForDetail)
-                            setOnClickListener {
-                                navController.navigate(action)
-                                val fabAnim = this.drawable as AnimatedVectorDrawableCompat
-                                fabAnim.start()
-                            }
+                    binding.fab.apply {
+                        setImageDrawable(resources.getDrawable(R.drawable.ic_edit))
+//                        val animEditToCheck = AnimatedVectorDrawableCompat.create(
+//                            this.context,
+//                            R.drawable.avd_edit_to_check
+//                        )
+//                        setImageDrawable(animEditToCheck)
+//                            val action =
+//                                DetailFragmentDirections.actionDetailFragmentToEditItemFragment(houseIdForDetail)
+                        setOnClickListener {
+                            navController.navigate(R.id.editItemFragment)
+//                                val fabAnim = this.drawable as AnimatedVectorDrawableCompat
+//                                fabAnim.start()
                         }
+                    }
                     binding.bottomAppBar.performHide()
                 }
                 R.id.editItemFragment -> {
+                    binding.fab.setImageDrawable(resources.getDrawable(R.drawable.ic_check_24))
                     binding.bottomAppBar.performHide()
                 }
             }
@@ -196,9 +198,11 @@ class ItemDetailHostActivity : AppCompatActivity() {
                             val loanToMapAnim = menu.getItem(0).icon as AnimatedVectorDrawableCompat
                             loanToMapAnim.start()
                             replaceMenu(R.menu.bottom_bar_menu)
+                            performShow()
                         }
                         hideBottomSheet()
                     } else if (newState == BottomSheetBehavior.STATE_EXPANDED || newState == BottomSheetBehavior.STATE_DRAGGING || newState == BottomSheetBehavior.STATE_HALF_EXPANDED) {
+//                        TODO(ACTION WHEN SHEET IS UP ? NOT NECESSARY, BUT TO THINK ABOUT)
                     }
                     Log.d(TAG, "onStateChanged: State Changed! newState = $newState")
                 }
@@ -231,32 +235,34 @@ class ItemDetailHostActivity : AppCompatActivity() {
                     binding.fab.hide()
                 }
                 BottomSheetBehavior.from(binding.bottomSheet).apply {
-                    peekHeight = 350
-                    this.state = BottomSheetBehavior.STATE_HALF_EXPANDED
+                    this.state = BottomSheetBehavior.STATE_EXPANDED
                 }
             }
         }
 
         binding.bottomAppBar.setOnMenuItemClickListener {
             if (it.itemId == R.id.map) {
-                ExcuseMe.couldYouGive(this).permissionFor(
-                    Manifest.permission.ACCESS_FINE_LOCATION,
-                    Manifest.permission.ACCESS_COARSE_LOCATION
-                ) { permissionStatus ->
-                    if (permissionStatus.granted.contains(Manifest.permission.ACCESS_FINE_LOCATION) &&
-                        permissionStatus.granted.contains(Manifest.permission.ACCESS_COARSE_LOCATION)
-                    ) {
-                        val action = ListFragmentDirections.actionListFragmentToMapFragment(true)
-                        navController.navigate(action)
+                if (!Utils.isTablet(baseContext)) {
+                    ExcuseMe.couldYouGive(this).permissionFor(
+                        Manifest.permission.ACCESS_FINE_LOCATION,
+                        Manifest.permission.ACCESS_COARSE_LOCATION
+                    ) { permissionStatus ->
+                        if (permissionStatus.granted.contains(Manifest.permission.ACCESS_FINE_LOCATION) &&
+                            permissionStatus.granted.contains(Manifest.permission.ACCESS_COARSE_LOCATION)
+                        ) {
+                            val action =
+                                ListFragmentDirections.actionListFragmentToMapFragment(true)
+                            navController.navigate(action)
 
-                        val animMap = AnimatedVectorDrawableCompat.create(
-                            this,
-                            R.drawable.avd_map_out_2
-                        )
-                        it.isEnabled = false
-                        it.icon = animMap
-                        val menuAnim = it.icon as AnimatedVectorDrawableCompat
-                        menuAnim.start()
+                            val animMap = AnimatedVectorDrawableCompat.create(
+                                this,
+                                R.drawable.avd_map_out_2
+                            )
+                            it.isEnabled = false
+                            it.icon = animMap
+                            val menuAnim = it.icon as AnimatedVectorDrawableCompat
+                            menuAnim.start()
+                        }
                     }
                 }
             } else {
@@ -278,6 +284,8 @@ class ItemDetailHostActivity : AppCompatActivity() {
     }
 
     private fun hideBottomSheet() {
+        val scrollView = findViewById<NestedScrollView>(R.id.scroll_view)
+        scrollView.scrollTo(0, (scrollView.top - 64))
         BottomSheetBehavior.from(binding.bottomSheet).apply {
             isHideable = true
             this.state = BottomSheetBehavior.STATE_HIDDEN

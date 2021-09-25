@@ -6,6 +6,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:focusable="true"
+        android:clickable="true"
         android:background="@drawable/rounded">
 
         <View
@@ -29,6 +31,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.core.widget.NestedScrollView
+            android:id="@+id/scroll_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
@@ -83,7 +86,7 @@
                     android:layout_marginStart="8dp"
                     android:text="Size range"
                     android:textColor="@color/reply_blue_50"
-                    app:layout_constraintStart_toStartOf="@id/guideline2"
+                    app:layout_constraintStart_toStartOf="@id/size_slider"
                     app:layout_constraintTop_toTopOf="@id/pricerange_tv" />
 
                 <com.google.android.material.slider.RangeSlider
@@ -156,7 +159,7 @@
                     android:layout_marginStart="8dp"
                     android:text="Bathrooms"
                     android:textColor="@color/reply_blue_50"
-                    app:layout_constraintStart_toStartOf="@id/guideline2"
+                    app:layout_constraintStart_toStartOf="@id/bathroom_slider"
                     app:layout_constraintTop_toBottomOf="@id/room_slider" />
 
                 <com.google.android.material.slider.RangeSlider
@@ -259,7 +262,7 @@
                     android:layout_marginTop="12dp"
                     android:text="Points of interests"
                     android:textColor="@color/reply_blue_50"
-                    app:layout_constraintStart_toStartOf="@id/guideline2"
+                    app:layout_constraintStart_toStartOf="@id/bathroom_slider"
                     app:layout_constraintTop_toBottomOf="@id/divider" />
 
                 <com.google.android.material.chip.ChipGroup
@@ -271,7 +274,7 @@
                     app:chipSpacingVertical="8dp"
                     app:layout_constraintBottom_toBottomOf="@id/filter_radiogroup"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="@id/guideline2"
+                    app:layout_constraintStart_toStartOf="@id/bathroom_slider"
                     app:layout_constraintTop_toBottomOf="@id/poi_tv">
 
                     <com.google.android.material.chip.Chip
@@ -385,7 +388,7 @@
                     android:layout_marginTop="12dp"
                     android:text="Date Added"
                     android:textColor="@color/reply_blue_50"
-                    app:layout_constraintStart_toStartOf="@id/guideline2"
+                    app:layout_constraintStart_toStartOf="@id/bathroom_slider"
                     app:layout_constraintTop_toBottomOf="@id/divider2" />
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -406,7 +409,7 @@
                     app:hintTextColor="@color/reply_blue_300"
                     app:layout_constraintBottom_toBottomOf="@id/radiogroup_dateadded"
                     app:layout_constraintEnd_toStartOf="@id/radiogroup_dateadded"
-                    app:layout_constraintStart_toStartOf="@id/guideline2"
+                    app:layout_constraintStart_toStartOf="@id/bathroom_slider"
                     app:layout_constraintTop_toBottomOf="@id/dateadded_tv">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -547,7 +550,7 @@
                     android:layout_marginTop="12dp"
                     android:text="Pictures"
                     android:textColor="@color/reply_blue_50"
-                    app:layout_constraintStart_toStartOf="@id/guideline2"
+                    app:layout_constraintStart_toStartOf="@id/bathroom_slider"
                     app:layout_constraintTop_toBottomOf="@id/divider3" />
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -566,7 +569,7 @@
                     app:hintEnabled="true"
                     app:hintTextColor="@color/reply_blue_300"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="@id/guideline2"
+                    app:layout_constraintStart_toStartOf="@id/bathroom_slider"
                     app:layout_constraintTop_toBottomOf="@id/city_tv">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -586,7 +589,7 @@
                     android:layout_marginTop="16dp"
                     android:layout_marginBottom="64dp"
                     android:text="Apply filters"
-                    app:layout_constraintEnd_toStartOf="@id/guideline2"
+                    app:layout_constraintEnd_toStartOf="@id/bathroom_slider"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/pictures_edit_text_layout" />
 
@@ -598,7 +601,7 @@
                     android:layout_marginBottom="64dp"
                     android:text="Remove filters"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="@id/guideline2"
+                    app:layout_constraintStart_toStartOf="@id/bathroom_slider"
                     app:layout_constraintTop_toBottomOf="@id/pictures_edit_text_layout" />
 
                 <View

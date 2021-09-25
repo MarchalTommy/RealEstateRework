@@ -5,7 +5,7 @@
     android:layout_height="match_parent">
 
     <ImageView
-        android:id="@+id/media_pic_portrait"
+        android:id="@+id/media_pic"
         android:layout_width="match_parent"
         android:layout_height="320dp"
         android:scaleType="centerCrop"
@@ -15,15 +15,15 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <View
-        android:id="@+id/shade_portrait"
+        android:id="@+id/shade"
         android:layout_width="match_parent"
         android:layout_height="120dp"
         android:background="@drawable/image_banner_shape"
-        app:layout_constraintBottom_toBottomOf="@+id/media_pic_portrait"
+        app:layout_constraintBottom_toBottomOf="@+id/media_pic"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
-        android:id="@+id/media_portrait_txt"
+        android:id="@+id/media_txt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginVertical="32dp"
@@ -31,7 +31,7 @@
         android:hint="Pool Side"
         android:textColor="@android:color/white"
         android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="@+id/media_pic_portrait"
+        app:layout_constraintBottom_toBottomOf="@+id/media_pic"
         app:layout_constraintStart_toStartOf="parent" />
 
 

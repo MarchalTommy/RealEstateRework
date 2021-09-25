@@ -8,9 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
@@ -23,13 +21,11 @@ import com.aki.realestatemanagerv2.Utils
 import com.aki.realestatemanagerv2.database.entities.House
 import com.aki.realestatemanagerv2.database.entities.relations.HouseAndAddress
 import com.aki.realestatemanagerv2.databinding.FragmentItemListBinding
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.BaseTransientBottomBar.LENGTH_LONG
-import com.google.android.material.snackbar.BaseTransientBottomBar.LENGTH_SHORT
 import com.google.android.material.snackbar.Snackbar
 
 class ListFragment : Fragment() {
-
-    // TODO: Gérer filtres
 
     private val viewModel: ListViewModel by viewModels {
         ListViewModelFactory((this.activity?.application as EstateApplication).repository)
@@ -58,6 +54,11 @@ class ListFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         navController = requireActivity().findNavController(R.id.nav_host_fragment_item_detail)
+
+        val mainFab = requireActivity().findViewById<FloatingActionButton>(R.id.fab)
+        mainFab.setOnClickListener {
+            navController.navigate(R.id.addListItemFragment)
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -145,7 +146,8 @@ class ListFragment : Fragment() {
                                     R.color.reply_blue_700
                                 )
                             )
-                        }.show()
+                        }.setAnchorView(R.id.bottom_app_bar)
+                            .show()
                     } else {
                         estate.stillAvailable = true
                         estate.dateSell = 0L
@@ -155,7 +157,7 @@ class ListFragment : Fragment() {
                             binding.root,
                             "Estate successfully marked as not sold.",
                             Snackbar.LENGTH_LONG
-                        ).show()
+                        ).setAnchorView(R.id.bottom_app_bar).show()
                     }
                     viewModel.updateHouse(estate)
                 }
@@ -179,28 +181,26 @@ class ListFragment : Fragment() {
                                 requireView(),
                                 "No estate found matching your filters.",
                                 LENGTH_LONG
-                            ).show()
+                            ).setAnchorView(R.id.bottom_app_bar)
+                                .show()
                         }
                     }
                 })
             } else {
                 prepareAdapter(housesAndAddresses)
-                Snackbar.make(requireView(), "Filters removed", LENGTH_SHORT).show()
             }
         })
     }
 
     //OnClick for the items of the recyclerView
     private fun listOnClick(houseId: Int) {
-
-        setFragmentResult("listClick", bundleOf("houseId" to houseId))
-
         if (itemDetailFragmentContainer != null) {
+            viewModel.setSelectedHouseId(houseId)
             itemDetailFragmentContainer!!.findNavController()
                 .navigate(R.id.detailFragment)
         } else {
-            val action = ListFragmentDirections.actionListFragmentToDetailFragment(houseId)
-            navController.navigate(action)
+            viewModel.setSelectedHouseId(houseId)
+            navController.navigate(R.id.action_listFragment_to_detailFragment)
         }
     }
 }

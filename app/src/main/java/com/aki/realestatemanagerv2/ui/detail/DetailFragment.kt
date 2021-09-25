@@ -1,5 +1,6 @@
 package com.aki.realestatemanagerv2.ui.detail
 
+import android.Manifest
 import android.content.ContentValues.TAG
 import android.graphics.drawable.Drawable
 import android.os.Bundle
@@ -26,13 +27,14 @@ import com.aki.realestatemanagerv2.database.entities.Agent
 import com.aki.realestatemanagerv2.database.entities.House
 import com.aki.realestatemanagerv2.database.entities.Picture
 import com.aki.realestatemanagerv2.databinding.FragmentItemDetailBinding
+import com.araujo.jordan.excuseme.ExcuseMe
 import com.bumptech.glide.Glide
+import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textview.MaterialTextView
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlin.properties.Delegates
 
 class DetailFragment : Fragment() {
 
@@ -44,7 +46,6 @@ class DetailFragment : Fragment() {
     private lateinit var mHouse: House
     private var address: Address? = null
     private var agent: Agent? = null
-    private var isLandscape: Boolean = false
     private lateinit var navController: NavController
     private var _binding: FragmentItemDetailBinding? = null
     private val binding get() = _binding!!
@@ -58,27 +59,76 @@ class DetailFragment : Fragment() {
         return binding.root
     }
 
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        if (Utils.isTablet(requireContext())) {
+            val bottomBar = requireActivity().findViewById<BottomAppBar>(R.id.bottom_app_bar)
+            bottomBar.menu.getItem(0).setOnMenuItemClickListener {
+                ExcuseMe.couldYouGive(this).permissionFor(
+                    Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.ACCESS_COARSE_LOCATION
+                ) { permissionStatus ->
+                    if (permissionStatus.granted.contains(Manifest.permission.ACCESS_FINE_LOCATION) &&
+                        permissionStatus.granted.contains(Manifest.permission.ACCESS_COARSE_LOCATION)
+                    ) {
+                        val action =
+                            DetailFragmentDirections.actionDetailFragmentToMapFragment2(true)
+                        findNavController().navigate(action)
+                    } else {
+                        findNavController().navigate(R.id.mapFragment2)
+                    }
+                }
+                true
+            }
+        }
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         navController = this.findNavController()
         houseId = args.houseId
-        Log.d(TAG, "onViewCreated: houseId --> $houseId")
-        requireActivity().onBackPressedDispatcher.addCallback(this) {
-            navController.navigate(R.id.action_detailFragment_to_listFragment)
-            this.isEnabled = true
+        if (Utils.isTablet(requireContext())) {
+            requireActivity().onBackPressedDispatcher.addCallback(this) {
+                houseId = 0
+                binding.emptyLayout?.visibility = View.VISIBLE
+                binding.fabDetail.visibility = View.GONE
+                this.isEnabled = true
+            }
+        } else {
+            requireActivity().onBackPressedDispatcher.addCallback(this) {
+                navController.navigate(R.id.action_detailFragment_to_listFragment)
+                this.isEnabled = true
+            }
         }
-        getDBData()
-            when (houseId) {
-                0 -> {
-                    binding.emptyLayout?.visibility = View.VISIBLE
-                    binding.fab.visibility = View.GONE
-                }
-                else -> {
-                    binding.emptyLayout?.visibility = View.GONE
-                    binding.fab.visibility = View.VISIBLE
+        if (houseId != 0) {
+            getDBData()
+            viewModel.setSelectedHouseId(houseId)
+        } else {
+            getHouseId()
+        }
+        binding.editButton?.setOnClickListener {
+            this.findNavController().navigate(R.id.editItemFragment)
+        }
+    }
+
+    private fun getHouseId() {
+        viewModel.getSelectedHouseId().observe(viewLifecycleOwner, {
+            if (it != null) {
+                houseId = it
+                when (houseId) {
+                    0 -> {
+                        binding.emptyLayout?.visibility = View.VISIBLE
+                        binding.fabDetail.visibility = View.GONE
+                    }
+                    else -> {
+                        binding.emptyLayout?.visibility = View.GONE
+                        binding.fabDetail.visibility = View.VISIBLE
+                        getDBData()
+                        viewModel.getSelectedHouseId().removeObservers(viewLifecycleOwner)
+                    }
                 }
             }
-
+        })
     }
 
     private fun initLayout() {
@@ -116,25 +166,22 @@ class DetailFragment : Fragment() {
         viewModel.getHouseAndAddress(houseId).observe(viewLifecycleOwner, {
             if (it != null) {
                 binding.emptyLayout?.visibility = View.GONE
-                binding.fab.visibility = View.VISIBLE
+                binding.fabDetail.visibility = View.VISIBLE
                 mHouse = it.house
-                if (it.address != null) {
-                    address = it.address
-                    fabStaticMap()
-                    viewModel.getAgent(mHouse.agentId)
-                        .observe(viewLifecycleOwner, { thisAgent ->
-                            if (thisAgent != null) {
-                                agent = thisAgent
-                                initLayout()
-                                finishLayout()
-                            }
-                        })
-                }
+                address = it.address
+                fabStaticMap()
+                viewModel.getAgent(mHouse.agentId)
+                    .observe(viewLifecycleOwner, { thisAgent ->
+                        if (thisAgent != null) {
+                            agent = thisAgent
+                            initLayout()
+                            finishLayout()
+                        }
+                    })
                 initDataRecyclerView()
-
             } else {
                 binding.emptyLayout?.visibility = View.VISIBLE
-                binding.fab.visibility = View.GONE
+                binding.fabDetail.visibility = View.GONE
             }
         })
 
@@ -146,7 +193,7 @@ class DetailFragment : Fragment() {
     }
 
     private fun initMediaRecyclerView(dataSet: List<Picture>) {
-        binding.detailMediaRv.adapter = PictureListAdapter(dataSet, isLandscape)
+        binding.detailMediaRv.adapter = PictureListAdapter(dataSet)
         binding.detailMediaRv.setHasFixedSize(true)
         binding.detailMediaRv.onFlingListener = null
         val snapHelper: SnapHelper = LinearSnapHelper()
@@ -187,10 +234,10 @@ class DetailFragment : Fragment() {
                 binding.root,
                 "No internet connection available! Please verify that you have access to a network, or try again later.",
                 Snackbar.LENGTH_LONG
-            ).show()
+            ).setAnchorView(R.id.bottom_app_bar).show()
         }
 
-        binding.fab.setOnClickListener {
+        binding.fabDetail.setOnClickListener {
             lifecycleScope.launch(Dispatchers.IO) {
                 if (Utils.isOnline()) {
                     lifecycleScope.launch(Dispatchers.Main) {

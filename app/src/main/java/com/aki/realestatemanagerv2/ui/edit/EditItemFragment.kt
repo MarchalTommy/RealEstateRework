@@ -1,5 +1,6 @@
 package com.aki.realestatemanagerv2.ui.edit
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity.RESULT_OK
 import android.app.AlertDialog
@@ -17,19 +18,23 @@ import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.activity.addCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.aki.realestatemanagerv2.EstateApplication
 import com.aki.realestatemanagerv2.R
+import com.aki.realestatemanagerv2.Utils
 import com.aki.realestatemanagerv2.database.entities.Address
 import com.aki.realestatemanagerv2.database.entities.House
 import com.aki.realestatemanagerv2.database.entities.Picture
 import com.aki.realestatemanagerv2.databinding.FragmentEditBinding
+import com.araujo.jordan.excuseme.ExcuseMe
 import com.bumptech.glide.Glide
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -45,12 +50,11 @@ class EditItemFragment : Fragment() {
     private val viewModel: EditItemViewModel by viewModels {
         EditItemViewModelFactory((this.activity?.application as EstateApplication).repository)
     }
-    private val args: EditItemFragmentArgs by navArgs()
     private var houseId = 0
     private lateinit var currentPhotoPath: String
     private lateinit var address: Address
     private lateinit var house: House
-
+    private lateinit var navController: NavController
     //Keeping an instance of old media list in case the user cancel the modifications
     private val oldMediaList = ArrayList<Picture>()
     private val newMediaList: ArrayList<Picture> = ArrayList()
@@ -70,18 +74,31 @@ class EditItemFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.houseMediaRvDetail.adapter = EditMediaAdapter(newMediaList, ::removeOnClick)
+        navController = this.findNavController()
         binding.houseMediaRvDetail.setHasFixedSize(true)
+
+        if(Utils.isTablet(requireContext())) {
+            setBackPressedWhileTablet()
+        }
+    }
+
+    private fun setBackPressedWhileTablet() {
+        requireActivity().onBackPressedDispatcher.addCallback(this) {
+            navController.navigate(R.id.detailFragment)
+            this.isEnabled = true
+        }
     }
 
     private fun getHouseData() {
-        houseId = args.houseId
-        viewModel.getHouseAndAddress(houseId).observe(viewLifecycleOwner, {
-            if (it != null) {
-                house = it.house
-                address = it.address
+        viewModel.getSelectedEstateId().observe(viewLifecycleOwner, { houseId ->
+            if (houseId != null) {
+                viewModel.getHouseAndAddress(houseId).observe(viewLifecycleOwner, {
+                    this.houseId = it.house.houseId
+                    house = it.house
+                    address = it.address
 
-                layoutInit()
+                    layoutInit()
+                })
             }
         })
     }
@@ -98,6 +115,8 @@ class EditItemFragment : Fragment() {
         binding.locationZipLayout.editText?.setText("${address.zip}")
         binding.priceLayout.editText?.setText("${house.price}")
         binding.typeLayout.editText?.setText(house.type)
+        binding.houseMediaRvDetail.adapter = EditMediaAdapter(newMediaList, ::removeOnClick)
+
 
         viewModel.getPictures(houseId)
             .observe(viewLifecycleOwner, {
@@ -115,14 +134,40 @@ class EditItemFragment : Fragment() {
                 .setTitle("Where is the photo ?")
                 .setItems(items) { _, which ->
                     when (which) {
-                        0 -> startCamera()
-                        1 -> startGallery()
+                        0 -> {
+                            ExcuseMe.couldYouGive(this).permissionFor(
+                                Manifest.permission.CAMERA,
+                                Manifest.permission.READ_EXTERNAL_STORAGE,
+                                Manifest.permission.WRITE_EXTERNAL_STORAGE
+                            ) {
+                                if (it.granted.contains(Manifest.permission.CAMERA) &&
+                                    it.granted.contains(Manifest.permission.READ_EXTERNAL_STORAGE) &&
+                                    it.granted.contains(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                                ) {
+                                    startCamera()
+                                }
+                            }
+                        }
+                        1 -> {
+                            ExcuseMe.couldYouGive(this).permissionFor(
+                                Manifest.permission.READ_EXTERNAL_STORAGE
+                            ) {
+                                if (it.granted.contains(Manifest.permission.READ_EXTERNAL_STORAGE))
+                                    startGallery()
+                            }
+                        }
                     }
                 }
                 .show()
         }
-        this.activity?.findViewById<FloatingActionButton>(R.id.fab)?.setOnClickListener {
-            update()
+        if(Utils.isTablet(requireContext())) {
+            binding.validate?.setOnClickListener {
+                update()
+            }
+        } else {
+            this.activity?.findViewById<FloatingActionButton>(R.id.fab)?.setOnClickListener {
+                update()
+            }
         }
     }
 
@@ -131,6 +176,7 @@ class EditItemFragment : Fragment() {
         val jobAdd: Job = lifecycleScope.launch(Dispatchers.IO) {
             for (media in newMediaList) {
                 if (!oldMediaList.contains(media)) {
+                    house.nbrPic++
                     viewModel.insertPicture(media)
                 }
             }
@@ -140,6 +186,7 @@ class EditItemFragment : Fragment() {
         val jobRemove: Job = lifecycleScope.launch(Dispatchers.IO) {
             for (media in oldMediaList) {
                 if (!newMediaList.contains(media)) {
+                    house.nbrPic--
                     viewModel.removePicture(media)
                 }
             }
@@ -208,8 +255,7 @@ class EditItemFragment : Fragment() {
                 photoFile?.also {
                     val photoUri: Uri = FileProvider.getUriForFile(
                         requireContext(),
-                        "com.openclassrooms.realestatemanager.fileprovider",
-                        photoFile
+                        "com.aki.realestatemanagerv2.fileprovider", photoFile
                     )
                     takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
                     cameraResultLauncher.launch(takePictureIntent)
