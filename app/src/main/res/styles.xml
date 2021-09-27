@@ -16,7 +16,7 @@
 
     <!--Components-->
 
-    <style name="Widget.Reply.NavigationView" parent="Widget.MaterialComponents.NavigationView">
+    <style name="Widget.RealEstateManager.NavigationView" parent="Widget.MaterialComponents.NavigationView">
         <!--Remove any scrim insets applied by NavigationView for system bars-->
         <item name="insetForeground">@android:color/transparent</item>
         <!--Set the background color of NavigationView-->
@@ -27,7 +27,7 @@
         <item name="itemIconTint">@color/color_on_surface_emphasis_medium</item>
     </style>
 
-    <style name="Widget.Reply.Chip.Entry" parent="Widget.MaterialComponents.Chip.Entry">
+    <style name="Widget.RealEstateManager.Chip.Entry" parent="Widget.MaterialComponents.Chip.Entry">
         <item name="closeIconSize">0dp</item>
         <item name="closeIconEnabled">false</item>
         <item name="chipIcon">@drawable/avatar_none</item>

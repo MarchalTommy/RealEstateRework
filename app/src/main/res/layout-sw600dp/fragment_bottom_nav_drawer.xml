@@ -6,9 +6,9 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:focusable="true"
+        android:background="@drawable/rounded"
         android:clickable="true"
-        android:background="@drawable/rounded">
+        android:focusable="true">
 
         <View
             android:id="@+id/scrim_view"
@@ -46,13 +46,6 @@
                 android:paddingBottom="@dimen/grid_4"
                 tools:layout_editor_absoluteY="24dp">
 
-                <androidx.constraintlayout.widget.Guideline
-                    android:id="@+id/guideline2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    app:layout_constraintGuide_begin="206dp" />
-
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/pricerange_tv"
                     style="?attr/textAppearanceHeadline6"
@@ -69,7 +62,7 @@
                     android:id="@+id/price_slider"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
+                    android:layout_marginStart="16dp"
                     android:stepSize="100000.0"
                     android:valueFrom="0.0"
                     android:valueTo="100000000.0"
@@ -93,7 +86,7 @@
                     android:id="@+id/size_slider"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="8dp"
+                    android:layout_marginEnd="16dp"
                     android:stepSize="50.0"
                     android:valueFrom="0.0"
                     android:valueTo="3000.0"
@@ -117,8 +110,8 @@
                     android:id="@+id/room_slider"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
                     android:stepSize="1.0"
                     android:valueFrom="1.0"
                     android:valueTo="40.0"
@@ -142,7 +135,7 @@
                     android:id="@+id/bedroom_slider"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
+                    android:layout_marginStart="16dp"
                     android:stepSize="1.0"
                     android:valueFrom="1.0"
                     android:valueTo="40.0"
@@ -166,7 +159,7 @@
                     android:id="@+id/bathroom_slider"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="8dp"
+                    android:layout_marginEnd="16dp"
                     android:stepSize="1.0"
                     android:valueFrom="1.0"
                     android:valueTo="40.0"
@@ -271,6 +264,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
+                    android:layout_marginEnd="16dp"
+                    app:chipSpacingHorizontal="16dp"
                     app:chipSpacingVertical="8dp"
                     app:layout_constraintBottom_toBottomOf="@id/filter_radiogroup"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -354,7 +349,8 @@
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_margin="4dp"
+                    android:layout_marginVertical="4dp"
+                    android:layout_marginStart="16dp"
                     android:hint="Date"
                     app:boxBackgroundMode="outline"
                     app:boxStrokeColor="@color/blue_200"
@@ -426,8 +422,8 @@
                     android:id="@+id/radiogroup_datesold"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="4dp"
-                    app:layout_constraintEnd_toStartOf="@id/guideline2"
+                    android:layout_marginEnd="24dp"
+                    app:layout_constraintEnd_toEndOf="@id/price_slider"
                     app:layout_constraintTop_toBottomOf="@id/datesold_tv">
 
                     <RadioButton
@@ -460,7 +456,7 @@
                     android:id="@+id/radiogroup_dateadded"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="4dp"
+                    android:layout_marginEnd="16dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/dateadded_tv">
 
@@ -517,7 +513,8 @@
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_margin="4dp"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginVertical="4dp"
                     android:hint="Minumum pictures"
                     app:boxBackgroundMode="outline"
                     app:boxStrokeColor="@color/blue_200"
@@ -548,6 +545,7 @@
                     android:layout_marginTop="16dp"
                     android:layout_marginBottom="64dp"
                     android:text="Apply filters"
+                    android:textSize="24sp"
                     app:layout_constraintEnd_toStartOf="@id/bathroom_slider"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/pictures_edit_text_layout" />
@@ -559,6 +557,7 @@
                     android:layout_marginTop="16dp"
                     android:layout_marginBottom="64dp"
                     android:text="Remove filters"
+                    android:textSize="24sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="@id/bathroom_slider"
                     app:layout_constraintTop_toBottomOf="@id/pictures_edit_text_layout" />
@@ -566,8 +565,8 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="64dp"
-                    app:layout_constraintTop_toBottomOf="@id/filter_button"
-                    app:layout_constraintStart_toStartOf="parent"/>
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/filter_button" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

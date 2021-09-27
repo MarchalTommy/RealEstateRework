@@ -15,9 +15,9 @@ import java.lang.IllegalArgumentException
 class HouseContentProvider : ContentProvider() {
 
     companion object{
-        val AUTHORITY = "com.aki.realestatemanagerv2.provider"
-        val TABLE_NAME = "house"
-        val URI_ITEM = Uri.parse("content://$AUTHORITY/$TABLE_NAME")
+        const val AUTHORITY = "com.aki.realestatemanagerv2.provider"
+        const val TABLE_NAME = "house"
+        val URI_ITEM: Uri = Uri.parse("content://$AUTHORITY/$TABLE_NAME")
     }
 
     override fun onCreate(): Boolean {

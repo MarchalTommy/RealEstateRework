@@ -1,3 +1,5 @@
+@file:Suppress("LocalVariableName")
+
 package com.aki.realestatemanagerv2.database.entities
 
 import android.content.ContentValues
@@ -83,6 +85,7 @@ data class House(
             if(values?.containsKey("agentId") == true) house.agentId = values.getAsInteger("agentId")
             if(values?.containsKey("addressId") == true) house.addressId = values.getAsInteger("addressId")
             if(values?.containsKey("mainPicUri") == true) house.mainUri = values.getAsString("mainPicUri")
+            if(values?.containsKey("houseId") == true) house.houseId = values.getAsInteger("houseId")
             return house
         }
     }

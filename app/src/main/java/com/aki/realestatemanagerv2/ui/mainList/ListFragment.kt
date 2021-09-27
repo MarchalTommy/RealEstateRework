@@ -143,7 +143,7 @@ class ListFragment : Fragment() {
                             setActionTextColor(
                                 ContextCompat.getColor(
                                     context,
-                                    R.color.reply_blue_700
+                                    R.color.blue_700
                                 )
                             )
                         }.setAnchorView(R.id.bottom_app_bar)

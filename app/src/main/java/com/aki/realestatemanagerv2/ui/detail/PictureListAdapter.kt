@@ -35,12 +35,8 @@ class PictureListAdapter(
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
-        val pic: ImageView
-        val title: TextView
+        val pic: ImageView = view.findViewById(R.id.media_pic)
+        val title: TextView = view.findViewById(R.id.media_txt)
 
-        init {
-            pic = view.findViewById(R.id.media_pic)
-            title = view.findViewById(R.id.media_txt)
-        }
     }
 }

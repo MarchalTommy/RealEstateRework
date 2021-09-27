@@ -35,7 +35,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            app:backgroundTint="@color/reply_blue_700"
+            app:backgroundTint="@color/blue_700"
             app:fabAlignmentMode="center"
             app:fabCradleMargin="@dimen/bottom_app_bar_fab_cradle_margin"
             app:fabCradleRoundedCornerRadius="@dimen/bottom_app_bar_fab_cradle_corner_radius"
@@ -56,7 +56,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     app:srcCompat="@drawable/ic_arrow_drop_up"
-                    app:tint="@color/material_on_primary_emphasis_high_type" />
+                    app:tint="@color/material_on_primary_emphasis_high_type"
+                    tools:ignore="VectorDrawableCompat" />
 
                 <ImageView
                     android:id="@+id/bottom_app_bar_logo"
@@ -65,7 +66,8 @@
                     android:layout_gravity="center_vertical"
                     android:layout_marginStart="@dimen/grid_1"
                     app:srcCompat="@drawable/ic_estate"
-                    app:tint="@color/reply_blue_200" />
+                    app:tint="@color/blue_200"
+                    tools:ignore="VectorDrawableCompat" />
 
             </LinearLayout>
 
@@ -76,7 +78,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_anchor="@id/bottom_app_bar"
-            app:srcCompat="@drawable/avd_add_to_edit" />
+            app:srcCompat="@drawable/ic_add"
+            tools:ignore="VectorDrawableCompat" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

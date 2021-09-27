@@ -25,7 +25,6 @@ interface HouseDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertPicture(picture: Picture)
-
     //endregion INSERT
 
     //region QUERY

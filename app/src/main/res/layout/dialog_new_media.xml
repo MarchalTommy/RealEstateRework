@@ -12,7 +12,7 @@
         android:layout_height="64dp"
         android:layout_weight="1"
         android:text="Gallery"
-        app:backgroundTint="@color/reply_black_800" />
+        app:backgroundTint="@color/black_800" />
 
     <Button
         android:id="@+id/camera_button"
@@ -20,6 +20,6 @@
         android:layout_height="64dp"
         android:layout_weight="1"
         android:text="Camera"
-        app:backgroundTint="@color/reply_black_800" />
+        app:backgroundTint="@color/black_800" />
 
 </androidx.appcompat.widget.LinearLayoutCompat>

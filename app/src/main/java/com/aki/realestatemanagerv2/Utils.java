@@ -33,6 +33,7 @@ import java.util.concurrent.TimeUnit;
  * Created by Philippe on 21/02/2018.
  */
 
+@SuppressWarnings("JavaDoc")
 public class Utils {
 
     /**
@@ -61,7 +62,7 @@ public class Utils {
         return dateFormat.format(new Date());
     }
 
-    public static Long getTimestampFromDate(String s) throws ParseException {
+    public static Long getTimestampFromDate(String s) {
         DateTimeFormatter DATE_FORMAT =
                 new DateTimeFormatterBuilder().appendPattern("dd/MM/yyyy[ [HH][:mm][:ss][.SSS]]")
                         .parseDefaulting(ChronoField.HOUR_OF_DAY, 0)
@@ -75,13 +76,12 @@ public class Utils {
         return instant.toEpochMilli() / 1000;
     }
 
-    public static String getDateFromTimestamp(Long l) throws ParseException {
+    public static String getDateFromTimestamp(Long l) {
         LocalDate date = Instant.ofEpochMilli(l * 1000).atZone(ZoneId.systemDefault()).toLocalDate();
 
         DateTimeFormatter df = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        String dateString = date.format(df);
 
-        return dateString;
+        return date.format(df);
     }
 
     /**

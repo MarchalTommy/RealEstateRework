@@ -44,7 +44,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="SOLD"
-                android:textColor="@color/design_default_color_primary"
+                android:textColor="@color/white"
                 android:textSize="24sp"
                 android:textStyle="bold"
                 android:visibility="gone" />
@@ -82,15 +82,15 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
                 android:hint="$29,872,000"
-                android:textColor="@color/design_default_color_primary"
+                android:textColor="@color/blue_600"
                 android:textSize="24sp" />
 
             <TextView
                 android:id="@+id/date_sold"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
                 android:layout_marginStart="12dp"
+                android:visibility="gone"
                 android:hint="Sold the 27/08/2021"
                 android:textStyle="bold|italic"
                 android:textSize="14sp" />

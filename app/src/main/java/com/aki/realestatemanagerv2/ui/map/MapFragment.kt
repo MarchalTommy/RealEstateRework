@@ -5,6 +5,7 @@ import android.content.Context
 import android.location.Address
 import android.location.Geocoder
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -39,6 +40,8 @@ class MapFragment : Fragment() {
         MapViewModelFactory((this.activity?.application as EstateApplication).repository)
     }
     private val housesAndAddresses = ArrayList<HouseAndAddress>()
+    private lateinit var address: MutableList<Address>
+    private var latlng: LatLng? = null
     private lateinit var gMap: GoogleMap
 
     override fun onCreateView(
@@ -101,21 +104,14 @@ class MapFragment : Fragment() {
 
     private fun getLocationByAddress(context: Context, strAddress: String?): LatLng? {
         val coder = Geocoder(context)
-        var address: List<Address>? = emptyList()
-        lifecycleScope.launch(Dispatchers.IO) {
-            address = coder.getFromLocationName(strAddress, 2) ?: null
+        try {
+            val address = coder.getFromLocationName(strAddress, 5) ?: return null
+            val location = address.first()
+            return LatLng(location.latitude, location.longitude)
+        } catch (e: Exception) {
+            Log.e(e.toString(), "getLocationByAddress --> EXCEPTION AT GEOCODER AS ALWAYS !")
         }
-        return if (address?.isEmpty() == true || address == null) {
-            Toast.makeText(
-                requireContext(),
-                "Some location hasn't been found, please make sure all addresses are correct",
-                Toast.LENGTH_LONG
-            ).show()
-            null
-        } else {
-            val location = address!!.first()
-            LatLng(location.latitude, location.longitude)
-        }
+        return null
     }
 
     private fun getEstateAddress() {

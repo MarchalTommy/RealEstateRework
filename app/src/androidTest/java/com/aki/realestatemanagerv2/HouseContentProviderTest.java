@@ -28,18 +28,20 @@ public class HouseContentProviderTest {
 
     // FOR DATA
     private ContentResolver mContentResolver;
+    private EstateDatabase database;
 
     // DATA SET FOR TEST
-    private static long HOUSE_ID = 1;
+    private static final long HOUSE_ID = 42;
     private Uri houseUri;
 
     @Before
     public void setUp() {
-        Room.inMemoryDatabaseBuilder(InstrumentationRegistry.getContext(),
+        database = Room.inMemoryDatabaseBuilder(InstrumentationRegistry.getContext(),
                 EstateDatabase.class)
                 .allowMainThreadQueries()
                 .build();
-        mContentResolver = InstrumentationRegistry.getContext().getContentResolver();
+
+        mContentResolver = ApplicationProvider.getApplicationContext().getContentResolver();
     }
 
     @After
@@ -47,6 +49,7 @@ public class HouseContentProviderTest {
         if(houseUri != null){
             mContentResolver.delete(houseUri, null);
         }
+        database.close();
     }
 
     @Test
@@ -69,6 +72,24 @@ public class HouseContentProviderTest {
         assertThat(cursor.getString(cursor.getColumnIndexOrThrow("price")), is("0"));
     }
 
+    @Test
+    public void removeItem() {
+        // BEFORE : Adding demo item
+        houseUri = mContentResolver.insert(HouseContentProvider.Companion.getURI_ITEM(), generateItem());
+        // TEST
+        final Cursor cursor = mContentResolver.query(ContentUris.withAppendedId(HouseContentProvider.Companion.getURI_ITEM(), HOUSE_ID), null, null, null, null);
+        assertThat(cursor, notNullValue());
+        assertThat(cursor.getCount(), is(1));
+        assertThat(cursor.moveToFirst(), is(true));
+        assertThat(cursor.getString(cursor.getColumnIndexOrThrow("price")), is("0"));
+        // REMOVING THE ITEM
+        mContentResolver.delete(ContentUris.withAppendedId(HouseContentProvider.Companion.getURI_ITEM(), HOUSE_ID), null, null);
+        // TEST
+        final Cursor cursor2 = mContentResolver.query(ContentUris.withAppendedId(HouseContentProvider.Companion.getURI_ITEM(), HOUSE_ID), null, null, null, null);
+        assertThat(cursor2, notNullValue());
+        assertThat(cursor2.getCount(), is(0));
+    }
+
     // ---
 
     private ContentValues generateItem(){
@@ -84,6 +105,7 @@ public class HouseContentProviderTest {
         values.put("agentId", "1");
         values.put("addressId", "666");
         values.put("addressId", "1");
+        values.put("houseId", "42");
         return values;
     }
 }

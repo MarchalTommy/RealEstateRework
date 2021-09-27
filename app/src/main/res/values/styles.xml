@@ -2,7 +2,7 @@
 <resources>
     <!--Components-->
 
-    <style name="Widget.Reply.NavigationView" parent="Widget.MaterialComponents.NavigationView">
+    <style name="Widget.RealEstateManager.NavigationView" parent="Widget.MaterialComponents.NavigationView">
         <!--Remove any scrim insets applied by NavigationView for system bars-->
         <item name="insetForeground">@android:color/transparent</item>
         <!--Set the background color of NavigationView-->

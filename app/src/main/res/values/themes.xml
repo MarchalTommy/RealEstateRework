@@ -24,53 +24,51 @@
     <style name="Theme.RealEstateManagerV2.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
     <!--Final, top-level theme-->
-    <style name="Theme.Reply.DayNight" parent="Theme.Reply" />
+    <style name="Theme.RealEstateManager.DayNight" parent="Theme.RealEstateManager" />
 
-    <style name="Theme.Reply" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="Theme.RealEstateManager" parent="Theme.MaterialComponents.DayNight.NoActionBar">
 
         <!--Color-->
-        <item name="colorPrimary">@color/reply_blue_700</item>
-        <item name="colorPrimaryVariant">@color/reply_blue_800</item>
-        <item name="colorSecondary">@color/reply_orange_500</item>
-        <item name="colorSecondaryVariant">@color/reply_orange_400</item>
+        <item name="colorPrimary">@color/blue_700</item>
+        <item name="colorPrimaryVariant">@color/blue_800</item>
+        <item name="colorSecondary">@color/orange_500</item>
+        <item name="colorSecondaryVariant">@color/orange_400</item>
 
-        <item name="android:colorBackground">@color/reply_blue_50</item>
-        <item name="colorSurface">@color/reply_white_50</item>
+        <item name="android:colorBackground">@color/blue_50</item>
+        <item name="colorSurface">@color/white_50</item>
         <item name="colorPrimarySurfaceVariant">?attr/colorPrimaryVariant</item>
-        <item name="colorError">@color/reply_red_400</item>
+        <item name="colorError">@color/red_400</item>
 
-        <item name="colorOnPrimary">@color/reply_white_50</item>
-        <item name="colorOnSecondary">@color/reply_black_900</item>
-        <item name="colorOnBackground">@color/reply_black_900</item>
-        <item name="colorOnSurface">@color/reply_black_900</item>
-        <item name="colorOnError">@color/reply_black_900</item>
+        <item name="colorOnPrimary">@color/white_50</item>
+        <item name="colorOnSecondary">@color/black_900</item>
+        <item name="colorOnBackground">@color/black_900</item>
+        <item name="colorOnSurface">@color/black_900</item>
+        <item name="colorOnError">@color/black_900</item>
 
         <item name="sliderStyle">@style/Widget.App.Slider</item>
 
-        <item name="scrimBackground">@color/reply_white_50_alpha_060</item>
-        <!--        <item name="android:statusBarColor">@color/reply_blue_50_alpha_060</item>-->
-        <!--        <item name="android:navigationBarColor">@color/nav_bar</item>-->
+        <item name="scrimBackground">@color/white_50_alpha_060</item>
 
-        <item name="shapeAppearanceSmallComponent">@style/ShapeAppearance.Reply.SmallComponent
+        <item name="shapeAppearanceSmallComponent">@style/ShapeAppearance.RealEstateManager.SmallComponent
         </item>
-        <item name="shapeAppearanceMediumComponent">@style/ShapeAppearance.Reply.MediumComponent
+        <item name="shapeAppearanceMediumComponent">@style/ShapeAppearance.RealEstateManager.MediumComponent
         </item>
-        <item name="shapeAppearanceLargeComponent">@style/ShapeAppearance.Reply.LargeComponent
+        <item name="shapeAppearanceLargeComponent">@style/ShapeAppearance.RealEstateManager.LargeComponent
         </item>
 
         <!--Typography-->
-        <item name="textAppearanceHeadline2">@style/TextAppearance.Reply.Headline2</item>
-        <item name="textAppearanceHeadline3">@style/TextAppearance.Reply.Headline3</item>
-        <item name="textAppearanceHeadline4">@style/TextAppearance.Reply.Headline4</item>
-        <item name="textAppearanceHeadline5">@style/TextAppearance.Reply.Headline5</item>
-        <item name="textAppearanceHeadline6">@style/TextAppearance.Reply.Headline6</item>
-        <item name="textAppearanceSubtitle1">@style/TextAppearance.Reply.Subtitle1</item>
-        <item name="textAppearanceSubtitle2">@style/TextAppearance.Reply.Subtitle2</item>
-        <item name="textAppearanceBody1">@style/TextAppearance.Reply.Body1</item>
-        <item name="textAppearanceBody2">@style/TextAppearance.Reply.Body2</item>
-        <item name="textAppearanceButton">@style/TextAppearance.Reply.Button</item>
-        <item name="textAppearanceCaption">@style/TextAppearance.Reply.Caption</item>
-        <item name="textAppearanceOverline">@style/TextAppearance.Reply.Overline</item>
+        <item name="textAppearanceHeadline2">@style/TextAppearance.RealEstateManager.Headline2</item>
+        <item name="textAppearanceHeadline3">@style/TextAppearance.RealEstateManager.Headline3</item>
+        <item name="textAppearanceHeadline4">@style/TextAppearance.RealEstateManager.Headline4</item>
+        <item name="textAppearanceHeadline5">@style/TextAppearance.RealEstateManager.Headline5</item>
+        <item name="textAppearanceHeadline6">@style/TextAppearance.RealEstateManager.Headline6</item>
+        <item name="textAppearanceSubtitle1">@style/TextAppearance.RealEstateManager.Subtitle1</item>
+        <item name="textAppearanceSubtitle2">@style/TextAppearance.RealEstateManager.Subtitle2</item>
+        <item name="textAppearanceBody1">@style/TextAppearance.RealEstateManager.Body1</item>
+        <item name="textAppearanceBody2">@style/TextAppearance.RealEstateManager.Body2</item>
+        <item name="textAppearanceButton">@style/TextAppearance.RealEstateManager.Button</item>
+        <item name="textAppearanceCaption">@style/TextAppearance.RealEstateManager.Caption</item>
+        <item name="textAppearanceOverline">@style/TextAppearance.RealEstateManager.Overline</item>
 
         <item name="emphasisHighAlpha">0.87</item>
         <item name="emphasisMediumAlpha">0.60</item>
@@ -81,11 +79,12 @@
         <item name="motionInterpolatorOutgoing">@android:interpolator/accelerate_cubic</item>
 
         <!--Styles-->
+        <item name="chipStyle">@style/Widget.App.Chip</item>
         <item name="bottomAppBarStyle">
             @style/Widget.MaterialComponents.BottomAppBar.PrimarySurface
         </item>
         <item name="bottomSheetStyle">@style/Widget.MaterialComponents.BottomSheet.Modal</item>
-        <item name="navigationViewStyle">@style/Widget.Reply.NavigationView</item>
+        <item name="navigationViewStyle">@style/Widget.RealEstateManager.NavigationView</item>
 
         <!--System/Platform attributes-->
         <item name="android:windowBackground">?android:colorBackground</item>
@@ -101,17 +100,22 @@
     </style>
 
     <style name="ThemeOverlay.App.Slider" parent="">
-        <item name="colorPrimary">@color/reply_blue_50</item>
-        <item name="colorOnPrimary">@color/reply_blue_800</item>
-        <item name="colorOnSurface">@color/reply_blue_50</item>
+        <item name="colorPrimary">@color/blue_50</item>
+        <item name="colorOnPrimary">@color/blue_800</item>
+        <item name="colorOnSurface">@color/blue_50</item>
     </style>
 
     <style name="Widget.App.Tooltip" parent="Widget.MaterialComponents.Tooltip">
         <item name="android:textAppearance">@style/TextAppearance.App.Tooltip</item>
-        <item name="backgroundTint">@color/reply_blue_300</item>
+        <item name="backgroundTint">@color/blue_300</item>
     </style>
 
     <style name="TextAppearance.App.Tooltip" parent="TextAppearance.MaterialComponents.Tooltip">
         <item name="android:textColor">@android:color/black</item>
+    </style>
+    
+    <!--Chips-->
+    <style name="Widget.App.Chip" parent="Widget.MaterialComponents.Chip.Choice">
+        <item name="chipBackgroundColor">@color/chip_background_colorstatelist</item>
     </style>
 </resources>

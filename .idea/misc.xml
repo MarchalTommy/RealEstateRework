@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/march/.gradle/caches/transforms-3/571fc7264117d129d74018bf90155899/transformed/material-1.4.0/res/drawable/ic_mtrl_chip_checked_black.xml" value="0.2222222222222222" />
         <entry key="..\:/Users/march/OneDrive/Bureau/FORMATION/RealEstateManagerv2/app/src/main/res/drawable/avd_add_to_check.xml" value="0.3398148148148148" />
         <entry key="..\:/Users/march/OneDrive/Bureau/FORMATION/RealEstateManagerv2/app/src/main/res/drawable/avd_add_to_edit.xml" value="0.35989583333333336" />
         <entry key="..\:/Users/march/OneDrive/Bureau/FORMATION/RealEstateManagerv2/app/src/main/res/drawable/avd_check_to_add.xml" value="0.3398148148148148" />
@@ -14,6 +15,7 @@
         <entry key="..\:/Users/march/OneDrive/Bureau/FORMATION/RealEstateManagerv2/app/src/main/res/drawable/avd_map_out.xml" value="0.25092592592592594" />
         <entry key="..\:/Users/march/OneDrive/Bureau/FORMATION/RealEstateManagerv2/app/src/main/res/drawable/avd_map_out_2.xml" value="0.25092592592592594" />
         <entry key="..\:/Users/march/OneDrive/Bureau/FORMATION/RealEstateManagerv2/app/src/main/res/drawable/avd_map_to_loan.xml" value="0.20925925925925926" />
+        <entry key="..\:/Users/march/OneDrive/Bureau/FORMATION/RealEstateManagerv2/app/src/main/res/drawable/estate_sold_banner.xml" value="0.22730263157894737" />
         <entry key="..\:/Users/march/OneDrive/Bureau/FORMATION/RealEstateManagerv2/app/src/main/res/drawable/ic_add.xml" value="0.35989583333333336" />
         <entry key="..\:/Users/march/OneDrive/Bureau/FORMATION/RealEstateManagerv2/app/src/main/res/drawable/ic_add_24.xml" value="0.35989583333333336" />
         <entry key="..\:/Users/march/OneDrive/Bureau/FORMATION/RealEstateManagerv2/app/src/main/res/drawable/ic_check_24.xml" value="0.35989583333333336" />
@@ -25,6 +27,7 @@
         <entry key="..\:/Users/march/OneDrive/Bureau/FORMATION/RealEstateManagerv2/app/src/main/res/layout-land/dialog_new_media.xml" value="0.19947916666666668" />
         <entry key="..\:/Users/march/OneDrive/Bureau/FORMATION/RealEstateManagerv2/app/src/main/res/layout-land/media_rv_item.xml" value="0.19947916666666668" />
         <entry key="..\:/Users/march/OneDrive/Bureau/FORMATION/RealEstateManagerv2/app/src/main/res/layout-sw600dp/activity_item_detail.xml" value="0.2578125" />
+        <entry key="..\:/Users/march/OneDrive/Bureau/FORMATION/RealEstateManagerv2/app/src/main/res/layout-sw600dp/fragment_bottom_nav_drawer.xml" value="0.255" />
         <entry key="..\:/Users/march/OneDrive/Bureau/FORMATION/RealEstateManagerv2/app/src/main/res/layout-sw600dp/fragment_edit.xml" value="0.2578125" />
         <entry key="..\:/Users/march/OneDrive/Bureau/FORMATION/RealEstateManagerv2/app/src/main/res/layout-sw600dp/fragment_item_detail.xml" value="0.25" />
         <entry key="..\:/Users/march/OneDrive/Bureau/FORMATION/RealEstateManagerv2/app/src/main/res/layout-sw600dp/fragment_item_list.xml" value="0.2578125" />

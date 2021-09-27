@@ -8,9 +8,6 @@ import com.aki.realestatemanagerv2.repository.HouseRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 
-/*
-TODO : TESTS
- */
 class EstateApplication : Application() {
     private val applicationScope = CoroutineScope(SupervisorJob())
 

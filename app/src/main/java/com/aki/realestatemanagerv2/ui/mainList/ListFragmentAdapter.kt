@@ -29,7 +29,7 @@ class ListFragmentAdapter(
 
         holder.houseType.text = currentEstate.type
 
-        holder.houseLocation.text = currentAddress?.city
+        holder.houseLocation.text = currentAddress.city
 
         holder.housePrice.text = currentEstate.currencyFormatUS()
 

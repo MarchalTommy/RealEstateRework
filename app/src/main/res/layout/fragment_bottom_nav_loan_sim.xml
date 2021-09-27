@@ -24,7 +24,7 @@
             android:layout_marginStart="32dp"
             android:layout_marginTop="8dp"
             android:text="Loan simulation :"
-            android:textColor="@color/reply_blue_300"
+            android:textColor="@color/blue_300"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -50,7 +50,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Amount of the loan :"
-                    android:textColor="@color/reply_blue_50"
+                    android:textColor="@color/blue_50"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -70,7 +70,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Loan duration :"
-                    android:textColor="@color/reply_blue_50"
+                    android:textColor="@color/blue_50"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/amount_slider" />
 
@@ -90,7 +90,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Personal investment :"
-                    android:textColor="@color/reply_blue_50"
+                    android:textColor="@color/blue_50"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/duration_slider" />
 
@@ -117,7 +117,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Loan rate :"
-                    android:textColor="@color/reply_blue_50"
+                    android:textColor="@color/blue_50"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/investment_layout" />
 
@@ -158,7 +158,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8dp"
                             android:text="Estimated monthly payments :"
-                            android:textColor="@color/reply_blue_600"
+                            android:textColor="@color/blue_600"
                             android:textStyle="bold"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
@@ -170,7 +170,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
                             android:text="2.500$"
-                            android:textColor="@color/reply_blue_800"
+                            android:textColor="@color/blue_800"
                             android:textSize="24sp"
                             android:textStyle="bold"
                             app:layout_constraintEnd_toEndOf="parent"
