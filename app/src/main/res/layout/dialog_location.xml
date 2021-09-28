@@ -39,7 +39,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="16dp"
-                    android:text="Points of interest :"
+                    android:text="@string/poi_tv"
                     android:textColor="@color/blue_800"
                     android:textSize="24sp"
                     app:layout_constraintStart_toStartOf="parent"
@@ -51,7 +51,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom"
                     android:layout_marginHorizontal="16dp"
-                    android:text="Park\nSchool\nShop\n"
+                    android:text="@string/exmple_poi"
                     android:textSize="16sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/poi_title" />

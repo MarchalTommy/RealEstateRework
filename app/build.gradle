@@ -52,6 +52,7 @@ android {
 }
 
 dependencies {
+    implementation 'androidx.work:work-testing:2.6.0'
     androidTestImplementation 'androidx.test:rules:1.4.1-alpha01'
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.5'
 
@@ -88,9 +89,6 @@ dependencies {
 
     // RETROFIT
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
-
-    // EVENTBUS
-    implementation 'org.greenrobot:eventbus:3.2.0'
 
     // MOSHI
     implementation 'com.squareup.retrofit2:converter-moshi:2.9.0'

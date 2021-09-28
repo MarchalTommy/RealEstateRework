@@ -25,7 +25,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
             android:layout_marginTop="8dp"
-            android:text="Filters :"
+            android:text="@string/filters_title"
             android:textColor="@color/blue_300"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -53,7 +53,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
-                    android:text="Price range"
+                    android:text="@string/price_range_tv"
                     android:textColor="@color/blue_50"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -77,7 +77,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:text="Size range"
+                    android:text="@string/size_range_tv"
                     android:textColor="@color/blue_50"
                     app:layout_constraintStart_toStartOf="@id/size_slider"
                     app:layout_constraintTop_toTopOf="@id/pricerange_tv" />
@@ -101,7 +101,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:text="Number of rooms"
+                    android:text="@string/rooms_tv"
                     android:textColor="@color/blue_50"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/size_slider" />
@@ -126,7 +126,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:text="Bedrooms"
+                    android:text="@string/bedrooms_tv"
                     android:textColor="@color/blue_50"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/room_slider" />
@@ -150,7 +150,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:text="Bathrooms"
+                    android:text="@string/bathrooms_tv"
                     android:textColor="@color/blue_50"
                     app:layout_constraintStart_toStartOf="@id/bathroom_slider"
                     app:layout_constraintTop_toBottomOf="@id/room_slider" />
@@ -185,7 +185,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="12dp"
-                    android:text="Type"
+                    android:text="@string/type_tv"
                     android:textColor="@color/blue_50"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/divider" />
@@ -204,7 +204,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/work_sans"
-                        android:text="Villa"
+                        android:text="@string/villa"
                         android:textColor="@color/blue_50"
                         android:textSize="16sp" />
 
@@ -213,7 +213,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/work_sans"
-                        android:text="Mansion"
+                        android:text="@string/mansion"
                         android:textColor="@color/blue_50"
                         android:textSize="16sp" />
 
@@ -222,7 +222,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/work_sans"
-                        android:text="Apartment"
+                        android:text="@string/apartment"
                         android:textColor="@color/blue_50"
                         android:textSize="16sp" />
 
@@ -231,7 +231,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/work_sans"
-                        android:text="House"
+                        android:text="@string/house"
                         android:textColor="@color/blue_50"
                         android:textSize="16sp" />
 
@@ -240,7 +240,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/work_sans"
-                        android:text="All"
+                        android:text="@string/all_types"
                         android:textColor="@color/blue_50"
                         android:textSize="16sp" />
 
@@ -253,7 +253,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="12dp"
-                    android:text="Points of interests"
+                    android:text="@string/poi_tv"
                     android:textColor="@color/blue_50"
                     app:layout_constraintStart_toStartOf="@id/bathroom_slider"
                     app:layout_constraintTop_toBottomOf="@id/divider" />
@@ -277,7 +277,7 @@
                         style="@style/Widget.MaterialComponents.Chip.Choice"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Park"
+                        android:text="@string/park"
                         app:chipCornerRadius="12dp" />
 
                     <com.google.android.material.chip.Chip
@@ -285,7 +285,7 @@
                         style="@style/Widget.MaterialComponents.Chip.Choice"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="School"
+                        android:text="@string/school"
                         app:chipCornerRadius="12dp" />
 
                     <com.google.android.material.chip.Chip
@@ -293,7 +293,7 @@
                         style="@style/Widget.MaterialComponents.Chip.Choice"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Shop"
+                        android:text="@string/shop"
                         app:chipCornerRadius="12dp" />
 
                     <com.google.android.material.chip.Chip
@@ -301,7 +301,7 @@
                         style="@style/Widget.MaterialComponents.Chip.Choice"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Museum"
+                        android:text="@string/museum"
                         app:chipCornerRadius="12dp" />
 
                     <com.google.android.material.chip.Chip
@@ -309,7 +309,7 @@
                         style="@style/Widget.MaterialComponents.Chip.Choice"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Restaurant"
+                        android:text="@string/restaurant"
                         app:chipCornerRadius="12dp" />
 
                     <com.google.android.material.chip.Chip
@@ -317,7 +317,7 @@
                         style="@style/Widget.MaterialComponents.Chip.Choice"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Swimming Pool"
+                        android:text="@string/swimming_pool"
                         app:chipCornerRadius="12dp" />
 
                 </com.google.android.material.chip.ChipGroup>
@@ -339,7 +339,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="12dp"
-                    android:text="Date Sold"
+                    android:text="@string/date_sold_tv"
                     android:textColor="@color/blue_50"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/divider2" />
@@ -351,7 +351,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginVertical="4dp"
                     android:layout_marginStart="16dp"
-                    android:hint="Date"
+                    android:hint="@string/date_hint"
                     app:boxBackgroundMode="outline"
                     app:boxStrokeColor="@color/blue_200"
                     app:boxStrokeWidth="1dp"
@@ -382,7 +382,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="12dp"
-                    android:text="Date Added"
+                    android:text="@string/date_added_tv"
                     android:textColor="@color/blue_50"
                     app:layout_constraintStart_toStartOf="@id/bathroom_slider"
                     app:layout_constraintTop_toBottomOf="@id/divider2" />
@@ -394,7 +394,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="4dp"
                     android:layout_marginTop="4dp"
-                    android:hint="Date"
+                    android:hint="@string/date_hint"
                     app:boxBackgroundMode="outline"
                     app:boxStrokeColor="@color/blue_200"
                     app:boxStrokeWidth="1dp"
@@ -431,7 +431,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/work_sans"
-                        android:text="Before"
+                        android:text="@string/before_radio"
                         android:textColor="@color/blue_50" />
 
                     <RadioButton
@@ -439,7 +439,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/work_sans"
-                        android:text="After"
+                        android:text="@string/after_radio"
                         android:textColor="@color/blue_50" />
 
                     <RadioButton
@@ -447,7 +447,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/work_sans"
-                        android:text="On date"
+                        android:text="@string/on_date_radio"
                         android:textColor="@color/blue_50" />
 
                 </RadioGroup>
@@ -465,7 +465,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/work_sans"
-                        android:text="Before"
+                        android:text="@string/before_radio"
                         android:textColor="@color/blue_50" />
 
                     <RadioButton
@@ -473,7 +473,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/work_sans"
-                        android:text="After"
+                        android:text="@string/after_radio"
                         android:textColor="@color/blue_50" />
 
                     <RadioButton
@@ -481,7 +481,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/work_sans"
-                        android:text="On date"
+                        android:text="@string/on_date_radio"
                         android:textColor="@color/blue_50" />
 
                 </RadioGroup>
@@ -503,7 +503,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="12dp"
-                    android:text="Pictures"
+                    android:text="@string/pictures_tv"
                     android:textColor="@color/blue_50"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/divider3" />
@@ -515,7 +515,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="16dp"
                     android:layout_marginVertical="4dp"
-                    android:hint="Minumum pictures"
+                    android:hint="@string/filter_pic_hint"
                     app:boxBackgroundMode="outline"
                     app:boxStrokeColor="@color/blue_200"
                     app:boxStrokeWidth="1dp"
@@ -544,7 +544,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:layout_marginBottom="64dp"
-                    android:text="Apply filters"
+                    android:text="@string/apply_filters_button"
                     android:textSize="24sp"
                     app:layout_constraintEnd_toStartOf="@id/bathroom_slider"
                     app:layout_constraintStart_toStartOf="parent"
@@ -556,7 +556,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:layout_marginBottom="64dp"
-                    android:text="Remove filters"
+                    android:text="@string/remove_filters_button"
                     android:textSize="24sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="@id/bathroom_slider"

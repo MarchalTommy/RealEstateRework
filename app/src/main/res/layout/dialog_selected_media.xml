@@ -21,7 +21,7 @@
         android:layout_marginStart="32dp"
         android:layout_marginTop="4dp"
         android:layout_marginEnd="32dp"
-        android:hint="Title of the picture"
+        android:hint="@string/picture_title_hint"
         app:boxBackgroundMode="outline"
         app:boxStrokeColor="@color/blue_700"
         app:boxStrokeWidth="3dp"
@@ -37,7 +37,7 @@
             android:layout_height="wrap_content"
             android:ellipsize="none"
             android:importantForAutofill="no"
-            android:text="test"
+            android:text="@string/default_pic_title"
             android:inputType="text"
             android:maxHeight="50dp"
             android:minLines="1" />

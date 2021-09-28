@@ -15,7 +15,7 @@
         app:chipBackgroundColor="@android:color/white"
         app:chipStrokeWidth="2dp"
         app:chipStrokeColor="@color/blue_600"
-        android:text="8 Bedrooms"
+        android:text="@string/detail_chip_exemple"
         android:textSize="24sp"
         app:chipIconTint="@color/blue_600"
         android:textColor="@color/blue_800"

@@ -20,7 +20,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
-            android:hint="Add a description here"
+            android:hint="@string/new_description_hint"
             app:boxBackgroundMode="outline"
             app:boxStrokeColor="@color/blue_700"
             app:boxStrokeWidth="1dp"
@@ -51,7 +51,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
-            android:text="Details : "
+            android:text="@string/details_tv"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/bathrooms_layout" />
 
@@ -63,7 +63,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="4dp"
             android:layout_marginEnd="16dp"
-            android:hint="Price of the estate*"
+            android:hint="@string/estate_price_new"
             app:boxBackgroundMode="outline"
             app:boxStrokeColor="@color/blue_700"
             app:boxStrokeWidth="1dp"
@@ -96,7 +96,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="4dp"
             android:layout_marginEnd="16dp"
-            android:hint="Type (mansion, villa, appartment, etc)*"
+            android:hint="@string/type_new"
             app:boxBackgroundMode="outline"
             app:boxStrokeColor="@color/blue_700"
             app:boxStrokeWidth="1dp"
@@ -128,7 +128,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
-            android:text="Points of interests :"
+            android:text="@string/poi_tv"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/type_layout" />
 
@@ -148,42 +148,42 @@
                 style="@style/Widget.MaterialComponents.Chip.Choice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Park" />
+                android:text="@string/park" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/schoolChip"
                 style="@style/Widget.MaterialComponents.Chip.Choice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="School" />
+                android:text="@string/school" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/shopChip"
                 style="@style/Widget.MaterialComponents.Chip.Choice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Shop" />
+                android:text="@string/shop" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/museumChip"
                 style="@style/Widget.MaterialComponents.Chip.Choice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Museum" />
+                android:text="@string/museum" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/poolChip"
                 style="@style/Widget.MaterialComponents.Chip.Choice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Swimming Pool" />
+                android:text="@string/swimming_pool" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/restaurantChip"
                 style="@style/Widget.MaterialComponents.Chip.Choice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Restaurant" />
+                android:text="@string/restaurant" />
 
         </com.google.android.material.chip.ChipGroup>
 
@@ -195,7 +195,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
-            android:hint="Surface*"
+            android:hint="@string/surface_new"
             app:boxBackgroundMode="outline"
             app:boxStrokeColor="@color/blue_700"
             app:boxStrokeWidth="1dp"
@@ -228,7 +228,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
-            android:hint="Rooms"
+            android:hint="@string/rooms_tv"
             app:boxBackgroundMode="outline"
             app:boxStrokeColor="@color/blue_700"
             app:boxStrokeWidth="1dp"
@@ -260,7 +260,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
-            android:hint="Bathrooms"
+            android:hint="@string/bathrooms_tv"
             app:boxBackgroundMode="outline"
             app:boxStrokeColor="@color/blue_700"
             app:boxStrokeWidth="1dp"
@@ -292,7 +292,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
-            android:hint="Bedrooms"
+            android:hint="@string/bedrooms_tv"
             app:boxBackgroundMode="outline"
             app:boxStrokeColor="@color/blue_700"
             app:boxStrokeWidth="1dp"
@@ -324,7 +324,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
-            android:text="Address :"
+            android:text="@string/address_tv"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/points_of_interests" />
 
@@ -336,7 +336,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="4dp"
             android:layout_marginEnd="16dp"
-            android:hint="Way*"
+            android:hint="@string/way_new"
             app:boxBackgroundMode="outline"
             app:boxStrokeColor="@color/blue_700"
             app:boxStrokeWidth="1dp"
@@ -367,7 +367,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="4dp"
             android:layout_marginEnd="16dp"
-            android:hint="Complement"
+            android:hint="@string/complement"
             app:boxBackgroundMode="outline"
             app:boxStrokeColor="@color/blue_700"
             app:boxStrokeWidth="1dp"
@@ -399,7 +399,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="4dp"
             android:layout_marginEnd="16dp"
-            android:hint="Zip code*"
+            android:hint="@string/zip_new"
             app:boxBackgroundMode="outline"
             app:boxStrokeColor="@color/blue_700"
             app:boxStrokeWidth="1dp"
@@ -431,7 +431,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="4dp"
             android:layout_marginEnd="16dp"
-            android:hint="City*"
+            android:hint="@string/city_new"
             app:boxBackgroundMode="outline"
             app:boxStrokeColor="@color/blue_700"
             app:boxStrokeWidth="1dp"
@@ -463,7 +463,7 @@
             android:layout_height="64dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
-            android:text="Add new media"
+            android:text="@string/new_media_button"
             android:textColor="@color/blue_700"
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"

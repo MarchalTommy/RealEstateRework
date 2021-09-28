@@ -15,7 +15,6 @@
         android:layout_marginBottom="64dp"
         app:layoutManager="LinearLayoutManager"
         android:scrollbarAlwaysDrawVerticalTrack="true"
-        android:scrollIndicators="end"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -51,6 +50,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@id/guideline"
         app:layout_constraintTop_toTopOf="parent"
-        app:navGraph="@navigation/primary_details_sub_nav_graph" />
+        app:navGraph="@navigation/primary_details_sub_nav_graph"
+        tools:ignore="FragmentTagUsage" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

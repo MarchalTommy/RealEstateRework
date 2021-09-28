@@ -23,7 +23,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
             android:layout_marginTop="8dp"
-            android:text="Loan simulation :"
+            android:text="@string/loan_sim_title"
             android:textColor="@color/blue_300"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -49,7 +49,7 @@
                     style="?attr/textAppearanceHeadline6"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Amount of the loan :"
+                    android:text="@string/loan_amount_tv"
                     android:textColor="@color/blue_50"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -69,7 +69,7 @@
                     style="?attr/textAppearanceHeadline6"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Loan duration :"
+                    android:text="@string/loan_duration_tv"
                     android:textColor="@color/blue_50"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/amount_slider" />
@@ -89,7 +89,7 @@
                     style="?attr/textAppearanceHeadline6"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Personal investment :"
+                    android:text="@string/personal_investment_tv"
                     android:textColor="@color/blue_50"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/duration_slider" />
@@ -106,7 +106,7 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="250dp"
                         android:layout_height="wrap_content"
-                        android:hint="Personal investment"
+                        android:hint="@string/personal_investment_tv"
                         android:inputType="number" />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -116,7 +116,7 @@
                     style="?attr/textAppearanceHeadline6"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Loan rate :"
+                    android:text="@string/loan_rate_tv"
                     android:textColor="@color/blue_50"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/investment_layout" />
@@ -133,7 +133,7 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="200dp"
                         android:layout_height="wrap_content"
-                        android:hint="Keep empty for 1.25%"
+                        android:hint="@string/loan_rate_hint"
                         android:inputType="numberDecimal" />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -157,7 +157,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8dp"
-                            android:text="Estimated monthly payments :"
+                            android:text="@string/estimated_tv"
                             android:textColor="@color/blue_600"
                             android:textStyle="bold"
                             app:layout_constraintEnd_toEndOf="parent"
@@ -169,7 +169,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
-                            android:text="2.500$"
+                            android:text="@string/exemple_monthly"
                             android:textColor="@color/blue_800"
                             android:textSize="24sp"
                             android:textStyle="bold"

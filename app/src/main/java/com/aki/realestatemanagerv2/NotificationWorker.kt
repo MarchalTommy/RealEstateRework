@@ -1,5 +1,6 @@
 package com.aki.realestatemanagerv2
 
+import android.annotation.SuppressLint
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -16,13 +17,16 @@ class NotificationWorker(context: Context, workerParams: WorkerParameters) :
     override fun doWork(): Result {
         //DEFINE WORK HERE (notification for added estate)
             sendVisualNotification(
-                "The new estate has been added successfully."
+                "The new estate has been added successfully.",
+                title = "Real Estate Manager"
             )
         return Result.success()
     }
 
+    @SuppressLint("UnspecifiedImmutableFlag")
     private fun sendVisualNotification(
-        messageBody: String
+        messageBody: String,
+        title: String
     ) {
         // Creating an Intent that will be shown when user will click on the notification
         val intent = Intent(this.applicationContext, ItemDetailHostActivity::class.java)
@@ -44,7 +48,7 @@ class NotificationWorker(context: Context, workerParams: WorkerParameters) :
         val notificationBuilder: NotificationCompat.Builder =
             NotificationCompat.Builder(applicationContext, channelId)
                 .setSmallIcon(R.drawable.logo)
-                .setContentTitle(applicationContext.getString(R.string.app_name))
+                .setContentTitle(title)
                 .setAutoCancel(true)
                 .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
                 .setContentIntent(pendingIntent)

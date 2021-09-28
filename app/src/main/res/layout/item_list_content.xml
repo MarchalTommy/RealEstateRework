@@ -43,7 +43,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="SOLD"
+                android:text="@string/sold_tv"
                 android:textColor="@color/white"
                 android:textSize="24sp"
                 android:textStyle="bold"
@@ -65,7 +65,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
                 android:layout_marginTop="4dp"
-                android:hint="Mansion"
+                android:hint="@string/mansion"
                 android:textStyle="bold" />
 
             <TextView
@@ -74,14 +74,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
-                android:hint="Upper East Side" />
+                android:hint="@string/location_exemple" />
 
             <TextView
                 android:id="@+id/house_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
-                android:hint="$29,872,000"
+                android:hint="@string/exemple_price"
                 android:textColor="@color/blue_600"
                 android:textSize="24sp" />
 
@@ -91,7 +91,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
                 android:visibility="gone"
-                android:hint="Sold the 27/08/2021"
+                android:hint="@string/sold_exemple"
                 android:textStyle="bold|italic"
                 android:textSize="14sp" />
 
